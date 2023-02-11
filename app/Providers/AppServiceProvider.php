@@ -2,17 +2,18 @@
 
 namespace App\Providers;
 
+use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepository;
+use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepositoryInterface;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
-{
+class AppServiceProvider extends ServiceProvider {
     /**
      * Register any application services.
      *
      * @return void
      */
-    public function register()
-    {
+    public function register(): void {
         //
     }
 
@@ -21,8 +22,14 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
+    public function boot(): void {
+        if (strpos(env('APP_URL'), 'https')) {
+            URL::forceScheme('https');
+        }
+
+        $this->app->bind(
+            DownloadVideoYoutubeRepositoryInterface::class,
+            DownloadVideoYoutubeRepository::class
+        );
     }
 }
