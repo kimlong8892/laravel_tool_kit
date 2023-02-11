@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+
+\Illuminate\Support\Facades\App::setLocale('vi');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
+
+Route::get('/download-video-youtube', [\App\Http\Controllers\Web\DownloadVideoYoutube::class, 'downloadVideoPage'])->name('download_video_youtube');
