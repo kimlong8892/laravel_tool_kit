@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\AccesstradeApi\AccesstradeApiRepository;
+use App\Repositories\AccesstradeApi\AccesstradeApiRepositoryInterface;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepository;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepositoryInterface;
 use Illuminate\Support\Facades\URL;
@@ -30,6 +32,11 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind(
             DownloadVideoYoutubeRepositoryInterface::class,
             DownloadVideoYoutubeRepository::class
+        );
+
+        $this->app->bind(
+            AccesstradeApiRepositoryInterface::class,
+            AccesstradeApiRepository::class
         );
     }
 }

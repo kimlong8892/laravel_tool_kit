@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.0.2",
         "athlon1600/youtube-downloader": "^3.0",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.5",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
@@ -27,7 +27,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helper/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
