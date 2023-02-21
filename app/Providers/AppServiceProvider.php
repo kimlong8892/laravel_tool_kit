@@ -8,6 +8,8 @@ use App\Repositories\AccesstradeApi\AccesstradeApiRepository;
 use App\Repositories\AccesstradeApi\AccesstradeApiRepositoryInterface;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepository;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepositoryInterface;
+use App\Repositories\SocialAccount\SocialAccountRepository;
+use App\Repositories\SocialAccount\SocialAccountRepositoryInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -18,19 +20,6 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function register(): void {
-        //
-    }
-
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot(): void {
-        if (strpos(env('APP_URL'), 'https')) {
-            URL::forceScheme('https');
-        }
-
         $this->app->bind(
             DownloadVideoYoutubeRepositoryInterface::class,
             DownloadVideoYoutubeRepository::class
@@ -45,5 +34,21 @@ class AppServiceProvider extends ServiceProvider {
             AccesstradeRepositoryInterface::class,
             AccesstradeRepository::class
         );
+
+        $this->app->bind(
+            SocialAccountRepositoryInterface::class,
+            SocialAccountRepository::class
+        );
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot(): void {
+        if (strpos(env('APP_URL'), 'https')) {
+            URL::forceScheme('https');
+        }
     }
 }

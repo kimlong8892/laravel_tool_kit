@@ -4,17 +4,14 @@
     <div class="row justify-content-center p-3">
         <div class="col-md-6">
             <div class="card">
-                <h1 class="card-header">{{ __('Register') }}</h1>
+                <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('web.register') }}">
                         @csrf
 
                         <div class="form-group row mt-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">
-                                {{ __('Name') }}
-                                <font style="color: red;">*</font>
-                            </label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text"
@@ -22,7 +19,7 @@
                                        value="{{ old('name') }}">
 
                                 @error('name')
-                                <span class="invalid-feedback text-danger" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -31,10 +28,7 @@
 
                         <div class="form-group row mt-3">
                             <label for="email"
-                                   class="col-md-4 col-form-label text-md-right">
-                                {{ __('E-Mail Address') }}
-                                <font style="color: red;">*</font>
-                            </label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="text"
@@ -42,7 +36,7 @@
                                        value="{{ old('email') }}">
 
                                 @error('email')
-                                <span class="invalid-feedback text-danger" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -51,10 +45,7 @@
 
                         <div class="form-group row mt-3">
                             <label for="password"
-                                   class="col-md-4 col-form-label text-md-right">
-                                {{ __('Password') }}
-                                <font style="color: red;">*</font>
-                            </label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password"
@@ -62,7 +53,7 @@
                                        value="{{ old('password') }}">
 
                                 @error('password')
-                                <span class="invalid-feedback text-danger" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -71,17 +62,14 @@
 
                         <div class="form-group row mt-3">
                             <label for="confirm_password"
-                                   class="col-md-4 col-form-label text-md-right">
-                                {{ __('Confirm Password') }}
-                                <font style="color: red;">*</font>
-                            </label>
+                                   class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
                             <div class="col-md-6">
                                 <input type="password"
                                        class="form-control @error('confirm_password') is-invalid @enderror"
                                        name="confirm_password" value="{{ old('confirm_password') }}">
                                 @error('confirm_password')
-                                <span class="invalid-feedback text-danger" role="alert">
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
@@ -103,6 +91,8 @@
                                 </button>
                             </div>
                         </div>
+
+                        @include('web.include.social_login_icon')
                     </form>
                 </div>
             </div>
