@@ -18,10 +18,7 @@ if (!function_exists('getApi')) {
                 'query' => $params
             ]);
 
-            $responseArray = json_decode($client->getBody()->getContents(), true);
-            $responseArray['headers'] = $client->getHeaders();
-
-            return $responseArray;
+            return json_decode($client->getBody()->getContents(), true);
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
         }

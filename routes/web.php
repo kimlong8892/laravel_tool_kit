@@ -33,4 +33,8 @@ use Illuminate\Support\Facades\Route;
 //Route::get('logout', [\App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::get('/', [\App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
+Route::get('/get-list-coupon-ajax', [\App\Http\Controllers\Web\HomeController::class, 'getListCouponAjax'])->name('ajax.get_list_coupon');
+
+
+
 Route::get('/download-video-youtube', [\App\Http\Controllers\Web\DownloadVideoYoutube::class, 'downloadVideoPage'])->name('download_video_youtube');

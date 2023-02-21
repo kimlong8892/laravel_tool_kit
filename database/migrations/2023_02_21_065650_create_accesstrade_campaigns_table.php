@@ -11,13 +11,17 @@ return new class extends Migration {
      * @return void
      */
     public function up(): void {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('accesstrade_campaigns', function (Blueprint $table) {
             $table->id();
+            $table->string('cookie_duration');
+            $table->string('logo');
+            $table->string('max_com');
+            $table->string('merchant');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('scope');
+            $table->string('accesstrade_id')->unique();
+            $table->string('name_custom')->nullable();
+            $table->boolean('enabled')->default(false);
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration {
      * @return void
      */
     public function down(): void {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('accesstrade_campaigns');
     }
 };

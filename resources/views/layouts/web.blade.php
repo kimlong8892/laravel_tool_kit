@@ -167,10 +167,7 @@
                 <footer class="content-footer footer bg-footer-theme">
                     <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                         <div class="mb-2 mb-md-0">
-                            ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>
+                            ©copyright {{ date('Y') }} by {{ env('APP_NAME') }}
                         </div>
                     </div>
                 </footer>
@@ -208,6 +205,11 @@
 <script src="{{ asset('theme/user/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/main.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/dashboards-analytics.js') }}"></script>
+
+<script src="{{ asset('lib/sweetalert2/sweetalert2.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}">
+
+@yield('js')
 
 </body>
 </html>
