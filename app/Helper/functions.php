@@ -97,3 +97,15 @@ if (!function_exists('getDayOfDateToDate')) {
         return date('d', round($now - $your_date / (60 * 60 * 24)));
     }
 }
+
+if (!function_exists('checkUrlIsHttps')) {
+    function checkUrlIsHttps($url): bool {
+        $url = parse_url($url);
+
+        if (!empty($url['scheme']) && $url['scheme'] == 'https') {
+            return true;
+        }
+
+        return false;
+    }
+}
