@@ -16,7 +16,7 @@
 
     <link rel="icon" type="image/x-icon" href="{{ asset('images_site/logo.png') }}">
 
-    @if(checkUrlIsHttps(url('')))
+    @if(checkUrlIsHttps(env('APP_URL')))
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     @endif
 
