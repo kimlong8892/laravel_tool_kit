@@ -13,6 +13,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     @hasSection('title')
         <title>@yield('title') - {{ env('APP_NAME') }}</title>
