@@ -41,7 +41,7 @@
     @else
         @if($page == 1)
             <div class="col-md-12 col-12">
-                <p class="text-danger">{{ __('No record coupon') }}</p>
+                <p class="text-danger text-center">{{ __('No record coupon') }}</p>
             </div>
         @endif
     @endif
