@@ -5,5 +5,11 @@
     "Download video youtube": "Tải video từ youtube",
     "date end": "Ngày hết hạn",
     "day": "ngày",
-    "view detail": "Xem chi tiết"
+    "view detail": "Xem chi tiết",
+    "Hello": "Chào",
+    "Login": "Đăng nhập",
+    "Register": "Đăng ký",
+    "Logout": "Đăng xuất",
+    "Login or register": "Đăng nhập hoặc đăng ký",
+    "required error": "Mục này không thể bỏ trống"
 }

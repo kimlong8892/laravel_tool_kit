@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 // login with social
-Route::get('/redirect/{social}', 'SocialAuthController@redirect')->name('social.redirect');
-Route::get('/callback/{social}', 'SocialAuthController@callback')->name('social.callback');
+Route::get('/redirect/{social}', [\App\Http\Controllers\Web\SocialAuthController::class, 'redirect'])->name('social.redirect');
+Route::get('/callback/{social}', [\App\Http\Controllers\Web\SocialAuthController::class, 'callback'])->name('social.callback');
 // end login with social
 
 // login, reg, forgot
@@ -34,6 +34,11 @@ Route::middleware('guest:web')->group(function () {
     Route::post('password/reset', [\App\Http\Controllers\Web\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
 });
 // end login, reg, forgot
+
+
+Route::middleware('auth:web')->group(function () {
+    Route::get('logout', [\App\Http\Controllers\Web\Auth\LoginController::class, 'logout'])->name('logout');
+});
 
 Route::get('/', [\App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
 Route::get('/get-list-coupon-ajax', [\App\Http\Controllers\Web\HomeController::class, 'getListCouponAjax'])->name('ajax.get_list_coupon');

@@ -24,7 +24,7 @@ class CaptchaGoogle implements Rule {
      */
     public function passes($attribute, $value): bool {
         try {
-            $recaptcha = request()->request->get('recaptcha');
+            $recaptcha = request()->request->get('g-recaptcha-response');
 
             if (empty($recaptcha)) {
                 return false;

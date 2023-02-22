@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Rules\CaptchaGoogle;
 use App\Rules\Email;
@@ -33,7 +33,7 @@ class RegisterController extends Controller {
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -48,15 +48,13 @@ class RegisterController extends Controller {
      * Create a new user instance after a valid registration.
      *
      * @param array $data
-     * @return Customer
+     * @return User
      */
-    protected function create(array $data): Customer {
-        return Customer::create([
+    protected function create(array $data): User {
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'phone' => $data['phone'],
-            'address' => $data['address']
         ]);
     }
 
@@ -87,12 +85,10 @@ class RegisterController extends Controller {
     protected function validator(array $data): \Illuminate\Contracts\Validation\Validator {
         return Validator::make($data, [
             'name' => ['required'],
-            'email' => ['required', new Email(), 'unique:customers,email'],
+            'email' => ['required', new Email(), 'unique:users,email'],
             'password' => ['required'],
             'confirm_password' => 'required|same:password',
             'g-recaptcha-response' => ['required', new CaptchaGoogle()],
-            'phone' => ['required'],
-            'address' => ['required']
         ], [
             'required' => __('required error')
         ]);

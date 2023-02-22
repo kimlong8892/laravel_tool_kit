@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Rules\CaptchaGoogle;
+use App\Rules\Email;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\RedirectResponse;
@@ -50,8 +51,9 @@ class LoginController extends Controller {
      * @return void
      *
      */
-    protected function validateLogin(Request $request) {
+    protected function validateLogin(Request $request): void {
         $request->validate([
+            'email' => ['required', new Email()],
             $this->username() => 'required|string',
             'password' => 'required|string',
             'g-recaptcha-response' => ['required', new CaptchaGoogle()],
