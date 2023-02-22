@@ -40,26 +40,41 @@
 @section('js')
     <script>
         $(document).ready(function () {
+            let merchant = getParam('merchant');
+
+            if (merchant === '' || merchant === 'undefined' || merchant === null) {
+                merchant = @json(!empty($listCampaign[0]) ? $listCampaign[0]->merchant : '');
+            }
+
+            let btnClick = $(`.btn-merchant[data-merchant=${merchant}]`);
+            btnClick.click();
+            clickMerchant(btnClick);
 
             $(document).on('click', '.btn-merchant', function () {
-                let merchant = $(this).attr('data-merchant');
-                let id = $(this).attr('data-id');
-                let idString = $(this).attr('data-bs-target');
-                let html = $(idString).html().trim();
+                clickMerchant($(this));
+            });
+
+            function clickMerchant(element) {
+                let merchant = element.attr('data-merchant');
+                setQueryStringParameter('merchant', merchant);
+                let idString = element.attr('data-bs-target');
+                let html = $(idString).html();
+                html = html.trim();
 
                 if (html === '') {
+                    $.LoadingOverlay('show');
                     $.ajax({
                         url: @json(route('web.ajax.get_list_coupon')),
                         data: {
                             merchant: merchant
                         },
                         success: function (html) {
-                            console.log(html);
                             $(idString).html(html);
+                            $.LoadingOverlay('hide');
                         }
                     });
                 }
-            });
+            }
 
             $(document).on('click', '.btn-copy-coupon-code', function () {
                 let code = $(this).attr('data-coupon-code');

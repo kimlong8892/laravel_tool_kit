@@ -1,7 +1,7 @@
 <?php
     return [
         [
-            'title' => 'Dashboard',
+            'title' => 'List coupon',
             'route' => 'web.home',
         ],
         [

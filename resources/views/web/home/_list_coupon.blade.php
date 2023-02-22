@@ -1,38 +1,44 @@
-<table class="table table-light">
-    <thead>
-    <tr>
-        <th width="20%">{{ __('coupon code') }}</th>
-        <th width="40%">{{ __('coupon desc') }}</th>
-        <th width="20%">{{ __('end time') }}</th>
-        <th width="10%">{{ __('image') }}</th>
-        <th width="10%">{{ __('link') }}</th>
-    </tr>
-    </thead>
-    <tbody class="table-border-bottom-0">
+<div class="row p-0 m-0">
     @if(!empty($listCoupon['data']))
         @foreach($listCoupon['data'] as $coupon)
-            <tr>
-                <td>
-                    {{ $coupon['coupons'][0]['coupon_code'] ?? '' }}
-                    <button data-link="{{ $coupon['link'] ?? '' }}" data-coupon-code="{{ $coupon['coupons'][0]['coupon_code'] ?? '' }}" class="btn btn-primary btn-copy-coupon-code"><i class="fa fa-copy"></i></button>
-                </td>
-                <td>{{ $coupon['coupons'][0]['coupon_desc'] ?? '' }}</td>
-                <td>
-                    {{ $coupon['end_time'] ?? '' }}
-                </td>
-                <td>
-                    <img src="{{ $coupon['image'] ?? '' }}" width="100%">
-                </td>
-                <td>
-                    <a href="{{ $coupon['link'] ?? '' }}">{{ __('Detail') }}</a>
-                </td>
-            </tr>
+            <div class="col-md-4 col-6">
+                <div class="card mb-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="card-img card-img-left" src="{{ $coupon['image'] ?? '' }}" alt="Card image">
+                            <div class="text-center mt-2 mb-2">
+                                <a href="{{ $coupon['link'] }}" target="_blank" class="btn btn-primary p-1 m-0">
+                                    <i class="fa fa-info-circle"></i>
+                                    {{ __('view detail') }}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <p class="card-title">
+                                    {{ $coupon['coupons'][0]['coupon_code'] ?? '' }}
+                                    <button data-link="{{ $coupon['link'] ?? '' }}"
+                                            data-coupon-code="{{ $coupon['coupons'][0]['coupon_code'] ?? '' }}"
+                                            class="btn btn-primary btn-copy-coupon-code btn-sm"><i class="fa fa-copy"></i>
+                                    </button>
+                                </p>
+                                <p class="card-text">
+                                    {{ $coupon['coupons'][0]['coupon_desc'] ?? '' }}
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        {{ __('date end') }}: {{ $coupon['end_time'] }} ({{ getDayOfDateToDate($coupon['end_time']) }} {{ __('day') }})
+                                    </small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endforeach
     @else
-        <tr>
-            <td colspan="5" class="text-center text-danger">{{ __('No record coupon') }}</td>
-        </tr>
+        <div class="col-md-12 col-12">
+            <p class="text-danger">{{ __('No record coupon') }}</p>
+        </div>
     @endif
-
-    </tbody>
-</table>
+</div>

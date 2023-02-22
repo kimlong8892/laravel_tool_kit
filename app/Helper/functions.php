@@ -89,24 +89,11 @@ if (!function_exists('upLoadImage')) {
     }
 }
 
-function validateCaptcha($response): bool {
-    $secret = env('RECAPTCHA_SECRET_KEY');
-    $captcha = trim($response);
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $url = "https://www.google.com/recaptcha/api/siteverify?secret={$secret}&response={$captcha}&remoteip={$ip}";
+if (!function_exists('getDayOfDateToDate')) {
+    function getDayOfDateToDate($date): int {
+        $now = time();
+        $your_date = strtotime($date);
 
-    $options = array(
-        'ssl' => array(
-            'verify_peer' => false,
-            'verify_peer_name' => false,
-        ),
-    );
-    $context = stream_context_create($options);
-    $res = json_decode(file_get_contents($url, FILE_TEXT, $context));
-
-    if ($res->success) {
-        return true;
+        return date('d', round($now - $your_date / (60 * 60 * 24)));
     }
-
-    return false;
 }
