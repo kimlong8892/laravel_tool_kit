@@ -93,6 +93,17 @@
                     @endif
                 @endforeach
             </ul>
+
+            <!-- Footer -->
+            <footer class="content-footer footer">
+                <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                    <div class="mb-2 mb-md-0">
+                        ©copyright {{ date('Y') }} by {{ env('APP_NAME') }}
+                    </div>
+                </div>
+            </footer>
+            <div class="content-backdrop fade"></div>
+            <!-- / Footer -->
         </aside>
         <!-- / Menu -->
 
@@ -119,17 +130,9 @@
                 </div>
                 <!-- / Content -->
 
-                <!-- Footer -->
-                <footer class="content-footer footer bg-footer-theme">
-                    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-                        <div class="mb-2 mb-md-0">
-                            ©copyright {{ date('Y') }} by {{ env('APP_NAME') }}
-                        </div>
-                    </div>
-                </footer>
-                <!-- / Footer -->
 
-                <div class="content-backdrop fade"></div>
+
+
             </div>
             <!-- Content wrapper -->
         </div>
