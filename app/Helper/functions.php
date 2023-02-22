@@ -100,7 +100,9 @@ if (!function_exists('getDayOfDateToDate')) {
 
 if (!function_exists('checkUrlIsHttps')) {
     function checkUrlIsHttps($url): bool {
-        if (str_starts_with($url, 'https://')) {
+        $url = parse_url($url);
+
+        if (!empty($url['scheme']) && $url['scheme'] == 'https') {
             return true;
         }
 
