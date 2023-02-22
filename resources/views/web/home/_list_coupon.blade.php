@@ -1,4 +1,6 @@
-<div class="row p-0 m-0">
+@if($page == 1)
+    <div class="row row-unique">
+@endif
     @if(!empty($listCoupon['data']))
         @foreach($listCoupon['data'] as $coupon)
             <div class="col-md-4 col-6">
@@ -37,8 +39,13 @@
             </div>
         @endforeach
     @else
-        <div class="col-md-12 col-12">
-            <p class="text-danger">{{ __('No record coupon') }}</p>
-        </div>
+        @if($page == 1)
+            <div class="col-md-12 col-12">
+                <p class="text-danger">{{ __('No record coupon') }}</p>
+            </div>
+        @endif
     @endif
-</div>
+@if($page == 1)
+    </div>
+@endif
+

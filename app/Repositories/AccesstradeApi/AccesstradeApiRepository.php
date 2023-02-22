@@ -9,7 +9,7 @@ class AccesstradeApiRepository implements AccesstradeApiRepositoryInterface {
     /**
      * @throws GuzzleException
      */
-    public function getListPromotion($merchant): array {
+    public function getListPromotion($merchant, $page = 1): array {
         $accessKey = env('ACCESSTRADE_KEY', '');
         $urlApi = config('custom.accesstrade_api')['URL_GET_LIST_PROMOTION'] ?? null;
 
@@ -20,6 +20,7 @@ class AccesstradeApiRepository implements AccesstradeApiRepositoryInterface {
         return getApi($urlApi, [
             'merchant' => $merchant,
             'status' => 1,
+            'page' => $page
         ], [
             'Authorization' => 'Token ' . $accessKey,
             'Content-Type' => 'application/json'

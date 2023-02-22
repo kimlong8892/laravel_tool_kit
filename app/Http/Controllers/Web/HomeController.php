@@ -27,8 +27,9 @@ class HomeController extends Controller {
 
     public function getListCouponAjax(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application {
         $merchant = $request->get('merchant') ?? null;
-        $listCoupon = $this->accesstradeApiRepository->getListPromotion($merchant);
+        $page = $request->get('page');
+        $listCoupon = $this->accesstradeApiRepository->getListPromotion($merchant, $page);
 
-        return view('web.home._list_coupon', compact('listCoupon'));
+        return view('web.home._list_coupon', compact('listCoupon', 'page'));
     }
 }
