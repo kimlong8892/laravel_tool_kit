@@ -46,9 +46,11 @@
                 merchant = @json(!empty($listCampaign[0]) ? $listCampaign[0]->merchant : '');
             }
 
-            let btnClick = $(`.btn-merchant[data-merchant=${merchant}]`);
-            btnClick.click();
-            clickMerchant(btnClick);
+            if (merchant !== '') {
+                let btnClick = $(`.btn-merchant[data-merchant=${merchant}]`);
+                btnClick.click();
+                clickMerchant(btnClick);
+            }
 
             $(document).on('click', '.btn-merchant', function () {
                 clickMerchant($(this));
