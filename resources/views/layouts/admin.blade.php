@@ -45,7 +45,7 @@
                 <img src="{{ asset('images_site/logo.png') }}" alt="" width="64px">
               </span>
                     <span
-                        class="app-brand-text demo menu-text fw-bolder ms-2 text-uppercase">{{ env('APP_NAME') }}</span>
+                        class="app-brand-text demo menu-text fw-bolder ms-2 text-uppercase">{{ __('Admin') }}</span>
                 </a>
 
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
