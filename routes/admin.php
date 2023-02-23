@@ -33,6 +33,10 @@ Route::name('admin.')->group(function () {
 
         Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
         Route::post('update-info-campaigns-accesstrade', [\App\Http\Controllers\Admin\CampaignController::class, 'updateInfoCampaignsAccesstrade'])->name('update-info-campaigns-accesstrade');
+
+        Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
+        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::resource('coupons', \App\Http\Controllers\Admin\CouponController::class);
     });
     // end need auth
 });

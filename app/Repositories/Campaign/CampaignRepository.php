@@ -5,15 +5,15 @@ namespace App\Repositories\Campaign;
 use App\Models\Campaign;
 
 class CampaignRepository implements CampaignRepositoryInterface {
-    public function getList() {
-        return Campaign::paginate(5);
+    public function getList(): \Illuminate\Database\Eloquent\Collection {
+        return Campaign::all();
     }
 
     public function destroy($id) {
         Campaign::find($id)->delete();
     }
 
-    public function getDetail($id) {
+    public function getDetail($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null {
         return Campaign::find($id);
     }
 

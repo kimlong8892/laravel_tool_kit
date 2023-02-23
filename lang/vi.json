@@ -14,5 +14,8 @@
     "required error": "Mục này không thể bỏ trống",
     "Destroy success": "Xóa thành công #:id",
     "Create success": "Tạo thành công #:id",
-    "Update success": "Cập nhật thành công #:id"
+    "Update success": "Cập nhật thành công #:id",
+    "Campaigns": "Chiến dịch",
+    "Categories": "Chuyên mục",
+    "Coupons": "Mã giảm giá"
 }

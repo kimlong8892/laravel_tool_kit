@@ -120,23 +120,19 @@
                 <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y">
                     @if(session()->has('success'))
-                        <div class="alert alert-success">
+                        <h2 class="text-success p-2">
                             {{ session()->get('success') }}
-                        </div>
+                        </h2>
                     @endif
 
                     @if(session()->has('error'))
-                        <div class="alert alert-danger">
+                        <h2 class="text-danger p-2">
                             {{ session()->get('error') }}
-                        </div>
+                        </h2>
                     @endif
                     @yield('content')
                 </div>
                 <!-- / Content -->
-
-
-
-
             </div>
             <!-- Content wrapper -->
         </div>

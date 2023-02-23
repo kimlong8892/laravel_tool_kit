@@ -8,6 +8,14 @@
             'title' => 'Campaigns',
             'route' => 'admin.campaigns.index',
         ],
+        [
+            'title' => 'Categories',
+            'route' => 'admin.categories.index',
+        ],
+        [
+            'title' => 'Coupons',
+            'route' => 'admin.coupons.index',
+        ],
 //        [
 //            'title' => 'Functions',
 //            'list_child' => [

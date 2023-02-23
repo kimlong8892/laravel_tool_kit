@@ -17,7 +17,7 @@
         <tr>
             <th width="10%" class="text-center">{{ __('ID') }}</th>
             <th width="10%" class="text-center">{{ __('Logo') }}</th>
-            <th width="55%" class="text-center">{{ __('Name custom') }}</th>
+            <th width="55%" class="text-center">{{ __('Name') }}</th>
             <th width="5%" class="text-center">{{ __('enabled') }}</th>
             <th width="20%" class="text-center">{{ __('Action') }}</th>
         </tr>
@@ -62,7 +62,4 @@
             <td colspan="5" class="text-center text-danger">{{ __('No record') }}</td>
         @endif
     </table>
-    <div>
-        {{ $listCampaign->appends(request()->input())->links() }}
-    </div>
 @endsection

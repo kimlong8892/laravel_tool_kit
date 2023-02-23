@@ -10,7 +10,7 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
-                    <label class="form-label" for="name">{{ __('Name') }}</label>
+                    <label class="form-label" for="name">{{ __('Name') }} (<font color="red">*</font>)</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Name') }}" value="{{ $campaign->name }}">
                 </div>
 
@@ -27,4 +27,24 @@
             </form>
         </div>
     </div>
+
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ __('Accesstrade info') }}</h5>
+        </div>
+        <div class="card-body">
+            @foreach($campaign->toArray() as $key => $value)
+                @if(!empty(explode('_', $key)[0]) && explode('_', $key)[0] == 'accesstrade')
+                    <div class="mb-3">
+                        <label class="form-label" for="name">{{ __($key) }}</label>
+                        <input type="text" class="form-control" name="name" id="name" placeholder="{{ __($key) }}" value="{{ $value }}" disabled>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+
+
+
 @endsection
