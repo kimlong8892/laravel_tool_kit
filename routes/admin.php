@@ -28,9 +28,7 @@ Route::name('admin.')->group(function () {
 
     // need auth
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/index', function () {
-            print_r(\Illuminate\Support\Facades\Auth::guard('admin')->user()->toArray());
-        })->name('home');
+        Route::get('/index', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
         Route::get('logout', 'Admin\Auth\LoginController@logout')->name('logout');
     });
     // end need auth
