@@ -20,7 +20,8 @@ class AccesstradeApiRepository implements AccesstradeApiRepositoryInterface {
         return getApi($urlApi, [
             'merchant' => $merchant,
             'status' => 1,
-            'page' => $page
+            'page' => $page,
+            'limit' => 12
         ], [
             'Authorization' => 'Token ' . $accessKey,
             'Content-Type' => 'application/json'

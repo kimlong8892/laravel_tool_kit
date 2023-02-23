@@ -17,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::name('admin.')->group(function () {
     // login, forgot
     Route::middleware('guest:admin')->group(function () {
-        Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('login');
-        Route::post('login', 'Admin\Auth\LoginController@login');
-        Route::get('password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-        Route::post('password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-        Route::get('password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm')->name('password.reset');
-        Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset')->name('password.update');
+        Route::get('login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm'])->name('login');
+        Route::post('login', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'login']);
+        Route::get('password/reset', [\App\Http\Controllers\Admin\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+        Route::post('password/email', [\App\Http\Controllers\Admin\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+        Route::get('password/reset/{token}', [\App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+        Route::post('password/reset', [\App\Http\Controllers\Admin\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
     });
     // end login, forgot
 
