@@ -11,16 +11,16 @@ return new class extends Migration {
      * @return void
      */
     public function up(): void {
-        Schema::create('accesstrade_campaigns', function (Blueprint $table) {
+        Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
-            $table->string('cookie_duration');
-            $table->string('logo');
-            $table->string('max_com');
-            $table->string('merchant');
-            $table->string('name');
-            $table->string('scope');
-            $table->string('accesstrade_id')->unique();
-            $table->string('name_custom')->nullable();
+            $table->string('accesstrade_cookie_duration')->nullable();
+            $table->string('accesstrade_logo')->nullable();
+            $table->string('accesstrade_max_com')->nullable();
+            $table->string('accesstrade_merchant')->nullable();
+            $table->string('accesstrade_name')->nullable();
+            $table->string('accesstrade_scope')->nullable();
+            $table->string('accesstrade_id')->unique()->nullable();
+            $table->string('name')->nullable();
             $table->boolean('enabled')->default(false);
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ return new class extends Migration {
      * @return void
      */
     public function down(): void {
-        Schema::dropIfExists('accesstrade_campaigns');
+        Schema::dropIfExists('campaigns');
     }
 };

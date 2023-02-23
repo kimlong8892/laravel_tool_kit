@@ -49,25 +49,25 @@ class AccesstradeApiRepository implements AccesstradeApiRepositoryInterface {
         if (!empty($listCampaign['data'])) {
             $isUpdate = false;
             $dataInsert = [];
-            $listCampaignInDB = DB::table('accesstrade_campaigns')
+            $listCampaignInDB = DB::table('campaigns')
                 ->get()->pluck('accesstrade_id')->toArray();
 
             DB::beginTransaction();
             foreach ($listCampaign['data'] as $item) {
                 $item = [
-                    'cookie_duration' => $item['cookie_duration'] ?? null,
-                    'logo' => $item['logo'] ?? null,
-                    'max_com' => $item['max_com'] ?? null,
-                    'merchant' => $item['merchant'] ?? null,
-                    'name' => $item['name'] ?? null,
-                    'scope' => $item['scope'] ?? null,
+                    'accesstrade_cookie_duration' => $item['cookie_duration'] ?? null,
+                    'accesstrade_logo' => $item['logo'] ?? null,
+                    'accesstrade_max_com' => $item['max_com'] ?? null,
+                    'accesstrade_merchant' => $item['merchant'] ?? null,
+                    'accesstrade_name' => $item['name'] ?? null,
+                    'accesstrade_scope' => $item['scope'] ?? null,
                     'accesstrade_id' => $item['id'] ?? null
                 ];
 
                 if (in_array($item['accesstrade_id'], $listCampaignInDB) === false) {
                     $dataInsert[] = $item;
                 } else {
-                    DB::table('accesstrade_campaigns')
+                    DB::table('campaigns')
                         ->where('accesstrade_id', $item['accesstrade_id'])
                         ->update($item);
                     $isUpdate = true;
@@ -76,7 +76,7 @@ class AccesstradeApiRepository implements AccesstradeApiRepositoryInterface {
             DB::commit();
 
             if (!empty($dataInsert)) {
-                DB::table('accesstrade_campaigns')->insertOrIgnore($dataInsert);
+                DB::table('campaigns')->insertOrIgnore($dataInsert);
                 return true;
             }
 

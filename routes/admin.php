@@ -30,6 +30,9 @@ Route::name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::get('/index', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
         Route::get('logout', 'Admin\Auth\LoginController@logout')->name('logout');
+
+        Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
+        Route::post('update-info-campaigns-accesstrade', [\App\Http\Controllers\Admin\CampaignController::class, 'updateInfoCampaignsAccesstrade'])->name('update-info-campaigns-accesstrade');
     });
     // end need auth
 });

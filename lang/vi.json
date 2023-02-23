@@ -11,5 +11,8 @@
     "Register": "Đăng ký",
     "Logout": "Đăng xuất",
     "Login or register": "Đăng nhập hoặc đăng ký",
-    "required error": "Mục này không thể bỏ trống"
+    "required error": "Mục này không thể bỏ trống",
+    "Destroy success": "Xóa thành công #:id",
+    "Create success": "Tạo thành công #:id",
+    "Update success": "Cập nhật thành công #:id"
 }

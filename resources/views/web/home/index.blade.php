@@ -10,7 +10,7 @@
             @foreach($listCampaign as $item)
                 <li class="nav-item">
                     <button
-                        data-merchant="{{ $item->merchant }}"
+                        data-merchant="{{ $item->accesstrade_merchant }}"
                         type="button"
                         class="nav-link btn-merchant text-uppercase"
                         role="tab"
@@ -20,7 +20,7 @@
                         aria-controls="navs-pills-{{ $item->id }}"
                         aria-selected="true"
                     >
-                        <img src="{{ $item->logo }}" width="64px" alt="{{ $item->name_custom }}"> {{ $item->name_custom }}
+                        <img src="{{ $item->accesstrade_logo }}" width="64px" alt="{{ $item->name }}"> {{ $item->name }}
                     </button>
                 </li>
             @endforeach
@@ -39,7 +39,7 @@
             let merchant = getParam('merchant');
 
             if (merchant === '' || merchant === 'undefined' || merchant === null) {
-                merchant = @json(!empty($listCampaign[0]) ? $listCampaign[0]->merchant : '');
+                merchant = @json(!empty($listCampaign[0]) ? $listCampaign[0]->accesstrade_merchant : '');
             }
 
             if (merchant !== '') {

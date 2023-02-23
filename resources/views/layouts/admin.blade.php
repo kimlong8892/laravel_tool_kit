@@ -28,6 +28,11 @@
 </head>
 
 <body>
+<style>
+    .text-right {
+        text-align: right;
+    }
+</style>
 
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
@@ -35,7 +40,7 @@
         <!-- Menu -->
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
             <div class="app-brand demo">
-                <a href="{{ route('web.home') }}" class="app-brand-link">
+                <a href="{{ route('admin.home') }}" class="app-brand-link">
               <span class="app-brand-logo demo mt-2">
                 <img src="{{ asset('images_site/logo.png') }}" alt="" width="64px">
               </span>

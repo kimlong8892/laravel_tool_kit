@@ -4,6 +4,10 @@
             'title' => 'Dashboard',
             'route' => 'admin.home',
         ],
+        [
+            'title' => 'Campaigns',
+            'route' => 'admin.campaigns.index',
+        ],
 //        [
 //            'title' => 'Functions',
 //            'list_child' => [
