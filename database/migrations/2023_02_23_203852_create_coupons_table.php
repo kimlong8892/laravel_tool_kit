@@ -14,6 +14,8 @@ return new class extends Migration
     public function up(): void {
         Schema::create('coupons', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('logo')->nullable();
             $table->string('code');
             $table->string('description');
             $table->unsignedBigInteger('category_id');

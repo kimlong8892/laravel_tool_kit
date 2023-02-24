@@ -40,12 +40,13 @@
                 <tr>
                     <th class="text-center" width="10%">{{ __('ID') }}</th>
                     <th class="text-center" width="20%">{{ __('Logo') }}</th>
-                    <th class="text-center" width="45%">{{ __('Name') }}</th>
-                    <th class="text-center" width="5%">{{ __('Is accesstrade') }}</th>
+                    <th class="text-center" width="30%">{{ __('Name') }}</th>
+                    <th class="text-center" width="20%">{{ __('Is accesstrade') }}</th>
                     <th class="text-center" width="5%">{{ __('Enabled') }}</th>
                     <th class="text-center" width="15%">{{ __('Action') }}</th>
                 </tr>
-                @foreach ($campaign->Categories as $category)
+                @if(!empty($campaign->Categories) && count($campaign->Categories) > 0)
+                    @foreach ($campaign->Categories as $category)
                     <tr>
                         <td class="text-center">{{ $category->id }}</td>
                         <td class="text-center"><img src="{{ asset($category->logo) }}" alt="" width="100%"></td>
@@ -76,6 +77,11 @@
                         </td>
                     </tr>
                 @endforeach
+                @else
+                    <tr>
+                        <td colspan="6" class="text-center text-danger">{{ __('No record') }}</td>
+                    </tr>
+                @endif
             </table>
         </div>
     </div>

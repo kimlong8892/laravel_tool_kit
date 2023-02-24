@@ -2,14 +2,14 @@
 
 @section('content')
     <div class="text-right mb-5">
-        <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">
+        <a href="{{ route('admin.coupons.create') }}" class="btn btn-primary">
             <i class="fa fa-newspaper"></i>
             {{ __('Add new') }}
         </a>
     </div>
 
     <table class="table table-bordered">
-        <form action="{{ route('admin.categories.index') }}" method="GET">
+        <form action="{{ route('admin.coupons.index') }}" method="GET">
             <tr>
                 <th width="10%" class="text-center"></th>
                 <th width="10%" class="text-center"></th>
@@ -18,11 +18,11 @@
                            value="{{ request()->get('name') ?? '' }}">
                 </th>
                 <th width="15%" class="text-center">
-                    <select name="campaign_id" id="campaign_id" class="form-select">
+                    <select name="category_id" id="category_id" class="form-select">
                         <option value="" readonly="">-</option>
-                        @foreach($listCampaign as $campaign)
-                            <option value="{{ $campaign->id }}"
-                                    @if(request()->get('campaign_id') == $campaign->id) selected @endif>{{ $campaign->name }}</option>
+                        @foreach($listCategory as $category)
+                            <option value="{{ $category->id }}"
+                                    @if(request()->get('category_id') == $category->id) selected @endif>{{ $category->name }} [{{ $category->Campaign->name }}]</option>
                         @endforeach
                     </select>
                 </th>
@@ -39,30 +39,22 @@
             <th width="10%" class="text-center">{{ __('ID') }}</th>
             <th width="10%" class="text-center">{{ __('Logo') }}</th>
             <th width="25%" class="text-center">{{ __('Name') }}</th>
-            <th width="15%" class="text-center">{{ __('Campaign') }}</th>
-            <th width="15%" class="text-center">{{ __('Is accesstrade') }}</th>
+            <th width="15%" class="text-center">{{ __('Category') }}</th>
             <th width="5%" class="text-center">{{ __('enabled') }}</th>
             <th width="20%" class="text-center">{{ __('Action') }}</th>
         </tr>
 
-        @if(!empty($listCategory) && count($listCategory) > 0)
-            @foreach($listCategory as $category)
+        @if(!empty($listCoupon) && count($listCoupon) > 0)
+            @foreach($listCoupon as $coupon)
                 <tr>
-                    <td class="text-center">{{ $category->id }}</td>
+                    <td class="text-center">{{ $coupon->id }}</td>
                     <td class="text-center">
-                        <img src="{{ asset($category->logo) }}" alt="" width="100%">
+                        <img src="{{ asset($coupon->logo) }}" alt="" width="100%">
                     </td>
-                    <td>{{ $category->name }}</td>
-                    <td>{{ $category->Campaign->name }}</td>
+                    <td>{{ $coupon->name }}</td>
+                    <td>{{ $coupon->Category->name }}</td>
                     <td class="text-center">
-                        @if($category->is_accesstrade)
-                            <i class="fa fa-check"></i>
-                        @else
-                            <i class="fa fa-x"></i>
-                        @endif
-                    </td>
-                    <td class="text-center">
-                        @if($category->enabled)
+                        @if($coupon->enabled)
                             <i class="fa fa-check"></i>
                         @else
                             <i class="fa fa-x"></i>
@@ -70,7 +62,7 @@
                     </td>
                     <td class="text-center">
                         <div class="d-flex">
-                            <form class="p-2" action="{{ route('admin.categories.destroy', $category->id) }}"
+                            <form class="p-2" action="{{ route('admin.coupons.destroy', $coupon->id) }}"
                                   method="POST">
                                 @method('DELETE')
                                 @csrf
@@ -81,7 +73,7 @@
                             </form>
 
                             <div class="p-2">
-                                <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-warning">
+                                <a href="{{ route('admin.coupons.edit', $coupon->id) }}" class="btn btn-warning">
                                     <i class="fa fa-edit"></i>
                                     {{ __('Edit') }}
                                 </a>

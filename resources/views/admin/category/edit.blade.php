@@ -59,6 +59,54 @@
             </form>
         </div>
     </div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ __('List coupon') }}</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th width="10%" class="text-center">{{ __('ID') }}</th>
+                    <th width="10%" class="text-center">{{ __('Logo') }}</th>
+                    <th width="25%" class="text-center">{{ __('Name') }}</th>
+                    <th width="5%" class="text-center">{{ __('enabled') }}</th>
+                    <th width="20%" class="text-center">{{ __('Action') }}</th>
+                </tr>
+
+                @if(!empty($category->Coupons) && count($category->Coupons) > 0)
+                    @foreach($category->Coupons as $coupon)
+                        <tr>
+                            <td class="text-center">{{ $coupon->id }}</td>
+                            <td class="text-center">
+                                <img src="{{ asset($coupon->logo) }}" alt="" width="100%">
+                            </td>
+                            <td>{{ $coupon->name }}</td>
+                            <td class="text-center">
+                                @if($coupon->enabled)
+                                    <i class="fa fa-check"></i>
+                                @else
+                                    <i class="fa fa-x"></i>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex">
+                                    <div class="p-2">
+                                        <a href="{{ route('admin.coupons.edit', $coupon->id) }}" class="btn btn-warning">
+                                            <i class="fa fa-edit"></i>
+                                            {{ __('Edit') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <td colspan="7" class="text-center text-danger">{{ __('No record') }}</td>
+                @endif
+            </table>
+        </div>
+    </div>
 @endsection
 
 @section('js')

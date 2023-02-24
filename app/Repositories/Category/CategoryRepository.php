@@ -17,9 +17,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
                 if (!empty($campaignId)) {
                     $query->where('campaign_id', '=', $campaignId);
                 }
-            })
-
-            ->paginate(5);
+            })->paginate(5);
     }
 
     public function store($data) {
@@ -79,5 +77,9 @@ class CategoryRepository implements CategoryRepositoryInterface {
     public function destroy($id) {
         File::delete(public_path('images_upload/categories_image/' . $id));
         Category::find($id)->delete();
+    }
+
+    public function getListSelect(): \Illuminate\Support\Collection {
+        return Category::with(['Campaign'])->where('enabled', true)->get();
     }
 }

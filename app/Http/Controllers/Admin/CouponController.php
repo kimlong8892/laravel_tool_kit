@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CouponStoreRequest;
+use App\Http\Requests\CouponUpdateRequest;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Coupon\CouponRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -10,15 +14,27 @@ use Illuminate\View\View;
 use PHPUnit\Exception;
 
 class CouponController extends Controller {
+    protected CouponRepositoryInterface $couponRepository;
+    protected CategoryRepositoryInterface $categoryRepository;
+
+    public function __construct(
+        CouponRepositoryInterface $couponRepository,
+        CategoryRepositoryInterface $categoryRepository
+    ) {
+        $this->couponRepository = $couponRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return View
      */
-    public function index(): View {
-        $listCampaign = $this->campaignRepository->getList();
+    public function index(Request $request): View {
+        $listCoupon = $this->couponRepository->getList($request->get('name'), $request->get('category_id'));
+        $listCategory = $this->categoryRepository->getListSelect();
 
-        return view('admin.campaign.index', compact('listCampaign'));
+        return view('admin.coupon.index', compact('listCoupon', 'listCategory'));
     }
 
     /**
@@ -27,20 +43,22 @@ class CouponController extends Controller {
      * @return View
      */
     public function create(): View {
-        return view('admin.campaign.create');
+        $listCategory = $this->categoryRepository->getListSelect();
+
+        return view('admin.coupon.create', compact('listCategory'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CouponStoreRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse {
+    public function store(CouponStoreRequest $request): RedirectResponse {
         try {
-            $campaignId = $this->campaignRepository->store($request->toArray());
+            $couponId = $this->couponRepository->store($request->toArray());
 
-            return redirect()->route('admin.campaigns.edit', $campaignId)->with('success', __('Create success', ['id' => $campaignId]));
+            return redirect()->route('admin.coupons.edit', $couponId)->with('success', __('Create success', ['id' => $couponId]));
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->back()->with('error', $exception->getMessage());
@@ -54,23 +72,24 @@ class CouponController extends Controller {
      * @return View
      */
     public function edit(int $id): View {
-        $campaign = $this->campaignRepository->getDetail($id);
+        $coupon = $this->couponRepository->getDetail($id);
+        $listCategory = $this->categoryRepository->getListSelect();
 
-        return view('admin.campaign.edit', compact('campaign'));
+        return view('admin.coupon.edit', compact('coupon', 'listCategory'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param CouponUpdateRequest $request
      * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse {
+    public function update(CouponUpdateRequest $request, int $id): RedirectResponse {
         try {
-            $campaignId = $this->campaignRepository->update($id, $request->toArray());
+            $couponId = $this->couponRepository->update($id, $request->toArray());
 
-            return redirect()->route('admin.campaigns.edit', $campaignId)->with('success', __('Update success', ['id' => $campaignId]));
+            return redirect()->route('admin.coupons.edit', $couponId)->with('success', __('Update success', ['id' => $couponId]));
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->back()->with('error', $exception->getMessage());
@@ -85,23 +104,10 @@ class CouponController extends Controller {
      */
     public function destroy(int $id): RedirectResponse {
         try {
-            $this->campaignRepository->destroy($id);
+            $this->couponRepository->destroy($id);
 
             return redirect()->back()->with('success', __('Destroy success', ['id' => $id]));
         } catch (Exception $exception) {
-            Log::error($exception->getMessage());
-            return redirect()->back()->with('error', $exception->getMessage());
-        }
-    }
-
-    public function updateInfoCampaignsAccesstrade(): RedirectResponse {
-        try {
-            if ($this->accesstradeApiRepository->insertCampaigns()) {
-                return redirect()->back()->with('success', __('Update campaigns Accesstrade success'));
-            }
-
-            return redirect()->back()->with('success', __('Update campaigns Accesstrade error'));
-        } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->back()->with('error', $exception->getMessage());
         }
