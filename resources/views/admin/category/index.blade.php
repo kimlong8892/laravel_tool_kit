@@ -94,4 +94,7 @@
             <td colspan="7" class="text-center text-danger">{{ __('No record') }}</td>
         @endif
     </table>
+    <div>
+        {{ $listCategory->appends(request()->input())->links() }}
+    </div>
 @endsection

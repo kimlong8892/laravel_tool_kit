@@ -11,6 +11,7 @@
                 <li class="nav-item">
                     <button
                         data-merchant="{{ $item->accesstrade_merchant }}"
+                        data-id="{{ $item->id }}"
                         type="button"
                         class="nav-link btn-merchant text-uppercase"
                         role="tab"
@@ -29,11 +30,17 @@
             @foreach($listCampaign as $item)
                 <div class="tab-pane fade table-content-coupon" id="navs-pills-{{ $item->id }}" role="tabpanel"></div>
             @endforeach
+            <div id="list-category" class="row"></div>
         </div>
     </div>
+
+
 @endsection
 
 @section('js')
+    <link rel="stylesheet" type="text/css" href="{{ asset('lib/slick/slick.css') }}"/>
+    <script src="{{ asset('lib/slick/slick.js') }}"></script>
+
     <script>
         $(document).ready(function () {
             let merchant = getParam('merchant');
@@ -59,26 +66,40 @@
                 let html = $(idString).html();
                 html = html.trim();
                 let page = parseInt(element.attr('data-page'));
+                let id = element.attr('data-id');
 
-                if (html === '' || page !== 1) {
-                    $.LoadingOverlay('show');
-                    $.ajax({
-                        url: @json(route('web.ajax.get_list_coupon')),
-                        data: {
-                            merchant: merchant,
-                            page: page
-                        },
-                        success: function (html) {
-                            if (page === 1) {
-                                $(idString).html(html);
-                            } else {
-                                $(idString + " .row-unique").append(html);
-                            }
 
-                            $.LoadingOverlay('hide');
-                        }
-                    });
-                }
+                $.LoadingOverlay('show');
+                $.ajax({
+                    url: @json(route('web.ajax.get_list_category_by_campaign_id')),
+                    data: {
+                        campaign_id: id,
+                    },
+                    success: function (html) {
+                        $('#list-category').html(html);
+                        $.LoadingOverlay('hide');
+                    }
+                });
+
+                {{--if (html === '' || page !== 1) {--}}
+                {{--    $.LoadingOverlay('show');--}}
+                {{--    $.ajax({--}}
+                {{--        url: @json(route('web.ajax.get_list_coupon')),--}}
+                {{--        data: {--}}
+                {{--            merchant: merchant,--}}
+                {{--            page: page--}}
+                {{--        },--}}
+                {{--        success: function (html) {--}}
+                {{--            if (page === 1) {--}}
+                {{--                $(idString).html(html);--}}
+                {{--            } else {--}}
+                {{--                $(idString + " .row-unique").append(html);--}}
+                {{--            }--}}
+
+                {{--            $.LoadingOverlay('hide');--}}
+                {{--        }--}}
+                {{--    });--}}
+                {{--}--}}
             }
 
             $(document).on('click', '.btn-copy-coupon-code', function () {
@@ -100,14 +121,16 @@
 
 
 
-            window.onscroll = function(ev) {
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    let selector = `.btn-merchant[data-merchant='${merchant}']`;
-                    let currentPage = parseInt($(selector).attr('data-page'));
-                    $(selector).attr('data-page', ++currentPage);
-                    clickMerchant($(selector));
-                }
-            };
+            // window.onscroll = function(ev) {
+            //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            //         let selector = `.btn-merchant[data-merchant='${merchant}']`;
+            //         let currentPage = parseInt($(selector).attr('data-page'));
+            //         $(selector).attr('data-page', ++currentPage);
+            //         clickMerchant($(selector));
+            //     }
+            // };
+
+
 
         });
     </script>

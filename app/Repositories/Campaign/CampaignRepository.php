@@ -27,6 +27,11 @@ class CampaignRepository implements CampaignRepositoryInterface {
 
     public function update($id, $data): int {
         $campaign = Campaign::find($id);
+
+        if (empty($data['enabled'])) {
+            $data['enabled'] = false;
+        }
+
         $campaign->fill($data);
         $campaign->save();
 

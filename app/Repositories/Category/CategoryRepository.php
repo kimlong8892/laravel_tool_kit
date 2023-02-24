@@ -23,6 +23,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
     public function store($data) {
         if (!empty($data['is_accesstrade'])) {
             DB::table('categories')
+                ->where('campaign_id', $data['campaign_id'])
                 ->update([
                     'is_accesstrade' => false
                 ]);
@@ -81,5 +82,11 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
     public function getListSelect(): \Illuminate\Support\Collection {
         return Category::with(['Campaign'])->where('enabled', true)->get();
+    }
+
+    public function getListByCampaignId($campaignId) {
+        return Category::where('campaign_id', '=', $campaignId)
+            ->where('enabled', true)
+            ->get();
     }
 }

@@ -13,4 +13,6 @@ interface CategoryRepositoryInterface {
     public function destroy($id);
 
     public function getListSelect();
+
+    public function getListByCampaignId($campaignId);
 }
