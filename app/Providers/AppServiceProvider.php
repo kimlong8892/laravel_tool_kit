@@ -8,6 +8,10 @@ use App\Repositories\AccesstradeApi\AccesstradeApiRepository;
 use App\Repositories\AccesstradeApi\AccesstradeApiRepositoryInterface;
 use App\Repositories\Campaign\CampaignRepository;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
+use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Coupon\CouponRepository;
+use App\Repositories\Coupon\CouponRepositoryInterface;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepository;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepositoryInterface;
 use App\Repositories\SocialAccount\SocialAccountRepository;
@@ -46,6 +50,16 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind(
             CampaignRepositoryInterface::class,
             CampaignRepository::class
+        );
+
+        $this->app->bind(
+            CategoryRepositoryInterface::class,
+            CategoryRepository::class
+        );
+
+        $this->app->bind(
+            CouponRepositoryInterface::class,
+            CouponRepository::class
         );
     }
 

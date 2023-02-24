@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CampaignStoreRequest;
+use App\Http\Requests\CampaignUpdateRequest;
 use App\Repositories\AccesstradeApi\AccesstradeApiRepositoryInterface;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use PHPUnit\Exception;
+use Exception;
 
 class CampaignController extends Controller {
     protected CampaignRepositoryInterface $campaignRepository;
@@ -43,10 +44,10 @@ class CampaignController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CampaignStoreRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse {
+    public function store(CampaignStoreRequest $request): RedirectResponse {
         try {
             $campaignId = $this->campaignRepository->store($request->toArray());
 
@@ -72,11 +73,11 @@ class CampaignController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param CampaignUpdateRequest $request
      * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse {
+    public function update(CampaignUpdateRequest $request, int $id): RedirectResponse {
         try {
             $campaignId = $this->campaignRepository->update($id, $request->toArray());
 

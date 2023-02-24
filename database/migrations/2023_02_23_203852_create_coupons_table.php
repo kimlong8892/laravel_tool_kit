@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->date('start_time')->nullable();
             $table->date('end_time')->nullable();
+            $table->boolean('enabled')->default(false);;
             $table->timestamps();
         });
     }

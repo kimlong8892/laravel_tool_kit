@@ -15,9 +15,11 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->unsignedBigInteger('campaign_id');
             $table->foreign('campaign_id')->references('id')->on('campaigns')->onDelete('cascade');
+            $table->boolean('enabled')->default(false);
+            $table->boolean('is_accesstrade')->default(false);
             $table->timestamps();
         });
     }

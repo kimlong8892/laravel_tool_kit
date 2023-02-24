@@ -9,8 +9,11 @@
             <form action="{{ route('admin.campaigns.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
-                    <label class="form-label" for="name">{{ __('Name') }}</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Name') }}">
+                    <label class="form-label" for="name">{{ __('Name') }} @include('admin.include.icon_required')</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Name') }}" value="{{ old('name', '') }}">
+                    @error('name')
+                        <font color="red">{{ $message }}</font>
+                    @enderror
                 </div>
 
                 <div class="mb-3">

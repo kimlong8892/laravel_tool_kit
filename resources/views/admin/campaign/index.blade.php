@@ -9,7 +9,10 @@
 
         <form action="{{ route('admin.update-info-campaigns-accesstrade') }}" method="POST" class="mt-3">
             @csrf
-            <button class="btn btn-warning">{{ __('updateInfoCampaignsAccesstrade') }}</button>
+            <button class="btn btn-warning">
+                <i class="fa fa-sync-alt"></i>
+                {{ __('updateInfoCampaignsAccesstrade') }}
+            </button>
         </form>
     </div>
 

@@ -78,17 +78,6 @@ if (!function_exists('limitWord')) {
     }
 }
 
-if (!function_exists('upLoadImage')) {
-    function upLoadImage($imageFile, $imageName, $imagePath): string {
-        $file = $imageFile;
-        $ext = $file->extension();
-        $fileName =  $imageName . '.' . $ext;
-        $file->move(public_path($imagePath), $fileName);
-
-        return $imagePath . '/' . $fileName;
-    }
-}
-
 if (!function_exists('getDayOfDateToDate')) {
     function getDayOfDateToDate($date): int {
         $now = time();
@@ -107,5 +96,20 @@ if (!function_exists('checkUrlIsHttps')) {
         }
 
         return false;
+    }
+}
+
+if (!function_exists('uploadImage')) {
+    function uploadImage($imageFile, $imageName, $imagePath): string {
+        if (!empty($imageFile) && $imageFile instanceof \Illuminate\Http\UploadedFile) {
+            $file = $imageFile;
+            $ext = $file->extension();
+            $fileName =  $imageName . '.' . $ext;
+            $file->move(public_path($imagePath), $fileName);
+
+            return $imagePath . '/' . $fileName;
+        }
+
+        return '';
     }
 }

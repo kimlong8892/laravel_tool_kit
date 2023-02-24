@@ -24,7 +24,7 @@ class Campaign extends Model
         'enabled'
     ];
 
-    public function Coupons(): HasMany {
-        return $this->hasMany(Coupon::class, 'campaign_id');
+    public function Categories(): HasMany {
+        return $this->hasMany(Category::class, 'campaign_id');
     }
 }

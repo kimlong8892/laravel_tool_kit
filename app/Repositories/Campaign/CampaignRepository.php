@@ -3,6 +3,7 @@
 namespace App\Repositories\Campaign;
 
 use App\Models\Campaign;
+use Illuminate\Support\Facades\DB;
 
 class CampaignRepository implements CampaignRepositoryInterface {
     public function getList(): \Illuminate\Database\Eloquent\Collection {
@@ -17,18 +18,25 @@ class CampaignRepository implements CampaignRepositoryInterface {
         return Campaign::find($id);
     }
 
-    public function store($data) {
+    public function store($data): int {
         $campaign = new Campaign($data);
         $campaign->save();
 
         return $campaign->getAttribute('id');
     }
 
-    public function update($id, $data) {
+    public function update($id, $data): int {
         $campaign = Campaign::find($id);
         $campaign->fill($data);
         $campaign->save();
 
         return $id;
+    }
+
+    public function getListSelect(): \Illuminate\Support\Collection {
+        return DB::table('campaigns')
+            ->where('enabled', '=', true)
+            ->where('name', '<>', '')
+            ->get();
     }
 }

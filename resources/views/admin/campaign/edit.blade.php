@@ -10,8 +10,11 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
-                    <label class="form-label" for="name">{{ __('Name') }} (<font color="red">*</font>)</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Name') }}" value="{{ $campaign->name }}">
+                    <label class="form-label" for="name">{{ __('Name') }} @include('admin.include.icon_required')</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="{{ __('Name') }}" value="{{ old('name', $campaign->name) }}">
+                    @error('name')
+                        <font color="red">{{ $message }}</font>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
@@ -25,6 +28,55 @@
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ __('List category') }}</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <tr>
+                    <th class="text-center" width="10%">{{ __('ID') }}</th>
+                    <th class="text-center" width="20%">{{ __('Logo') }}</th>
+                    <th class="text-center" width="45%">{{ __('Name') }}</th>
+                    <th class="text-center" width="5%">{{ __('Is accesstrade') }}</th>
+                    <th class="text-center" width="5%">{{ __('Enabled') }}</th>
+                    <th class="text-center" width="15%">{{ __('Action') }}</th>
+                </tr>
+                @foreach ($campaign->Categories as $category)
+                    <tr>
+                        <td class="text-center">{{ $category->id }}</td>
+                        <td class="text-center"><img src="{{ asset($category->logo) }}" alt="" width="100%"></td>
+                        <td class="text-center">{{ $category->name }}</td>
+                        <td>
+                            @if($category->is_accesstrade)
+                                <i class="fa fa-check"></i>
+                            @else
+                                <i class="fa fa-x"></i>
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            @if($category->enabled)
+                                <i class="fa fa-check"></i>
+                            @else
+                                <i class="fa fa-x"></i>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="d-flex">
+                                <div class="p-2">
+                                    <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-warning">
+                                        <i class="fa fa-edit"></i>
+                                        {{ __('Edit') }}
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
         </div>
     </div>
 
