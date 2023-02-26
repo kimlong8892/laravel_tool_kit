@@ -5,36 +5,102 @@
 @section('content')
     @include('web.include.breadcrumb', ['text' => __('List coupon')])
 
-    <div class="nav-align-top mb-4">
-        <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
-            @foreach($listCampaign as $item)
-                <li class="nav-item">
-                    <button
-                        data-merchant="{{ $item->accesstrade_merchant }}"
-                        data-id="{{ $item->id }}"
-                        type="button"
-                        class="nav-link btn-merchant text-uppercase"
-                        role="tab"
-                        data-page="1"
-                        data-bs-toggle="tab"
-                        data-bs-target="#navs-pills-{{ $item->id }}"
-                        aria-controls="navs-pills-{{ $item->id }}"
-                        aria-selected="true"
-                    >
-                        <img src="{{ $item->accesstrade_logo }}" width="64px" alt="{{ $item->name }}"> {{ $item->name }}
-                    </button>
-                </li>
-            @endforeach
-        </ul>
-        <div class="tab-content">
-            @foreach($listCampaign as $item)
-                <div class="tab-pane fade table-content-coupon" id="navs-pills-{{ $item->id }}" role="tabpanel"></div>
-            @endforeach
-            <div id="list-category" class="row"></div>
-        </div>
+    <p class="mt-2">{{ __('Campaign') }}</p>
+    <div class="row">
+        @foreach($listCampaign as $campaign)
+            <div class="col">
+                <a href="{{ route('web.home', ['merchant' => $campaign->accesstrade_merchant]) }}"
+                    data-merchant="{{ $campaign->accesstrade_merchant }}"
+                    @if($campaign->accesstrade_merchant == request()->get('merchant'))
+                        class="btn rounded-pill btn-primary w-100 btn-merchant"
+                    @else
+                       class="btn rounded-pill btn-secondary w-100 btn-merchant"
+                    @endif
+                >
+                    <img src="{{ $campaign->accesstrade_logo }}" width="40px" alt="{{ $campaign->name }}" class="rounded-circle">
+                    {{ $campaign->name }}
+                </a>
+            </div>
+        @endforeach
     </div>
 
+    <div class="row">
+        @include('web.home._list_category')
+    </div>
 
+    <div class="mt-5" id="list-coupon">
+        @if($isAccesstrade)
+            <div class="row mb-3">
+                @if(!empty($page) && $page > 1)
+                    <div class="col">
+                        @php
+                            $requestHref = request()->toArray();
+                            if (!empty($requestHref['page'])) {
+                                 $requestHref['page'] = $requestHref['page'] - 1;
+                            }
+                        @endphp
+
+                        <a href="{{ route('web.home', $requestHref) }}" class="btn btn-primary" type="button">
+                            <i class="fa fa-arrow-left"></i>
+                            {{ __('previous') }}
+                        </a>
+                    </div>
+                @endif
+                <div class="col" style="text-align: right;">
+                    @php
+                        $requestHref = request()->toArray();
+                        if (!empty($requestHref['page'])) {
+                             $requestHref['page'] = $requestHref['page'] + 1;
+                        } else {
+                            $requestHref['page'] = 2;
+                        }
+                    @endphp
+                    <a href="{{ route('web.home', $requestHref) }}" class="btn btn-primary" type="button">
+                        <i class="fa fa-arrow-right"></i>
+                        {{ __('next') }}
+                    </a>
+                </div>
+            </div>
+            @include('web.home._list_coupon')
+        @else
+            <div class="row">
+                @foreach($listCoupon as $coupon)
+                    <div class="col">
+                        <div class="card mb-3 p-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="card-img card-img-left" src="{{ asset($coupon->logo) }}" alt="Card image">
+                                    <div class="text-center mt-2 mb-2">
+                                        <a href="#" target="_blank" class="btn btn-warning p-1 m-0">
+                                            <i class="fa fa-info-circle"></i>
+                                            {{ __('view detail') }}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <p class="card-title">
+                                            {{ $coupon->code ?? '' }}
+                                            <button class="btn btn-primary btn-copy-coupon-code btn-sm"><i class="fa fa-copy"></i>
+                                            </button>
+                                        </p>
+                                        <p class="card-text">
+                                            {{ $coupon->description }}
+                                        </p>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                {{ __('date end') }}: {{ $coupon->end_time }} ({{ getDayOfDateToDate($coupon->end_time) }} {{ __('day') }})
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
 @endsection
 
 @section('js')
@@ -43,65 +109,6 @@
 
     <script>
         $(document).ready(function () {
-            let merchant = getParam('merchant');
-
-            if (merchant === '' || merchant === 'undefined' || merchant === null) {
-                merchant = @json(!empty($listCampaign[0]) ? $listCampaign[0]->accesstrade_merchant : '');
-            }
-
-            if (merchant !== '') {
-                let btnClick = $(`.btn-merchant[data-merchant=${merchant}]`);
-                btnClick.click();
-                clickMerchant(btnClick);
-            }
-
-            $(document).on('click', '.btn-merchant', function () {
-                clickMerchant($(this));
-            });
-
-            function clickMerchant(element) {
-                merchant = element.attr('data-merchant');
-                setQueryStringParameter('merchant', merchant);
-                let idString = element.attr('data-bs-target');
-                let html = $(idString).html();
-                html = html.trim();
-                let page = parseInt(element.attr('data-page'));
-                let id = element.attr('data-id');
-
-
-                $.LoadingOverlay('show');
-                $.ajax({
-                    url: @json(route('web.ajax.get_list_category_by_campaign_id')),
-                    data: {
-                        campaign_id: id,
-                    },
-                    success: function (html) {
-                        $('#list-category').html(html);
-                        $.LoadingOverlay('hide');
-                    }
-                });
-
-                {{--if (html === '' || page !== 1) {--}}
-                {{--    $.LoadingOverlay('show');--}}
-                {{--    $.ajax({--}}
-                {{--        url: @json(route('web.ajax.get_list_coupon')),--}}
-                {{--        data: {--}}
-                {{--            merchant: merchant,--}}
-                {{--            page: page--}}
-                {{--        },--}}
-                {{--        success: function (html) {--}}
-                {{--            if (page === 1) {--}}
-                {{--                $(idString).html(html);--}}
-                {{--            } else {--}}
-                {{--                $(idString + " .row-unique").append(html);--}}
-                {{--            }--}}
-
-                {{--            $.LoadingOverlay('hide');--}}
-                {{--        }--}}
-                {{--    });--}}
-                {{--}--}}
-            }
-
             $(document).on('click', '.btn-copy-coupon-code', function () {
                 let code = $(this).attr('data-coupon-code');
                 let $temp = $("<input>");
@@ -118,20 +125,6 @@
 
                 window.open($(this).attr('data-link'), '_blank');
             });
-
-
-
-            // window.onscroll = function(ev) {
-            //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            //         let selector = `.btn-merchant[data-merchant='${merchant}']`;
-            //         let currentPage = parseInt($(selector).attr('data-page'));
-            //         $(selector).attr('data-page', ++currentPage);
-            //         clickMerchant($(selector));
-            //     }
-            // };
-
-
-
         });
     </script>
 @endsection

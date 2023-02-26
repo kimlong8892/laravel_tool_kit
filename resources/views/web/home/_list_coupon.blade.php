@@ -1,6 +1,4 @@
-@if($page == 1)
-    <div class="row row-unique">
-@endif
+<div class="row row-unique">
     @if(!empty($listCoupon['data']))
         @foreach($listCoupon['data'] as $coupon)
             <div class="col-md-4 col-6">
@@ -45,7 +43,4 @@
             </div>
         @endif
     @endif
-@if($page == 1)
-    </div>
-@endif
-
+</div>

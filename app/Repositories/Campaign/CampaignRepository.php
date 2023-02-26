@@ -4,9 +4,13 @@ namespace App\Repositories\Campaign;
 
 use App\Models\Campaign;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class CampaignRepository implements CampaignRepositoryInterface {
-    public function getList(): \Illuminate\Database\Eloquent\Collection {
+    public function getList(): Collection {
         return Campaign::all();
     }
 
@@ -14,7 +18,7 @@ class CampaignRepository implements CampaignRepositoryInterface {
         Campaign::find($id)->delete();
     }
 
-    public function getDetail($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null {
+    public function getDetail($id): Model|Collection|Builder|array|null {
         return Campaign::find($id);
     }
 

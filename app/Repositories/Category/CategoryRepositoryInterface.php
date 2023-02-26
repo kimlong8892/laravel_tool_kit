@@ -15,4 +15,6 @@ interface CategoryRepositoryInterface {
     public function getListSelect();
 
     public function getListByCampaignId($campaignId);
+
+    public function getListByCampaignAccesstradeMerchant($accesstradeMerchant);
 }

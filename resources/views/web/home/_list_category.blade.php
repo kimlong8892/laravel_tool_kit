@@ -1,10 +1,24 @@
 @if(!empty($listCategory) && count($listCategory) > 0)
+    <p class="mt-2">{{ __('Category') }}</p>
     @foreach($listCategory as $category)
-        <div class="p-2 col-md-3">
-            <button class="btn btn-primary bg-white text-dark bg w-100 d-flex align-items-center" style="text-align: left !important;">
-                <img src="{{ asset($category->logo) }}" width="40px" style="height: 40px">
-                <span class="pl-2">{{ $category->name }}</span>
-            </button>
+        <div class="col text-white">
+            @php
+                $requestHref = request()->toArray();
+                $requestHref['category_id'] = $category->id;
+            @endphp
+            <a
+                href="{{ route('web.home', $requestHref) }}"
+                @if($category->id == request()->get('category_id'))
+                    class="btn rounded-pill btn-primary w-100"
+                @else
+                    class="btn rounded-pill btn-secondary w-100"
+                @endif
+            >
+                <img src="{{ asset($category->logo) }}" width="32px" class="rounded-circle" style="height: 32px;">
+                {{ $category->name }}
+            </a>
         </div>
     @endforeach
+@else
+    <p class="mt-2 text-danger text-center">{{ __('List category not found') }}</p>
 @endif

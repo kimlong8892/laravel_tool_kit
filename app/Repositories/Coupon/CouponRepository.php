@@ -56,4 +56,10 @@ class CouponRepository implements CouponRepositoryInterface {
         File::delete(public_path('images_upload/coupons_image/' . $id));
         Coupon::find($id)->delete();
     }
+
+    public function getListByCategoryId($categoryId, $page = 1) {
+        return Coupon::where('category_id', '=', $categoryId)
+            ->limit(10)
+            ->get();
+    }
 }

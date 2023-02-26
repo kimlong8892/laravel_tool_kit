@@ -11,4 +11,6 @@ interface CouponRepositoryInterface {
     public function update($id, $data);
 
     public function destroy($id);
+
+    public function getListByCategoryId($categoryId, $page = 1);
 }

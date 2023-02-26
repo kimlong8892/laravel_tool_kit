@@ -89,4 +89,10 @@ class CategoryRepository implements CategoryRepositoryInterface {
             ->where('enabled', true)
             ->get();
     }
+
+    public function getListByCampaignAccesstradeMerchant($accesstradeMerchant) {
+        return Category::whereHas('Campaign', function ($query) use ($accesstradeMerchant) {
+            $query->where('accesstrade_merchant', $accesstradeMerchant);
+        })->get();
+    }
 }
