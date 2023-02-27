@@ -1,5 +1,5 @@
 @if(!empty($listCategory) && count($listCategory) > 0)
-    <p class="mt-2">{{ __('Category') }}</p>
+    <p class="mt-4 mb-0 fw-bold text-uppercase">{{ __('Category') }}</p>
     @foreach($listCategory as $category)
         <div class="col text-white mb-2 nowrap">
             @php

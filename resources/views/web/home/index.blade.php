@@ -4,8 +4,7 @@
 
 @section('content')
     @include('web.include.breadcrumb', ['text' => __('List coupon')])
-
-    <p class="mt-2">{{ __('Campaign') }}</p>
+    <p class="mt-2 mb-0 fw-bold text-uppercase">{{ __('Campaign') }}</p>
     <div class="row">
         @foreach($listCampaign as $campaign)
             <div class="col">
