@@ -28,6 +28,11 @@
 </head>
 
 <body>
+<style>
+    .nowrap {
+        white-space: nowrap;
+    }
+</style>
 
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">

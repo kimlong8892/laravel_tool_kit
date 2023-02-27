@@ -1,10 +1,14 @@
 @if(!empty($listCategory) && count($listCategory) > 0)
     <p class="mt-2">{{ __('Category') }}</p>
     @foreach($listCategory as $category)
-        <div class="col text-white">
+        <div class="col text-white mb-2 nowrap">
             @php
                 $requestHref = request()->toArray();
                 $requestHref['category_id'] = $category->id;
+
+                if (!empty($requestHref['page'])) {
+                     $requestHref['page'] = 1;
+                }
             @endphp
             <a
                 href="{{ route('web.home', $requestHref) }}"

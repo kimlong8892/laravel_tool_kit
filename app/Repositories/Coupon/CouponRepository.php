@@ -58,8 +58,6 @@ class CouponRepository implements CouponRepositoryInterface {
     }
 
     public function getListByCategoryId($categoryId, $page = 1) {
-        return Coupon::where('category_id', '=', $categoryId)
-            ->limit(10)
-            ->get();
+        return Coupon::where('category_id', '=', $categoryId)->paginate(12);
     }
 }

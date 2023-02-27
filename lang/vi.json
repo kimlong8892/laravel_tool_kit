@@ -17,5 +17,10 @@
     "Update success": "Cập nhật thành công #:id",
     "Campaigns": "Chiến dịch",
     "Categories": "Chuyên mục",
-    "Coupons": "Mã giảm giá"
+    "Coupons": "Mã giảm giá",
+    "Campaign": "Nơi bán",
+    "Category": "Chuyên mục",
+    "previous": "Trang trước",
+    "next": "Trang sau",
+    "List category not found": "Chưa có chuyên mục"
 }

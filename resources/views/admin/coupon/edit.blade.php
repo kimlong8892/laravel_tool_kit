@@ -64,7 +64,7 @@
                     <label class="form-label" for="name">{{ __('Category') }} @include('admin.include.icon_required')</label>
                     <select name="category_id" id="category_id" class="form-control form-select">
                         @foreach($listCategory as $category)
-                            <option value="{{ $category->id }}" @if($coupon->category_id == $category->id) selected @endif>{{ $category->name }}</option>
+                            <option value="{{ $category->id }}" @if($coupon->category_id == $category->id) selected @endif>{{ $category->name }} [{{ $category->Campaign->name }}]</option>
                         @endforeach
                     </select>
                     @error('category_id')

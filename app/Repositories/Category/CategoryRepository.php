@@ -53,6 +53,7 @@ class CategoryRepository implements CategoryRepositoryInterface {
     public function update($id, $data) {
         if (!empty($data['is_accesstrade'])) {
             DB::table('categories')
+                ->where('campaign_id', $data['campaign_id'])
                 ->update([
                     'is_accesstrade' => false
                 ]);
