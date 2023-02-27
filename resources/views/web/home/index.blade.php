@@ -46,7 +46,7 @@
                                         <div class="col-md-4">
                                             <img class="card-img card-img-left" src="{{ asset($coupon->logo) }}" alt="Card image">
                                             <div class="text-center mt-2 mb-2">
-                                                <a href="#" target="_blank" class="btn btn-warning p-1 m-0">
+                                                <a href="{{ $coupon->link }}" target="_blank" class="btn btn-warning p-1 m-0">
                                                     <i class="fa fa-info-circle"></i>
                                                     {{ __('view detail') }}
                                                 </a>

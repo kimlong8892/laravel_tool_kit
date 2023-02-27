@@ -26,6 +26,14 @@
                 </div>
 
                 <div class="mb-3">
+                    <label class="form-label" for="name">{{ __('Link') }} @include('admin.include.icon_required')</label>
+                    <input type="text" class="form-control" name="link" id="link" placeholder="{{ __('Link') }}" value="{{ old('link', $coupon->link) }}">
+                    @error('link')
+                    <font color="red">{{ $message }}</font>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
                     <label class="form-label" for="name">{{ __('Description') }}</label>
                     <textarea class="form-control" name="description" id="description" cols="30" rows="10">{{ old('Description', $coupon->description) }}</textarea>
                     @error('description')

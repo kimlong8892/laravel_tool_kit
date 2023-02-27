@@ -20,7 +20,8 @@ class Coupon extends Model
         'category_id',
         'start_time',
         'end_time',
-        'enabled'
+        'enabled',
+        'link'
     ];
 
     protected $table = 'coupons';
