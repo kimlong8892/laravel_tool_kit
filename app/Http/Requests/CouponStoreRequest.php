@@ -26,6 +26,7 @@ class CouponStoreRequest extends FormRequest {
             'category_id' => 'required',
             'end_time' => 'required',
             'code' => 'required',
+            'link' => 'required'
         ];
     }
 }

@@ -23,7 +23,8 @@ class CouponUpdateRequest extends FormRequest {
         return [
             'code' => 'required',
             'category_id' => 'required',
-            'end_time' => 'required'
+            'end_time' => 'required',
+            'link' => 'required'
         ];
     }
 }
