@@ -6,23 +6,44 @@
         ],
         [
             'title' => 'Campaigns',
-            'route' => 'admin.campaigns.index',
+            'icon' => '<i class="menu-icon tf-icons bx bx-shopping-bag"></i>',
+            'list_child' => [
+                [
+                    'title' => 'List Campaign',
+                    'route' => 'admin.campaigns.index'
+                ],
+                [
+                    'title' => 'Create Campaign',
+                    'route' => 'admin.campaigns.create'
+                ],
+            ]
         ],
         [
             'title' => 'Categories',
-            'route' => 'admin.categories.index',
+            'icon' => '<i class="menu-icon tf-icons bx bx-category-alt"></i>',
+            'list_child' => [
+                [
+                    'title' => 'List Category',
+                    'route' => 'admin.categories.index'
+                ],
+                [
+                    'title' => 'Create Category',
+                    'route' => 'admin.categories.create'
+                ],
+            ]
         ],
         [
             'title' => 'Coupons',
-            'route' => 'admin.coupons.index',
+            'icon' => '<i class="menu-icon tf-icons bx bxs-coupon"></i>',
+            'list_child' => [
+                [
+                    'title' => 'List Coupon',
+                    'route' => 'admin.coupons.index'
+                ],
+                [
+                    'title' => 'Create Coupon',
+                    'route' => 'admin.coupons.create'
+                ],
+            ]
         ],
-//        [
-//            'title' => 'Functions',
-//            'list_child' => [
-//                [
-//                    'title' => 'List product',
-//                    'route' => 'web.download_video_youtube'
-//                ]
-//            ]
-//        ]
     ];
