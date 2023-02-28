@@ -21,7 +21,7 @@ async function autoScroll(page) {
 
 
 CrawlShopeeController.getListCoupon = async function (req, res) {
-    const url = 'https://shopee.vn/m/ma-giam-gia#anchorId-1675880136350';
+    const url = req.query.url;
     const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch({
         headless: true, args: ['--no-sandbox']

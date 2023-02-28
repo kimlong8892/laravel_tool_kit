@@ -12,6 +12,8 @@ use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Coupon\CouponRepository;
 use App\Repositories\Coupon\CouponRepositoryInterface;
+use App\Repositories\CrawlShopee\CrawlShopeeRepository;
+use App\Repositories\CrawlShopee\CrawlShopeeRepositoryInterface;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepository;
 use App\Repositories\DownloadVideoYoutube\DownloadVideoYoutubeRepositoryInterface;
 use App\Repositories\SocialAccount\SocialAccountRepository;
@@ -60,6 +62,11 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind(
             CouponRepositoryInterface::class,
             CouponRepository::class
+        );
+
+        $this->app->bind(
+            CrawlShopeeRepositoryInterface::class,
+            CrawlShopeeRepository::class
         );
     }
 

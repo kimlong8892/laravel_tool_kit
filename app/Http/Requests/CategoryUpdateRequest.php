@@ -11,9 +11,8 @@ class CategoryUpdateRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
-    {
-        return false;
+    public function authorize(): bool {
+        return true;
     }
 
     /**
@@ -21,10 +20,12 @@ class CategoryUpdateRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
-    {
+    public function rules(): array {
         return [
-            //
+            'name' => 'required',
+            'logo' => 'mimes:jpeg,jpg,png,gif|max:10000',
+            'campaign_id' => 'required',
+            'type' => 'required'
         ];
     }
 }

@@ -6,5 +6,5 @@ server.listen(4000);
 const CrawlShopeeController = require('./controller/CrawlShopeeController');
 
 if (CrawlShopeeController.hasOwnProperty('getListCoupon')) {
-    app.get('/', CrawlShopeeController.getListCoupon);
+    app.get('/crawl-shopee', CrawlShopeeController.getListCoupon);
 }

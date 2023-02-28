@@ -30,10 +30,11 @@ class CategoryRepository implements CategoryRepositoryInterface {
         }
 
         $category = new Category();
-        $category->setAttribute('name', $data['name']);
-        $category->setAttribute('campaign_id', $data['campaign_id']);
+        $category->setAttribute('name', $data['name'] ?? '');
+        $category->setAttribute('campaign_id', $data['campaign_id'] ?? '');
         $category->setAttribute('enabled', $data['enabled'] ?? false);
-        $category->setAttribute('is_accesstrade', $data['is_accesstrade'] ?? false);
+        $category->setAttribute('type', $data['type'] ?? false);
+        $category->setAttribute('api_url', $data['api_url'] ?? '');
         $category->save();
 
         if (!empty($data['logo'])) {
@@ -60,10 +61,11 @@ class CategoryRepository implements CategoryRepositoryInterface {
         }
 
         $category = Category::find($id);
-        $category->setAttribute('name', $data['name']);
-        $category->setAttribute('campaign_id', $data['campaign_id']);
+        $category->setAttribute('campaign_id', $data['campaign_id'] ?? '');
+        $category->setAttribute('name', $data['name'] ?? '');
         $category->setAttribute('enabled', $data['enabled'] ?? false);
-        $category->setAttribute('is_accesstrade', $data['is_accesstrade'] ?? false);
+        $category->setAttribute('type', $data['type'] ?? false);
+        $category->setAttribute('api_url', $data['api_url'] ?? '');
 
         if (!empty($data['logo'])) {
             $imagePath = 'images_upload/categories_image/' . $category->getAttribute('id');

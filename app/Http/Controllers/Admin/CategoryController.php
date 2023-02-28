@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryStoreRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Repositories\Campaign\CampaignRepositoryInterface;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
@@ -80,11 +81,11 @@ class CategoryController extends Controller {
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param CategoryUpdateRequest $request
      * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse {
+    public function update(CategoryUpdateRequest $request, int $id): RedirectResponse {
         try {
             $campaignId = $this->categoryRepository->update($id, $request->toArray());
 

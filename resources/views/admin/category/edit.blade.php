@@ -47,8 +47,28 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="enabled">{{ __('Is accesstrade') }}</label>
-                    <input type="checkbox" class="form-check-input" name="is_accesstrade" id="is_accesstrade" value="1" @if($category->is_accesstrade) checked @endif>
+                    <label class="form-label" for="enabled">{{ __('Type') }} @include('admin.include.icon_required')</label>
+                    @php
+                        $listCategoryType = config('custom.const.LIST_CATEGORY_TYPE');
+                    @endphp
+
+                    <select name="type" id="type" class="form-select">
+                        @foreach($listCategoryType as $categoryType)
+                            <option value="{{ $categoryType }}" @if($category->type == $categoryType) selected @endif>{{ $categoryType }}</option>
+                        @endforeach
+                    </select>
+
+                    @error('type')
+                        <font color="red">{{ $message }}</font>
+                    @enderror
+                </div>
+
+                <div class="mb-3" id="api_url_container">
+                    <label class="form-label" for="name">{{ __('Api url') }}</label>
+                    <input type="text" class="form-control" name="api_url" id="api_url" placeholder="{{ __('api_url') }}" value="{{ old('api_url', $category->api_url) }}">
+                    @error('api_url')
+                        <font color="red">{{ $message }}</font>
+                    @enderror
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">
@@ -117,4 +137,5 @@
             });
         });
     </script>
+    @include('admin.category._js')
 @endsection

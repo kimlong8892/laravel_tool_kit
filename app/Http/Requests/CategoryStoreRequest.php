@@ -24,6 +24,7 @@ class CategoryStoreRequest extends FormRequest {
             'name' => 'required',
             'logo' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
             'campaign_id' => 'required',
+            'type' => 'required'
         ];
     }
 }

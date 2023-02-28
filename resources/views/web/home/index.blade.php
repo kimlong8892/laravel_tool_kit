@@ -31,9 +31,9 @@
 
     @if(!empty(request()->get('merchant')) && !empty(request()->get('category_id')))
         <div class="mt-5" id="list-coupon">
-            @if($isAccesstrade)
+            @if($type === 'ACCESSTRADE')
                 @include('web.home._list_coupon')
-            @else
+            @elseif($type === 'DEFAULT')
                 @if(!empty($listCoupon) && $listCoupon->total() > 0)
                     <div>
                         {{ $listCoupon->appends(request()->input())->links() }}
@@ -44,6 +44,20 @@
                                 $coupon->logo = asset($coupon->logo);
                             @endphp
                             @include('web.home._coupon', ['coupon' => $coupon->toArray()])
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-danger text-center">{{ __('No record coupon') }}</p>
+                @endif
+            @elseif($type === 'SHOPEE')
+                @if(!empty($listCoupon['data']) && count($listCoupon['data']) > 0)
+                    <div class="row">
+                        @foreach($listCoupon['data'] as $coupon)
+                            @php
+                                $coupon['logo'] = asset('images_site/shopee_voucher.jpg');
+                            @endphp
+
+                            @include('web.home._coupon', ['coupon' => $coupon])
                         @endforeach
                     </div>
                 @else
