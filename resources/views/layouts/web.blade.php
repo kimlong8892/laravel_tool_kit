@@ -28,12 +28,6 @@
 </head>
 
 <body>
-<style>
-    .nowrap {
-        white-space: nowrap;
-    }
-</style>
-
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
@@ -93,16 +87,11 @@
                     @yield('content')
                 </div>
                 <!-- / Content -->
-
-
-
-
             </div>
             <!-- Content wrapper -->
         </div>
         <!-- / Layout page -->
     </div>
-
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
@@ -113,9 +102,10 @@
       class="template-customizer-core-css"/>
 <link rel="stylesheet" href="{{ asset('theme/user/assets/vendor/css/theme-default.css') }}"
       class="template-customizer-theme-css"/>
-
 <link rel="stylesheet" href="{{ asset('theme/user/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}"/>
 <link rel="stylesheet" href="{{ asset('theme/user/assets/vendor/libs/apex-charts/apex-charts.css') }}"/>
+<link rel="stylesheet" href="{{ asset('css/web.css') }}">
+
 <script src="{{ asset('theme/user/assets/vendor/js/helpers.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/config.js') }}"></script>
 

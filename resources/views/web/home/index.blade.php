@@ -40,38 +40,10 @@
                     </div>
                     <div class="row">
                         @foreach($listCoupon as $coupon)
-                            <div class="col-md-4">
-                                <div class="card mb-3 p-3">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <img class="card-img card-img-left" src="{{ asset($coupon->logo) }}" alt="Card image">
-                                            <div class="text-center mt-2 mb-2">
-                                                <a href="{{ $coupon->link }}" target="_blank" class="btn btn-warning p-1 m-0">
-                                                    <i class="fa fa-info-circle"></i>
-                                                    {{ __('view detail') }}
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="card-body">
-                                                <p class="card-title">
-                                                    {{ $coupon->code ?? '' }}
-                                                    <button class="btn btn-primary btn-copy-coupon-code btn-sm"><i class="fa fa-copy"></i>
-                                                    </button>
-                                                </p>
-                                                <p class="card-text">
-                                                    {{ $coupon->description }}
-                                                </p>
-                                                <p class="card-text">
-                                                    <small class="text-muted">
-                                                        {{ __('date end') }}: {{ $coupon->end_time }} ({{ getDayOfDateToDate($coupon->end_time) }} {{ __('day') }})
-                                                    </small>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @php
+                                $coupon->logo = asset($coupon->logo);
+                            @endphp
+                            @include('web.home._coupon', ['coupon' => $coupon->toArray()])
                         @endforeach
                     </div>
                 @else

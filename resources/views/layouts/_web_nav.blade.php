@@ -1,20 +1,10 @@
-<!-- Navbar -->
-
-<nav
-    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-    id="layout-navbar"
->
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+    id="layout-navbar">
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
             <i class="bx bx-menu bx-sm"></i>
         </a>
     </div>
-
-    <style>
-        .pl-2 {
-            padding-left: 10px;
-        }
-    </style>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
 
@@ -30,7 +20,8 @@
                                 <img src="{{ asset('images_site/avatar_user_default.jpeg') }}" alt
                                      class="w-px-40 h-auto rounded-circle"/>
                             </div>
-                            <div class="pl-2">{{ __('Hello') . ', ' . \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}</div>
+                            <div
+                                class="pl-2">{{ __('Hello') . ', ' . \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}</div>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
@@ -44,23 +35,13 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
-                                        <span class="fw-semibold d-block">{{ \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}</span>
+                                        <span
+                                            class="fw-semibold d-block">{{ \Illuminate\Support\Facades\Auth::guard('web')->user()->name }}</span>
                                         <small class="text-muted">{{ __('Member') }}</small>
                                     </div>
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <div class="dropdown-divider"></div>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">
-                                <i class="bx bx-user me-2"></i>
-                                <span class="align-middle">My Profile</span>
-                            </a>
-                        </li>
-
-
                         <li>
                             <div class="dropdown-divider"></div>
                         </li>
@@ -98,7 +79,6 @@
                                 <span class="align-middle">{{ __('Register') }}</span>
                             </a>
                         </li>
-
 
 
                     </ul>

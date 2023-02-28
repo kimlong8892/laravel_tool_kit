@@ -80,10 +80,9 @@ if (!function_exists('limitWord')) {
 
 if (!function_exists('getDayOfDateToDate')) {
     function getDayOfDateToDate($date): int {
-        $now = time();
-        $your_date = strtotime($date);
+        $diff = strtotime($date) - strtotime(now());
 
-        return date('d', round($now - $your_date / (60 * 60 * 24)));
+        return round($diff / 86400);
     }
 }
 
