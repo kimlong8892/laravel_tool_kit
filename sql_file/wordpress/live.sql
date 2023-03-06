@@ -256,7 +256,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `wp_term_taxonomy`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;git
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `wp_term_taxonomy` (
   `term_taxonomy_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `term_id` bigint(20) unsigned NOT NULL DEFAULT 0,
