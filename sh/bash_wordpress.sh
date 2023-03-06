@@ -1,0 +1,1 @@
+docker exec -it wordpress_web_server bash

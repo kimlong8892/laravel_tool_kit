@@ -1,0 +1,1 @@
+docker exec -it nodejs_web_server bash

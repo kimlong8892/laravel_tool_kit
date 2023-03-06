@@ -1,0 +1,102 @@
+version: '4.0'
+services:
+  laravel_web_server:
+    container_name: 'laravel_web_server'
+    build:
+      args:
+        user: laravel_user
+        uid: 1000
+      dockerfile: docker_file/laravel.Dockerfile
+    environment:
+      PHP_IDE_CONFIG: "serverName=laravel_web_server"
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    image: laravel-app
+    restart: unless-stopped
+    volumes:
+      - ./app/laravel:/var/www/html/laravel
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    working_dir: /var/www/html
+    networks:
+      - app-wp-network
+  wordpress_web_server:
+    container_name: 'wordpress_web_server'
+    build:
+      args:
+        user: wordpress_user
+        uid: 1000
+      dockerfile: docker_file/wordpress.Dockerfile
+    environment:
+      PHP_IDE_CONFIG: "serverName=wordpress_web_server"
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    image: wordpress-app
+    restart: unless-stopped
+    volumes:
+      - ./app/wordpress:/var/www/html/wordpress
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    working_dir: /var/www/html
+    networks:
+      - app-wp-network
+  nodejs_crawl_data:
+    container_name: 'nodejs_crawl_data'
+    build:
+      args:
+        user: nodejs_user
+        uid: 1000
+      dockerfile: docker_file/nodejs.Dockerfile
+    ports:
+      - '4400:3000' # nodejs_port
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    image: nodejs-app
+    restart: unless-stopped
+    volumes:
+      - ./app/nodejs_crawl_data:/var/www/html/nodejs
+    working_dir: /var/www/html
+    networks:
+      - app-wp-network
+  app_nginx_server:
+    container_name: 'app_nginx_server'
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    ports:
+      - '4200:80' #laravel_port
+      - '4300:81' #wordpress_port
+    volumes:
+      - ./app/laravel:/var/www/html/laravel
+      - ./app/wordpress:/var/www/html/wordpress
+      - ./nginx/conf.d:/etc/nginx/conf.d/
+      - ./nginx/logs:/var/log/nginx/
+    networks:
+      - app-wp-network
+  laravel_db_server:
+    container_name: 'laravel_db_server'
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: Admin123
+      MARIADB_DATABASE: laravel
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: Admin123
+    ports:
+      - "3320:3306" # laravel_db_port
+    networks:
+      - app-wp-network
+  wordpress_db_server:
+    container_name: 'wordpress_db_server'
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: Admin123
+      MARIADB_DATABASE: laravel
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: Admin123
+    ports:
+      - "3321:3306" # wordpress_db_port
+    networks:
+      - app-wp-network
+#Docker Networks
+networks:
+  app-wp-network:
+    driver: bridge

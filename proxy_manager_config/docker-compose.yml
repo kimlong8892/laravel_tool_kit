@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  proxy_manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./proxy_manager/data:/data
+      - ./proxy_manager/letsencrypt:/etc/letsencrypt
