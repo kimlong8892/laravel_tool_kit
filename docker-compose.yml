@@ -89,7 +89,7 @@ services:
     restart: always
     environment:
       MARIADB_ROOT_PASSWORD: Admin123
-      MARIADB_DATABASE: laravel
+      MARIADB_DATABASE: wordpress
       MARIADB_USER: admin
       MARIADB_PASSWORD: Admin123
     ports:
