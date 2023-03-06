@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  proxy_manager:
+  proxy_manager_live:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
@@ -10,3 +10,5 @@ services:
     volumes:
       - ./proxy_manager/data:/data
       - ./proxy_manager/letsencrypt:/etc/letsencrypt
+# admin@example.com
+# changeme

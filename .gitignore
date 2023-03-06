@@ -3,7 +3,7 @@
 app/wordpress/wp-content/uploads/
 app/wordpress/wp-content/fonts
 backup
-proxy_manager_config/proxy_manager
+proxy_manager_config_live/proxy_manager
 nginx/logs
 nginx/logs/wordpress_access.log
 nginx/logs/wordpress_error.log
