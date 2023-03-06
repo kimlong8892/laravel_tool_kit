@@ -1,0 +1,35 @@
+.text-center {
+    text-align: center;
+}
+
+.pagination {
+    list-style: none;
+    display: flex;
+}
+
+.pagination li {
+    padding: 1rem;
+    background-color: #7b4397; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 7px;
+}
+
+.pagination li a {
+    color: white;
+}
+
+.pagination li.active span {
+    color: black;
+    font-weight: bold;
+}
+
+#list-comment-html {
+    height: 500px;
+    overflow: auto;
+    padding: 7px;
+}
