@@ -1,0 +1,1 @@
+docker exec wordpress_db_server /usr/bin/mysqldump -u root --password=Admin123 wordpress > sql_file/wordpress/live_export-$(date +%F_%H-%M-%S).sql

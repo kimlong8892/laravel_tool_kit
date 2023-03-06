@@ -1,1 +1,1 @@
-docker exec -i wp_db_server mysql -u root -pAdmin123 wordpress_blog < sql_file/local.sql
+docker exec -i wordpress_db_server mysql -u root -pAdmin123 wordpress < sql_file/wordpress/local.sql
