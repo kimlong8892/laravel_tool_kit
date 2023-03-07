@@ -55,28 +55,6 @@
                 <li>
                     <a href="#" class="material-button search-toggle"><i class="material-icons">&#xE8B6;</i></a>
                 </li>
-                <?php if (is_user_logged_in()): ?>
-                    <li>
-                        <a href="#" class="material-button submenu-toggle"><i class="material-icons">&#xE7FD;</i> <span
-                                    class="hide-on-tablet"><?= wp_get_current_user()->display_name; ?></span></a>
-                        <div class="header-submenu">
-                            <ul>
-                                <li><a href="<?= get_site_url() . '/logout'; ?>"><?= translate('logout'); ?></a></li>
-                            </ul>
-                        </div>
-                    </li>
-                <?php else: ?>
-                    <li>
-                        <a href="#" class="material-button submenu-toggle"><i class="material-icons">&#xE7FD;</i> <span
-                                    class="hide-on-tablet"><?= translate('Login') ?></span></a>
-                        <div class="header-submenu">
-                            <ul>
-                                <li><a href="#" data-modal="loginModal"><?= translate('Login'); ?></a></li>
-                                <li><a href="#" data-modal="registerModal"><?= translate('Register'); ?></a></li>
-                            </ul>
-                        </div>
-                    </li>
-                <?php endif; ?>
             </ul>
             <!-- header right menu end -->
 

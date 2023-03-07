@@ -44,7 +44,7 @@
 <html lang="vi">
 <head>
     <?php include 'head.php'; ?>
-    <title><?= translate('Home page'); ?></title>
+    <title>Trang chủ</title>
 </head>
 
 <body>

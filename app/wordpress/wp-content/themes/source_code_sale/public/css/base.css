@@ -33,3 +33,7 @@
     overflow: auto;
     padding: 7px;
 }
+
+.content-body {
+    padding-top: 15px;
+}
