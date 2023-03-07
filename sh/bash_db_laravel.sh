@@ -1,0 +1,1 @@
+docker exec -it laravel_db_server bash
