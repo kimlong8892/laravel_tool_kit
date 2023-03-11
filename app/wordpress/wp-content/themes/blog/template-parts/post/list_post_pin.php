@@ -28,7 +28,7 @@ $listPostPin = get_field('list_post_pin_home', 'options');
                             <div class="card-block">
                                 <h2 class="card-title"><a
                                             href="<?= get_permalink($item); ?>"><?= get_the_title($item); ?></a></h2>
-                                <h4 class="card-text"><?php the_content('Xem thêm...'); ?></h4>
+                                <h4 class="card-text"><?= substr($item->post_content,0, 20); ?></h4>
                                 <div class="metafooter">
                                     <div class="wrapfooter">
 								<span class="meta-footer-thumb">
