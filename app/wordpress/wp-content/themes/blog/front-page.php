@@ -62,7 +62,9 @@ if ($total > $itemPerPage) {
         </p>
     </div>
 
-    <?php get_template_part('template-parts/post/list_post_pin', 'list_post_pin'); ?>
+    <?php if (empty($search)): ?>
+        <?php get_template_part('template-parts/post/list_post_pin', 'list_post_pin'); ?>
+    <?php endif; ?>
 
     <?php get_template_part('template-parts/post/list_post_result', 'list_post_result', [
         'listPost' => $listPost
