@@ -46,6 +46,28 @@ if (!function_exists('postApi')) {
     }
 }
 
+
+if (!function_exists('postApiShopee')) {
+    /**
+     * @throws GuzzleException
+     * @throws Exception
+     */
+    function postApiShopee($url, $body = '', $headers = []) {
+        try {
+            $client = new Client();
+            $client = $client->post($url, [
+                'headers' => $headers,
+                'body' => $body
+            ]);
+
+            return json_decode($client->getBody()->getContents(), true);
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            throw $exception;
+        }
+    }
+}
+
 if (!function_exists('renderUrlApiWp')) {
     function renderUrlApiWp($path): string {
         return env('WP_SERVER_URL') . '/' . $path;

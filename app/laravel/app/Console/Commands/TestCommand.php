@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -27,27 +28,21 @@ class TestCommand extends Command
      */
     public function handle()
     {
-
+        $appId = '17342940062';
+        $apiKey = '6ERDUYBANO7VTIBSFNQOAHDTLRU3MRV6';
         $date = new \DateTime();
-        $timestamp = $date->getTimestamp(); // Lấy thời gian hiện tại ở định dạng timestamp
-        // Chuỗi JSON yêu cầu API
-        $payload = '{"query":"mutation{\n    generateShortLink(input:{originUrl:"https://shopee.v
-n/Apple-Iphone-11-128GB-Local-Set-i.52377417.6309028319",subIds:["s1","s2","s3","s4","s5"]}){\n        shortLink\n    }\n}"}';
-
-        // Tính toán giá trị chữ ký
-        $accessKey = '17342940062';
-        $secretKey = '6ERDUYBANO7VTIBSFNQOAHDTLRU3MRV6';
-        $signature = hash('sha256', $accessKey . $timestamp . $payload . $secretKey);
-
+        $timestamp = $date->getTimestamp();
+        $body = '{"query":"{\\n  productOfferV2{\\n    nodes {\\n      productName\\n    }\\n  }\\n}","variables":null,"operationName":null}';
+        $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
         $headers = [
-            'Content-Type' => 'application/json',
-            'Authorization' => 'SHA256 Credential=' . $accessKey . ',Timestamp=' . $timestamp . ',Signature=' . $signature,
+            'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
+            'content-type' => 'application/json',
         ];
+        $data = postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
 
-        $test = postApi('https://open-api.affiliate.shopee.com.my/graphql', [], $headers);
 
-        print_r($test);
+        print_r($data);
 
-        return Command::SUCCESS;
+        return 0;
     }
 }
