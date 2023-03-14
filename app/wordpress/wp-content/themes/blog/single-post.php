@@ -77,6 +77,21 @@ $listPostDependency = get_field('list_post_dependency', $post->ID);
                                 <div>
                                     <?= $groupContent['content'] ?? ''; ?>
                                 </div>
+
+                                <?php
+                                    $listProduct = $groupContent['list_product'] ?? null;
+                                ?>
+
+                                <?php foreach ($listProduct as $product): ?>
+                                    <div class="p-2">
+                                        <img src="<?= get_field('image_from_api', $product->ID); ?>" width="256px">
+                                        <p class="mt-0">
+                                            <a href="<?= get_field('link_from_api', $product->ID); ?>">
+                                                <?= get_the_title($product); ?>
+                                            </a>
+                                        </p>
+                                    </div>
+                                <?php endforeach; ?>
                             <?php elseif ($groupContent['acf_fc_layout'] == 'image_content_horizontal'): ?>
                                 <div class="row align-items-center">
                                     <div class="col-6">
