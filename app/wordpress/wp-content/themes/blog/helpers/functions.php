@@ -174,11 +174,11 @@ if (!function_exists('getShortLinkMegaUrlApi')) {
 }
 
 if (!function_exists('baseDir')) {
-    function baseDir (): string {
+    function baseDir(): string {
         $path = dirname(__FILE__);
         while (true) {
-            if (file_exists($path."/wp-config.php")) {
-                return $path."/";
+            if (file_exists($path . "/wp-config.php")) {
+                return $path . "/";
             }
             $path = dirname($path);
         }
@@ -205,20 +205,31 @@ if (!function_exists('postApiShopee')) {
 }
 
 if (!function_exists('getListProductShopee')) {
-    function getListProductShopee($keyword = '', $page = 1, $fields = 'productName itemId price'): array {
+    function getListProductShopee($categoryId = '', $page = 1, $keyword = '', $dataReturn = []): array {
         $appId = get_option('long_dev_custom_plugin_shopee_app_id');
         $apiKey = get_option('long_dev_custom_plugin_shopee_api_key');
         $date = new \DateTime();
         $timestamp = $date->getTimestamp();
-        $body = '{"query":"{  productOfferV2 (keyword: \"' . $keyword . '\", page: ' . (int) $page .  ', limit: 50) {    nodes {      ' . $fields . '          }, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
+        $body = '{"query":"{  productOfferV2 (keyword: \"' . $keyword . '\", page: ' . (int)$page . ', limit: 50, matchId: ' . $categoryId . ', listType: 4) {    nodes {productName price itemId offerLink imageUrl}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
         $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
         $headers = [
             'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
             'content-type' => 'application/json',
         ];
-        return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+
+        $data = postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+        $data = $data['data']['productOfferV2']['nodes'] ?? null;
+
+        if (!empty($data)) {
+            $dataReturn = array_merge($dataReturn, $data);
+
+            return getListProductShopee($categoryId, $page + 1, $keyword, $dataReturn);
+        }
+
+        return $dataReturn;
     }
 }
+
 
 if (!function_exists('getListCategoryShopee')) {
     function getListCategoryShopee($page = 1): array {

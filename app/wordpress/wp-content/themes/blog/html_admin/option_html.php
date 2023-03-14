@@ -3,6 +3,11 @@
         cron_get_category_from_shopee();
         echo "<h1>Sync category shopee success</h1>";
     }
+
+    if (!empty($_POST['is_sync_product_shopee'])) {
+        cron_get_product_from_shopee();
+        echo "<h1>Sync product shopee success</h1>";
+    }
 ?>
 <div>
     <form action="<?= 'options.php'; ?>" style="padding: 10px;" method="POST">
@@ -28,6 +33,15 @@
         <?php endforeach; ?>
         <input type="hidden" name="is_sync_category_shopee" value="1">
         <?php submit_button('Sync category shopee'); ?>
+    </form>
+
+
+    <form action="" method="POST">
+        <?php foreach ($_GET as $key => $value): ?>
+            <input type="hidden" name="<?= $key; ?>" value="<?= $value; ?>">
+        <?php endforeach; ?>
+        <input type="hidden" name="is_sync_product_shopee" value="1">
+        <?php submit_button('Sync product shopee'); ?>
     </form>
 
 
