@@ -172,3 +172,66 @@ if (!function_exists('getShortLinkMegaUrlApi')) {
         return $url;
     }
 }
+
+if (!function_exists('baseDir')) {
+    function baseDir (): string {
+        $path = dirname(__FILE__);
+        while (true) {
+            if (file_exists($path."/wp-config.php")) {
+                return $path."/";
+            }
+            $path = dirname($path);
+        }
+    }
+}
+
+$path = baseDir() . '/vendor/autoload.php';
+require_once $path;
+
+if (!function_exists('postApiShopee')) {
+    function postApiShopee($url, $body = '', $headers = []) {
+        try {
+            $client = new \GuzzleHttp\Client();
+            $client = $client->post($url, [
+                'headers' => $headers,
+                'body' => $body,
+            ]);
+
+            return json_decode($client->getBody()->getContents(), true);
+        } catch (Exception $exception) {
+            print_r($exception);
+        }
+    }
+}
+
+if (!function_exists('getListProductShopee')) {
+    function getListProductShopee($keyword = '', $page = 1, $fields = 'productName itemId price'): array {
+        $appId = get_option('long_dev_custom_plugin_shopee_app_id');
+        $apiKey = get_option('long_dev_custom_plugin_shopee_api_key');
+        $date = new \DateTime();
+        $timestamp = $date->getTimestamp();
+        $body = '{"query":"{  productOfferV2 (keyword: \"' . $keyword . '\", page: ' . (int) $page .  ', limit: 50) {    nodes {      ' . $fields . '          }, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
+        $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
+        $headers = [
+            'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
+            'content-type' => 'application/json',
+        ];
+        return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+    }
+}
+
+if (!function_exists('getListCategoryShopee')) {
+    function getListCategoryShopee($page = 1): array {
+        $appId = get_option('long_dev_custom_plugin_shopee_app_id');
+        $apiKey = get_option('long_dev_custom_plugin_shopee_api_key');
+        $date = new \DateTime();
+        $timestamp = $date->getTimestamp();
+        $body = '{"query":"{  shopeeOfferV2 (page: ' . (int)$page . ', limit: 50) {    nodes {offerName categoryId imageUrl}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
+        $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
+        $headers = [
+            'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
+            'content-type' => 'application/json',
+        ];
+        return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+    }
+}
