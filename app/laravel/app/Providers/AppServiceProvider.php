@@ -30,43 +30,8 @@ class AppServiceProvider extends ServiceProvider {
      */
     public function register(): void {
         $this->app->bind(
-            DownloadVideoYoutubeRepositoryInterface::class,
-            DownloadVideoYoutubeRepository::class
-        );
-
-        $this->app->bind(
-            AccesstradeApiRepositoryInterface::class,
-            AccesstradeApiRepository::class
-        );
-
-        $this->app->bind(
-            AccesstradeRepositoryInterface::class,
-            AccesstradeRepository::class
-        );
-
-        $this->app->bind(
             SocialAccountRepositoryInterface::class,
             SocialAccountRepository::class
-        );
-
-        $this->app->bind(
-            CampaignRepositoryInterface::class,
-            CampaignRepository::class
-        );
-
-        $this->app->bind(
-            CategoryRepositoryInterface::class,
-            CategoryRepository::class
-        );
-
-        $this->app->bind(
-            CouponRepositoryInterface::class,
-            CouponRepository::class
-        );
-
-        $this->app->bind(
-            CrawlShopeeRepositoryInterface::class,
-            CrawlShopeeRepository::class
         );
     }
 
