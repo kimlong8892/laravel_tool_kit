@@ -9,15 +9,5 @@
                     'route' => 'web.home'
                 ]
             ]
-        ],
-        [
-            'title' => 'Download video',
-            'icon' => '<i class="menu-icon tf-icons bx bx-download"></i>',
-            'list_child' => [
-                [
-                    'title' => 'Youtube',
-                    'route' => 'web.download_video_youtube',
-                ]
-            ]
-        ],
+        ]
     ];

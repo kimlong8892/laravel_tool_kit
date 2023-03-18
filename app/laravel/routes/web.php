@@ -40,7 +40,4 @@ Route::middleware('auth:web')->group(function () {
     Route::get('logout', [\App\Http\Controllers\Web\Auth\LoginController::class, 'logout'])->name('logout');
 });
 
-Route::get('/', [\App\Http\Controllers\Web\HomeController::class, 'index'])->name('home');
-Route::get('/get_list_category_by_campaign_id', [\App\Http\Controllers\Web\HomeController::class, 'getListCategoryByCampaignId'])->name('ajax.get_list_category_by_campaign_id');
-Route::get('/get-list-coupon-ajax', [\App\Http\Controllers\Web\HomeController::class, 'getListCouponAjax'])->name('ajax.get_list_coupon');
-Route::get('/download-video-youtube', [\App\Http\Controllers\Web\DownloadVideoYoutube::class, 'downloadVideoPage'])->name('download_video_youtube');
+Route::get('/', [\App\Http\Controllers\Web\HomeController::class, 'Index'])->name('home');

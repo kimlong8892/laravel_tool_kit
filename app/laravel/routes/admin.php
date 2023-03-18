@@ -29,14 +29,14 @@ Route::name('admin.')->group(function () {
     // need auth
     Route::middleware('auth:admin')->group(function () {
         Route::get('/index', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
-        Route::get('logout', 'Admin\Auth\LoginController@logout')->name('logout');
+        Route::get('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
-        Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
-        Route::post('update-info-campaigns-accesstrade', [\App\Http\Controllers\Admin\CampaignController::class, 'updateInfoCampaignsAccesstrade'])->name('update-info-campaigns-accesstrade');
-
-        Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
-        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-        Route::resource('coupons', \App\Http\Controllers\Admin\CouponController::class);
+//        Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
+//        Route::post('update-info-campaigns-accesstrade', [\App\Http\Controllers\Admin\CampaignController::class, 'updateInfoCampaignsAccesstrade'])->name('update-info-campaigns-accesstrade');
+//
+//        Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
+//        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+//        Route::resource('coupons', \App\Http\Controllers\Admin\CouponController::class);
     });
     // end need auth
 });
