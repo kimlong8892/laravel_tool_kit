@@ -25,5 +25,13 @@
     "List category not found": "Chưa có chuyên mục",
     "Coupon": "Mã giảm giá",
     "ended": "Đã kết thúc - hết hạn",
-    "today": "Hôm nay"
+    "today": "Hôm nay",
+    "PENDING": "Đang xử lý",
+    "CANCELLED": "Đã hủy",
+    "COMPLETED": "Đã hoàn thành",
+    "Purchase Time": "Thời gian mua hàng",
+    "Item Detail": "Chi tiết sản phẩm",
+    "Status": "Trạng thái",
+    "Total Commission": "Tổng số tiền hoa hồng(₫)"
+
 }
