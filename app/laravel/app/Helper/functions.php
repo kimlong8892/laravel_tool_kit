@@ -167,7 +167,7 @@ function getConversionReportShopee() {
 
 if (!function_exists('formatVnd')) {
     function formatVnd($value): string {
-        return number_format($value, 0, '', ',');
+        return number_format($value, 0, '', ',') . ' (VND)';
     }
 }
 

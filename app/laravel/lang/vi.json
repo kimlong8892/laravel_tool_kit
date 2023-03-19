@@ -29,9 +29,14 @@
     "PENDING": "Đang xử lý",
     "CANCELLED": "Đã hủy",
     "COMPLETED": "Đã hoàn thành",
-    "Purchase Time": "Thời gian mua hàng",
+    "Purchase Time": "Thời gian mua",
     "Item Detail": "Chi tiết sản phẩm",
     "Status": "Trạng thái",
-    "Total Commission": "Tổng số tiền hoa hồng(₫)"
-
+    "Total Commission": "Tổng hoa hồng",
+    "Item detail": "Sản phẩm",
+    "Item name": "Tên",
+    "Item price": "Giá",
+    "Item commission": "Hoa hồng",
+    "Item qty": "Số lượng",
+    "Item image": "Ảnh đại diện"
 }
