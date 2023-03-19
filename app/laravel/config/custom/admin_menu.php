@@ -32,18 +32,4 @@ return [
     //                ],
     //            ]
     //        ],
-    [
-        'title' => 'Products',
-        'icon' => '<i class="menu-icon tf-icons bx bxs-coupon"></i>',
-        'list_child' => [
-            [
-                'title' => 'List Coupon',
-                'route' => 'admin.coupons.index'
-            ],
-            [
-                'title' => 'Create Coupon',
-                'route' => 'admin.coupons.create'
-            ],
-        ]
-    ],
 ];

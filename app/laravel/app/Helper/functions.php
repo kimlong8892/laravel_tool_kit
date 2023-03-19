@@ -134,3 +134,39 @@ if (!function_exists('uploadImage')) {
         return '';
     }
 }
+
+if (!function_exists('getListCategoryShopee')) {
+    function getListCategoryShopee($page = 1): array {
+        $appId = '17342940062';
+        $apiKey = '6ERDUYBANO7VTIBSFNQOAHDTLRU3MRV6';
+        $date = new \DateTime();
+        $timestamp = $date->getTimestamp();
+        $body = '{"query":"{  shopeeOfferV2 (page: ' . (int)$page . ', limit: 50) {    nodes {offerName categoryId imageUrl}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
+        $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
+        $headers = [
+            'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
+            'content-type' => 'application/json',
+        ];
+        return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+    }
+}
+
+function getConversionReportShopee() {
+    $appId = '17342940062';
+    $apiKey = '6ERDUYBANO7VTIBSFNQOAHDTLRU3MRV6';
+    $date = new \DateTime();
+    $timestamp = $date->getTimestamp();
+    $body = '{"query":"{  conversionReport(limit: 500) {    nodes {conversionStatus purchaseTime totalBrandCommission totalCommission orders{items{itemName itemPrice itemCommission itemTotalCommission qty imageUrl }}}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
+    $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
+    $headers = [
+        'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
+        'content-type' => 'application/json',
+    ];
+    return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+}
+
+if (!function_exists('formatVnd')) {
+    function formatVnd($value): string {
+        return number_format($value, 0, '', ',');
+    }
+}
