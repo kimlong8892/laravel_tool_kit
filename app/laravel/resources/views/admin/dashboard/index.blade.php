@@ -12,7 +12,7 @@
     </style>
 
     <h1>{{ __('Get Conversion Report data') }}</h1>
-    <h5>{{ __('Total Commission') }}: {{ formatVnd(array_sum(array_column($listConversionReport, 'totalCommission'))) }} </h5>
+    <h5>{{ __('Total Commission') }}: <span class="text-primary">{{ formatVnd(array_sum(array_column($listConversionReport, 'totalCommission'))) }}</span></h5>
     @php
         $id = 1;
     @endphp
