@@ -134,3 +134,9 @@ if (!function_exists('uploadImage')) {
         return '';
     }
 }
+
+if (!function_exists('formatVnd')) {
+    function formatVnd($value): string {
+        return number_format($value, 0, '', ',');
+    }
+}
