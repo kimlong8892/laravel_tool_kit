@@ -1,16 +1,8 @@
 @extends('layouts.admin')
 
+@section('title', __('Dashboard'))
+
 @section('content')
-    <style>
-        table tr th {
-            text-align: center;
-        }
-
-        table * {
-            word-break: break-all;
-        }
-    </style>
-
     <h1>{{ __('Get Conversion Report data') }}</h1>
     <h5>{{ __('Total Commission') }}: <span class="text-primary">{{ formatVnd(array_sum(array_column($listConversionReport, 'totalCommission'))) }}</span></h5>
     @php

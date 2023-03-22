@@ -42,4 +42,14 @@ return [
             ],
         ]
     ],
+    [
+        'title' => 'Posts',
+        'icon' => '<i class="menu-icon tf-icons bx bx-pencil"></i>',
+        'list_child' => [
+            [
+                'title' => 'List post',
+                'route' => 'admin.posts.index'
+            ],
+        ]
+    ],
 ];

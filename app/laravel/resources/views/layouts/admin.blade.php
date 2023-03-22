@@ -32,6 +32,22 @@
     .text-right {
         text-align: right;
     }
+
+    table tr th {
+        text-align: center;
+    }
+
+    table * {
+        word-break: break-all;
+    }
+
+    .font-weight-bold {
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-top: 15px;
+    }
 </style>
 
 <!-- Layout wrapper -->
@@ -114,8 +130,6 @@
 <link rel="stylesheet" href="{{ asset('theme/user/assets/vendor/libs/apex-charts/apex-charts.css') }}"/>
 <script src="{{ asset('theme/user/assets/vendor/js/helpers.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/config.js') }}"></script>
-
-
 <script src="{{ asset('theme/user/assets/vendor/libs/jquery/jquery.js') }}"></script>
 <script src="{{ asset('theme/user/assets/vendor/libs/popper/popper.js') }}"></script>
 <script src="{{ asset('theme/user/assets/vendor/js/bootstrap.js') }}"></script>
@@ -124,11 +138,28 @@
 <script src="{{ asset('theme/user/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/main.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/dashboards-analytics.js') }}"></script>
-
 <script src="{{ asset('lib/sweetalert2/sweetalert2.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}">
 <script src="{{ asset('lib/helper/functions.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+<script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>
+<script src="{{ asset('lib/axios.min.js') }}"></script>
+<script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+<style>
+    .ck-editor__editable {min-height: 500px;}
+</style>
+<script>
+    $(document).ready(function () {
+        ClassicEditor.create( document.querySelector( '.ckeditor' ) )
+            .then( editor => {
+                //editor.ui.view.editable.element.style.height = '500px';
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    });
+</script>
 @yield('js')
 
 </body>

@@ -151,18 +151,20 @@ if (!function_exists('getListCategoryShopee')) {
     }
 }
 
-function getConversionReportShopee() {
-    $appId = '17342940062';
-    $apiKey = '6ERDUYBANO7VTIBSFNQOAHDTLRU3MRV6';
-    $date = new \DateTime();
-    $timestamp = $date->getTimestamp();
-    $body = '{"query":"{  conversionReport(limit: 500) {    nodes {conversionStatus purchaseTime totalBrandCommission totalCommission orders{items{itemName itemPrice itemCommission itemTotalCommission qty imageUrl }}}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
-    $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
-    $headers = [
-        'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
-        'content-type' => 'application/json',
-    ];
-    return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+if (!function_exists('getConversionReportShopee')) {
+    function getConversionReportShopee() {
+        $appId = env('SHOPEE_APP_ID');
+        $apiKey = env('SHOPEE_API_KEY');
+        $date = new \DateTime();
+        $timestamp = $date->getTimestamp();
+        $body = '{"query":"{  conversionReport(limit: 500) {    nodes {conversionStatus purchaseTime totalBrandCommission totalCommission orders{items{itemName itemPrice itemCommission itemTotalCommission qty imageUrl }}}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
+        $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
+        $headers = [
+            'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,
+            'content-type' => 'application/json',
+        ];
+        return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+    }
 }
 
 if (!function_exists('formatVnd')) {
@@ -176,3 +178,10 @@ if (!function_exists('formatVnd')) {
         return number_format($value, 0, '', ',');
     }
 }
+
+if (!function_exists('getCurrentAdminId')) {
+    function getCurrentAdminId() {
+        return \Illuminate\Support\Facades\Auth::guard('admin')->user()->getAttribute('id');
+    }
+}
+

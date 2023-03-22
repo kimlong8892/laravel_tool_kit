@@ -39,5 +39,7 @@
     "Item commission": "Hoa hồng",
     "Item qty": "Số lượng",
     "Item image": "Ảnh đại diện",
-    "Get Conversion Report data": "Báo cáo doanh thu"
+    "Get Conversion Report data": "Báo cáo doanh thu",
+    "public": "Công khai",
+    "private": "Không công khai"
 }
