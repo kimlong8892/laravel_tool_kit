@@ -32,6 +32,26 @@
     .text-right {
         text-align: right;
     }
+
+    table tr th {
+        text-align: center;
+    }
+
+    table * {
+        word-break: break-all;
+    }
+
+    .font-weight-bold {
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-top: 15px;
+    }
+
+    .ml-2 {
+        margin-left: 15px;
+    }
 </style>
 
 <!-- Layout wrapper -->
@@ -114,8 +134,6 @@
 <link rel="stylesheet" href="{{ asset('theme/user/assets/vendor/libs/apex-charts/apex-charts.css') }}"/>
 <script src="{{ asset('theme/user/assets/vendor/js/helpers.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/config.js') }}"></script>
-
-
 <script src="{{ asset('theme/user/assets/vendor/libs/jquery/jquery.js') }}"></script>
 <script src="{{ asset('theme/user/assets/vendor/libs/popper/popper.js') }}"></script>
 <script src="{{ asset('theme/user/assets/vendor/js/bootstrap.js') }}"></script>
@@ -124,11 +142,49 @@
 <script src="{{ asset('theme/user/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/main.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/dashboards-analytics.js') }}"></script>
-
 <script src="{{ asset('lib/sweetalert2/sweetalert2.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}">
 <script src="{{ asset('lib/helper/functions.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+<script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>
+<script src="{{ asset('lib/axios.min.js') }}"></script>
+<script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+<style>
+    .ck-editor__editable {min-height: 500px;}
+</style>
+<script>
+    $(document).ready(function () {
+        function convertToSlug(str) {
+            return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, "") //remove diacritics
+                .toLowerCase()
+                .replace(/\s+/g, '-') //spaces to dashes
+                .replace(/&/g, '-and-') //ampersand to and
+                .replace(/[^\w\-]+/g, '') //remove non-words
+                .replace(/\-\-+/g, '-') //collapse multiple dashes
+                .replace(/^-+/, '') //trim starting dash
+                .replace(/-+$/, ''); //trim ending dash
+        }
+
+        ClassicEditor.create( document.querySelector( '.ckeditor' ) )
+            .then( editor => {
+                //editor.ui.view.editable.element.style.height = '500px';
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+
+        $('input[type="file"]').change(function () {
+            $("#" + $(this).attr('data-id') + "-preview").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+        });
+
+        $('input[data-is-gen-slug="1"]').change(function () {
+            let value = $(this).val();
+            let idElementSlug = $(this).attr('data-input-slug-id');
+            $('#' + idElementSlug).val(convertToSlug(value));
+        });
+    });
+</script>
 @yield('js')
 
 </body>
