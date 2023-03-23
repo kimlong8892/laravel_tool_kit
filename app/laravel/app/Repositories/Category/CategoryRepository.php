@@ -2,10 +2,13 @@
 
 namespace App\Repositories\Category;
 
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 
 class CategoryRepository implements CategoryRepositoryInterface {
     public function getListSelect(): \Illuminate\Support\Collection {
-        return DB::table('categories')->get();
+        return Category::with(['ChildCategories'])
+            ->where('parent_id', '=', null)
+            ->get();
     }
 }

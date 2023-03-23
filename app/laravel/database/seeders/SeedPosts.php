@@ -17,7 +17,7 @@ class SeedPosts extends Seeder
      */
     public function run(): void {
         $arrayPostInsert = [];
-        $adminId = Admin::all()->first->id;
+        $adminId = DB::table('admins')->first()->id;
 
         for ($i = 0; $i < 100; ++$i) {
             $arrayPostInsert[] = [
@@ -27,10 +27,12 @@ class SeedPosts extends Seeder
                 'description' => 'description number ' . $i,
                 'content' => 'content ' . $i,
                 'status' => 'public',
-                'admin_id' => $adminId
+                'admin_id' => $adminId,
+                'slug' => 'post-number-' . $i,
+                'view' => 0
             ];
         }
 
-        DB::table('posts')->insert($arrayPostInsert);
+        DB::table('posts')->insertOrIgnore($arrayPostInsert);
     }
 }

@@ -48,6 +48,10 @@
     .form-group {
         margin-top: 15px;
     }
+
+    .ml-2 {
+        margin-left: 15px;
+    }
 </style>
 
 <!-- Layout wrapper -->
@@ -150,6 +154,17 @@
 </style>
 <script>
     $(document).ready(function () {
+        function convertToSlug(str) {
+            return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, "") //remove diacritics
+                .toLowerCase()
+                .replace(/\s+/g, '-') //spaces to dashes
+                .replace(/&/g, '-and-') //ampersand to and
+                .replace(/[^\w\-]+/g, '') //remove non-words
+                .replace(/\-\-+/g, '-') //collapse multiple dashes
+                .replace(/^-+/, '') //trim starting dash
+                .replace(/-+$/, ''); //trim ending dash
+        }
+
         ClassicEditor.create( document.querySelector( '.ckeditor' ) )
             .then( editor => {
                 //editor.ui.view.editable.element.style.height = '500px';
@@ -158,6 +173,16 @@
             .catch( error => {
                 console.error( error );
             } );
+
+        $('input[type="file"]').change(function () {
+            $("#" + $(this).attr('data-id') + "-preview").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+        });
+
+        $('input[data-is-gen-slug="1"]').change(function () {
+            let value = $(this).val();
+            let idElementSlug = $(this).attr('data-input-slug-id');
+            $('#' + idElementSlug).val(convertToSlug(value));
+        });
     });
 </script>
 @yield('js')

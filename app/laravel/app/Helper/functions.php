@@ -121,12 +121,16 @@ if (!function_exists('checkUrlIsHttps')) {
 }
 
 if (!function_exists('uploadImage')) {
-    function uploadImage($imageFile, $imageName, $imagePath): string {
+    function uploadImage($imageFile, $imageName, $imagePath, $isReturnFileName = false): string {
         if (!empty($imageFile) && $imageFile instanceof \Illuminate\Http\UploadedFile) {
             $file = $imageFile;
             $ext = $file->extension();
             $fileName =  $imageName . '.' . $ext;
             $file->move(public_path($imagePath), $fileName);
+
+            if ($isReturnFileName) {
+                return $fileName;
+            }
 
             return $imagePath . '/' . $fileName;
         }
@@ -185,3 +189,31 @@ if (!function_exists('getCurrentAdminId')) {
     }
 }
 
+if (!function_exists('makeSlug')) {
+    function makeSlug($text): string {
+        // replace non letter or digits by divider
+        $divider = '';
+        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, $divider);
+
+        // remove duplicate divider
+        $text = preg_replace('~-+~', $divider, $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
+    }
+}

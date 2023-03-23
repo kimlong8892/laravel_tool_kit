@@ -7,8 +7,12 @@ use App\Http\Requests\Post\PostCreateRequest;
 use App\Http\Requests\Post\PostUpdateRequest;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use SebastianBergmann\ObjectEnumerator\Exception;
 
@@ -17,7 +21,7 @@ class PostController extends Controller {
     protected CategoryRepositoryInterface $categoryRepository;
 
     public function __construct(
-        PostRepositoryInterface $postRepository,
+        PostRepositoryInterface     $postRepository,
         CategoryRepositoryInterface $categoryRepository
     ) {
         $this->postRepository = $postRepository;
@@ -50,16 +54,24 @@ class PostController extends Controller {
      * Store a newly created resource in storage.
      *
      * @param PostCreateRequest $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function store(PostCreateRequest $request): RedirectResponse {
+    public function store(PostCreateRequest $request): JsonResponse {
         try {
+            $request->request->set('admin_id', Auth::guard('admin')->user()->getAttribute('id'));
             $postId = $this->postRepository->store($request->all());
+            Session::flash('success', __('Create success', ['id' => $postId]));
 
-            return redirect()->route('admin.posts.edit', $postId)->with('success', __('Create success'));
+            return response()->json([
+                'success' => true,
+                'url' => route('admin.posts.edit', $postId)
+            ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->back()->with('error', $exception->getMessage());
+            return response()->json([
+                'success' => false,
+                'mgs' => $exception->getMessage()
+            ]);
         }
     }
 
@@ -71,8 +83,9 @@ class PostController extends Controller {
      */
     public function edit(int $id): View {
         $post = $this->postRepository->getDetail($id);
+        $listCategory = $this->categoryRepository->getListSelect();
 
-        return view('admin.post.edit', compact('post'));
+        return view('admin.post.edit', compact('post', 'listCategory'));
     }
 
     /**
@@ -80,16 +93,23 @@ class PostController extends Controller {
      *
      * @param PostUpdateRequest $request
      * @param int $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function update(PostUpdateRequest $request, int $id): RedirectResponse {
+    public function update(PostUpdateRequest $request, int $id): JsonResponse {
         try {
             $postId = $this->postRepository->update($id, $request->all());
+            Session::flash('success', __('Update success', ['id' => $postId]));
 
-            return redirect()->route('admin.post.edit', $postId)->with('success', __('Update success'));
+            return response()->json([
+                'success' => true,
+                'url' => route('admin.posts.edit', $postId)
+            ]);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect()->back()->with('error', $exception->getMessage());
+            return response()->json([
+                'success' => false,
+                'mgs' => $exception->getMessage()
+            ]);
         }
     }
 
@@ -103,10 +123,14 @@ class PostController extends Controller {
         try {
             $postId = $this->postRepository->destroy($id);
 
-            return redirect()->route('admin.post.index')->with('success', __('Delete success', ['id' => $postId]));
+            return redirect()->route('admin.posts.index')->with('success', __('Delete success', ['id' => $postId]));
         } catch (Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->back()->with('error', $exception->getMessage());
         }
+    }
+
+    public function fieldManagement(Request $request): View {
+        return view('admin.post.field_management');
     }
 }

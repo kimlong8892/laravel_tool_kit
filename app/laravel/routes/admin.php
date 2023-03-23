@@ -1,4 +1,4 @@
-<?php
+.<?php
 
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +33,7 @@ Route::name('admin.')->group(function () {
 
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
+        Route::get('posts-fields', [\App\Http\Controllers\Admin\PostController::class, 'fieldManagement'])->name('posts.field_management');
 
 //        Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
 //        Route::post('update-info-campaigns-accesstrade', [\App\Http\Controllers\Admin\CampaignController::class, 'updateInfoCampaignsAccesstrade'])->name('update-info-campaigns-accesstrade');

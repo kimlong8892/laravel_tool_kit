@@ -25,6 +25,6 @@ class SeedCategories extends Seeder
             ];
         }
 
-        DB::table('categories')->insert($arrayCategoryInsert);
+        DB::table('categories')->insertOrIgnore($arrayCategoryInsert);
     }
 }

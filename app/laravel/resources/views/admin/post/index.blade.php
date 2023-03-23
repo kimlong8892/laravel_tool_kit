@@ -3,7 +3,7 @@
 @section('title', __('List post'))
 
 @section('content')
-    <div class="text-right">
+    <div class="text-right mb-2">
         <a href="{{ route('admin.posts.create') }}" class="btn btn-primary">
             <i class="fa fa-plus"></i>
             {{ __('Create') }}
@@ -26,7 +26,8 @@
             <th width="15%">{{ __('Action') }}</th>
         </tr>
 
-        @foreach($listPost as $item)
+        @if(!empty($listPost) && count($listPost) > 0)
+            @foreach($listPost as $item)
             <tr>
                 <td class="text-center">{{ $item->id }}</td>
                 <td>{{ $item->name }}</td>
@@ -36,7 +37,7 @@
                 <td>{{ $item->description }}</td>
                 <td class="text-center">
                     <span
-                        @if($item->Admin->id == getCurrentAdminId())
+                        @if(!empty($item->Admin->id) && $item->Admin->id == getCurrentAdminId())
                             class="alert alert-success text-black font-weight-bold"
                         @endif>
                         {{ $item->Admin->name ?? '' }}
@@ -49,7 +50,7 @@
                         <a href="{{ route('admin.posts.edit', $item->id) }}"
                            class="btn btn-primary"
                         >
-                            @if($item->Admin->id == getCurrentAdminId())
+                            @if(!empty($item->Admin->id) && $item->Admin->id == getCurrentAdminId())
                                 <i class="fa fa-edit"></i>
                                 {{ __('Edit') }}
                             @else
@@ -59,7 +60,7 @@
                         </a>
                     </div>
 
-                    @if($item->Admin->id == getCurrentAdminId())
+                    @if(!empty($item->Admin->id) && $item->Admin->id == getCurrentAdminId())
                         <form action="{{ route('admin.posts.destroy', $item->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -72,6 +73,11 @@
                 </td>
             </tr>
         @endforeach
+        @else
+            <tr>
+                <td colspan="8" class="text-center text-danger">{{ __('No record') }}</td>
+            </tr>
+        @endif
     </table>
 
     <div>
