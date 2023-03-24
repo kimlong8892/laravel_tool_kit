@@ -8,7 +8,9 @@
 <div class="form-group">
     <label for="name">{{ __('Name') }} @include('admin.include.icon_required')</label>
     <input type="text"
-           data-is-gen-slug="1"
+           @if(empty($post))
+                data-is-gen-slug="1"
+           @endif
            data-input-slug-id="slug"
            class="form-control"
            name="name"
@@ -27,7 +29,7 @@
     <label for="image">{{ __('Image') }} @include('admin.include.icon_required')</label>
     <input type="file" class="form-control" name="image" data-id="image">
     <div class="mt-2">
-        <img src="{{ !empty($post) ? ($post->getImage() ?? '') : '' }}" id="image-preview">
+        <img src="{{ !empty($post) ? ($post->getImage() ?? '') : '' }}" id="image-preview" width="100%">
     </div>
     @include('admin.include.text_error_field', ['name' => 'image'])
 </div>

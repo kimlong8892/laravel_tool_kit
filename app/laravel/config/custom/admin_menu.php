@@ -15,6 +15,20 @@ return [
         ]
     ],
     [
+        'title' => 'Categories management',
+        'icon' => '<i class="menu-icon tf-icons bx bx-category"></i>',
+        'list_child' => [
+            [
+                'title' => 'List',
+                'route' => 'admin.categories.index'
+            ],
+            [
+                'title' => 'Create',
+                'route' => 'admin.categories.create'
+            ],
+        ]
+    ],
+    [
         'title' => 'Posts management',
         'icon' => '<i class="menu-icon tf-icons bx bx-pencil"></i>',
         'list_child' => [
@@ -26,10 +40,11 @@ return [
                 'title' => 'Create',
                 'route' => 'admin.posts.create'
             ],
-            [
-                'title' => 'Fields management',
-                'route' => 'admin.posts.field_management'
-            ],
         ]
+    ],
+    [
+        'title' => 'Fields management',
+        'route' => 'admin.posts.field_management',
+        'icon' => '<i class="menu-icon tf-icons bx bx-file"></i>',
     ],
 ];

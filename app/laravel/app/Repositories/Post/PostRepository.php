@@ -3,6 +3,7 @@
 namespace App\Repositories\Post;
 
 use App\Models\Post;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PostRepository implements PostRepositoryInterface {
@@ -42,13 +43,13 @@ class PostRepository implements PostRepositoryInterface {
 
     private function insertOrUpdateTags($tags, $post) {
         $arrayPostTagInsert = [];
-        $tags = explode(',', $tags);
         $arrayInsertTag = [];
 
         foreach ($tags as $tag) {
             $arrayInsertTag[] = [
                 'name' => $tag,
-                'slug' => makeSlug($tag)
+                'slug' => makeSlug($tag),
+                'created_at' => Carbon::now()
             ];
         }
 

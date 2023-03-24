@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Category;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryStoreRequest extends FormRequest {
+class CategoryUpdateRequest extends FormRequest
+{
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -22,9 +23,8 @@ class CategoryStoreRequest extends FormRequest {
     public function rules(): array {
         return [
             'name' => 'required',
-            'logo' => 'mimes:jpeg,jpg,png,gif|required|max:10000',
-            'campaign_id' => 'required',
-            'type' => 'required'
+            'description' => 'required',
+            'slug' => 'required',
         ];
     }
 }

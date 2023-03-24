@@ -149,8 +149,13 @@
 <script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>
 <script src="{{ asset('lib/axios.min.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+<link href="{{ asset('lib/select2/css/select2.min.css') }}" rel="stylesheet" />
+<script src="{{ asset('lib/select2/js/select2.min.js') }}"></script>
 <style>
     .ck-editor__editable {min-height: 500px;}
+    .nowrap {
+        white-space: nowrap;
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -182,6 +187,11 @@
             let value = $(this).val();
             let idElementSlug = $(this).attr('data-input-slug-id');
             $('#' + idElementSlug).val(convertToSlug(value));
+        });
+
+        $('.select2').select2({
+            tags: true,
+            tokenSeparators: [',']
         });
     });
 </script>

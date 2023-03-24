@@ -10,6 +10,8 @@ use App\Repositories\ProductShopeeApi\ProductShopeeApiRepository;
 use App\Repositories\ProductShopeeApi\ProductShopeeApiRepositoryInterface;
 use App\Repositories\SocialAccount\SocialAccountRepository;
 use App\Repositories\SocialAccount\SocialAccountRepositoryInterface;
+use App\Repositories\Tag\TagRepository;
+use App\Repositories\Tag\TagRepositoryInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -36,6 +38,10 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind(
             CategoryRepositoryInterface::class,
             CategoryRepository::class
+        );
+        $this->app->bind(
+            TagRepositoryInterface::class,
+            TagRepository::class
         );
     }
 

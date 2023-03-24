@@ -3,7 +3,9 @@
 @section('title', __('Create post'))
 
 @section('content')
-    <form action="{{ route('admin.posts.store') }}" method="POST" id="form-main">
+    <form action="{{ route('admin.posts.store') }}"
+          method="POST"
+          id="form-main">
         @csrf
 
         <div class="row">
