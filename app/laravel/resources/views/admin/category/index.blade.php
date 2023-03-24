@@ -14,10 +14,7 @@
     </div>
     <table class="table table-bordered table-responsive">
         <tr>
-            <th width="5%">{{ __('ID') }}</th>
-            <th width="75%">{{ __('Name') }}</th>
-            <th width="10%">{{ __('Image') }}</th>
-            <th width="10%">{{ __('Action') }}</th>
+            @include('admin.category.include.tr_header')
         </tr>
 
         @if(!empty($listCategory) && count($listCategory) > 0)

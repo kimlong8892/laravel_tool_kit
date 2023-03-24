@@ -1,0 +1,10 @@
+- fields
+    + id
+    + name
+    + type (select, text,...)
+    + type_entity (post, category)
+    + values
+- post_field
+    + post_id
+    + field_id
+    + value

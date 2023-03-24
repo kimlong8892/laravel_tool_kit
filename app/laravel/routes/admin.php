@@ -28,7 +28,7 @@ Route::name('admin.')->group(function () {
 
     // need auth
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/index', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
+        Route::get('index', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
         Route::get('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
@@ -36,6 +36,12 @@ Route::name('admin.')->group(function () {
         Route::get('posts-fields', [\App\Http\Controllers\Admin\PostController::class, 'fieldManagement'])->name('posts.field_management');
 
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+
+        Route::name('ajax.')->prefix('ajax')->group(function () {
+            Route::get('get-product-select', [\App\Http\Controllers\Admin\PostController::class, 'getProductSelectAjax'])->name('get_product_select');
+        });
+
+        Route::resource('fields', \App\Http\Controllers\Admin\FieldController::class);
     });
     // end need auth
 });

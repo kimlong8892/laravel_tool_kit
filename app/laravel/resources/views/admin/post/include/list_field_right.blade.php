@@ -32,3 +32,19 @@
 
     @include('admin.include.text_error_field', ['name' => 'tags'])
 </div>
+
+<div class="form-group">
+    <label for="image">{{ __('Image') }} @include('admin.include.icon_required')</label>
+    <input type="file" class="form-control" name="image" data-id="image">
+    <div class="mt-2">
+        <img src="{{ !empty($post) ? ($post->getImage() ?? '') : '' }}" id="image-preview" width="100%">
+    </div>
+    @include('admin.include.text_error_field', ['name' => 'image'])
+</div>
+
+<div class="form-group">
+    <label for="name">{{ __('Description') }} @include('admin.include.icon_required')</label>
+    <textarea name="description" cols="30" rows="10" class="form-control">{{ $post->description ?? '' }}</textarea>
+    @include('admin.include.text_error_field', ['name' => 'description'])
+</div>
+

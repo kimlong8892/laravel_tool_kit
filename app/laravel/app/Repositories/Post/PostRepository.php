@@ -3,24 +3,15 @@
 namespace App\Repositories\Post;
 
 use App\Models\Post;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
-class PostRepository implements PostRepositoryInterface {
+class PostRepository extends BaseRepository implements PostRepositoryInterface {
     public function getListInAdmin(): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
         $perPage = config('custom.post')['per_page'] ?? 10;
         return Post::with(['Admin'])
             ->paginate($perPage);
-    }
-
-    private function mapDataRequest($post, $data) {
-        foreach ($data as $key => $value) {
-            if (!in_array($key, $post->getFillable())) {
-                unset($data[$key]);
-            }
-        }
-
-        return $data;
     }
 
     private function uploadImageAvatar($image, $post): string {

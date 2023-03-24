@@ -98,7 +98,7 @@
             <!-- Content wrapper -->
             <div class="content-wrapper">
                 <!-- Content -->
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="container-fluid container-p-y mb-5">
                     @if(session()->has('success'))
                         <h2 class="text-success p-2">
                             {{ session()->get('success') }}
@@ -110,6 +110,9 @@
                             {{ session()->get('error') }}
                         </h2>
                     @endif
+
+                    <h2 class="text-uppercase font-weight-bold">@yield('title')</h2>
+
                     @yield('content')
                 </div>
                 <!-- / Content -->
@@ -146,18 +149,27 @@
 <link rel="stylesheet" href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}">
 <script src="{{ asset('lib/helper/functions.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
-<script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>
+{{--<script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>--}}
+<script src="{{ asset('lib/ckeditor4/ckeditor.js') }}"></script>
 <script src="{{ asset('lib/axios.min.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
 <link href="{{ asset('lib/select2/css/select2.min.css') }}" rel="stylesheet" />
 <script src="{{ asset('lib/select2/js/select2.min.js') }}"></script>
 <style>
-    .ck-editor__editable {min-height: 500px;}
     .nowrap {
         white-space: nowrap;
     }
 </style>
 <script>
+    function applyCkeditorAndSelect2() {
+        CKEDITOR.replaceAll('ckeditor');
+
+        $('.select2').select2({
+            tags: true,
+            tokenSeparators: [',']
+        });
+    }
+
     $(document).ready(function () {
         function convertToSlug(str) {
             return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, "") //remove diacritics
@@ -170,14 +182,7 @@
                 .replace(/-+$/, ''); //trim ending dash
         }
 
-        ClassicEditor.create( document.querySelector( '.ckeditor' ) )
-            .then( editor => {
-                //editor.ui.view.editable.element.style.height = '500px';
-                console.log( editor );
-            } )
-            .catch( error => {
-                console.error( error );
-            } );
+        applyCkeditorAndSelect2();
 
         $('input[type="file"]').change(function () {
             $("#" + $(this).attr('data-id') + "-preview").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
@@ -189,10 +194,19 @@
             $('#' + idElementSlug).val(convertToSlug(value));
         });
 
-        $('.select2').select2({
-            tags: true,
-            tokenSeparators: [',']
+        $('[data-is-dependency="1"]').change(function () {
+            const myArrayDependencyValue = $(this).attr('data-value-dependency-on').split(',');
+
+            if (myArrayDependencyValue.indexOf($(this).val()) !== -1) {
+                $($(this).attr('data-element-dependency')).show();
+                $($(this).attr('data-element-dependency') + " *").prop('disabled', false);
+            } else {
+                $($(this).attr('data-element-dependency')).hide();
+                $($(this).attr('data-element-dependency') + " *").prop('disabled', true)
+            }
         });
+
+        $('[data-is-dependency="1"]').change();
     });
 </script>
 @yield('js')

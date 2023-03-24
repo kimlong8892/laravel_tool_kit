@@ -7,6 +7,7 @@ use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Requests\Post\PostUpdateRequest;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepositoryInterface;
+use App\Repositories\ProductShopeeApi\ProductShopeeApiRepositoryInterface;
 use App\Repositories\Tag\TagRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -21,15 +22,18 @@ class PostController extends Controller {
     protected PostRepositoryInterface $postRepository;
     protected CategoryRepositoryInterface $categoryRepository;
     protected TagRepositoryInterface $tagRepository;
+    protected ProductShopeeApiRepositoryInterface $productShopeeApiRepository;
 
     public function __construct(
-        PostRepositoryInterface     $postRepository,
-        CategoryRepositoryInterface $categoryRepository,
-        TagRepositoryInterface      $tagRepository
+        PostRepositoryInterface             $postRepository,
+        CategoryRepositoryInterface         $categoryRepository,
+        TagRepositoryInterface              $tagRepository,
+        ProductShopeeApiRepositoryInterface $productShopeeApiRepository
     ) {
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
         $this->tagRepository = $tagRepository;
+        $this->productShopeeApiRepository = $productShopeeApiRepository;
     }
 
     /**
@@ -138,5 +142,14 @@ class PostController extends Controller {
 
     public function fieldManagement(Request $request): View {
         return view('admin.post.field_management');
+    }
+
+    public function getProductSelectAjax(Request $request): JsonResponse {
+        if (empty($request->get('term'))) {
+            return response()->json([]);
+        }
+
+        $listProduct = $this->productShopeeApiRepository->getListProductApi($request->get('term'))['data']['productOfferV2']['nodes'] ?? [];
+        return response()->json($listProduct);
     }
 }
