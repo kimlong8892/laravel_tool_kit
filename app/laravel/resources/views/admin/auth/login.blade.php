@@ -39,11 +39,6 @@
                     </div>
                     <div class="form-group d-md-flex">
                         <div class="w-50">
-                            <label class="checkbox-wrap checkbox-primary">
-                                {{ __('Remember Me') }}
-                                <input type="checkbox" checked>
-                                <span class="checkmark"></span>
-                            </label>
                         </div>
                         <div class="w-50 text-md-right">
                             <a href="{{ route('admin.password.request') }}">{{ __('Forgot Password') }}</a>
