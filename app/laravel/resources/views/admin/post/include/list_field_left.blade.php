@@ -26,22 +26,19 @@
 </div>
 
 <div class="form-group">
-    <label for="image">{{ __('Image') }} @include('admin.include.icon_required')</label>
-    <input type="file" class="form-control" name="image" data-id="image">
-    <div class="mt-2">
-        <img src="{{ !empty($post) ? ($post->getImage() ?? '') : '' }}" id="image-preview" width="100%">
-    </div>
-    @include('admin.include.text_error_field', ['name' => 'image'])
-</div>
-
-<div class="form-group">
-    <label for="name">{{ __('Description') }} @include('admin.include.icon_required')</label>
-    <textarea name="description" cols="30" rows="10" class="form-control">{{ $post->description ?? '' }}</textarea>
-    @include('admin.include.text_error_field', ['name' => 'description'])
-</div>
-
-<div class="form-group">
     <label for="name">{{ __('Content') }} @include('admin.include.icon_required')</label>
     <textarea name="content" id="content" class="ckeditor">{{ $post->content ?? '' }}</textarea>
     @include('admin.include.text_error_field', ['name' => 'content'])
+</div>
+
+<div class="form-group">
+    <div class="text-right">
+        <button class="btn btn-primary" type="button" id="btn-add-product-row">
+            <i class="fa fa-plus-circle"></i>
+            {{ __('Add row') }}
+        </button>
+    </div>
+</div>
+
+<div class="form-group" id="form-group-product-rows">
 </div>

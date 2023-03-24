@@ -3,13 +3,15 @@
 @section('title', __('Dashboard'))
 
 @section('content')
-    <h1>{{ __('Get Conversion Report data') }}</h1>
-    <h5>{{ __('Total Commission') }}: <span class="text-primary">{{ formatVnd(array_sum(array_column($listConversionReport, 'totalCommission'))) }}</span></h5>
     @php
         $id = 1;
     @endphp
     <div>
         <table class="table table-bordered table-responsive">
+            <tr>
+                <th colspan="2" nowrap>{{ __('Total Commission') }}</th>
+                <th colspan="3" nowrap><h4 class="text-primary mt-0 mb-0 pt-0 pb-0">{{ formatVnd(array_sum(array_column($listConversionReport, 'totalCommission'))) }}</h4></th>
+            </tr>
             <tr>
                 <th width="5%" nowrap>{{ __('STT') }}</th>
                 <th width="20%" nowrap>{{ __('Purchase Time') }}</th>

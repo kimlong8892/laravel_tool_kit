@@ -3,9 +3,10 @@
 namespace App\Repositories\Category;
 
 use App\Models\Category;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
 
-class CategoryRepository implements CategoryRepositoryInterface {
+class CategoryRepository extends BaseRepository implements CategoryRepositoryInterface {
     public function getListSelect($exceptIds = []): \Illuminate\Support\Collection {
         if (!is_array($exceptIds)) {
             $exceptIds = [$exceptIds];
@@ -39,16 +40,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
         }
 
         return $category->getAttribute('id');
-    }
-
-    private function mapDataRequest($category, $data) {
-        foreach ($data as $key => $value) {
-            if (!in_array($key, $category->getFillable())) {
-                unset($data[$key]);
-            }
-        }
-
-        return $data;
     }
 
     private function uploadImageAvatar($image, $category): string {
