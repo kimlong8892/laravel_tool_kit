@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Post\PostCreateRequest;
+use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Requests\Post\PostUpdateRequest;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepositoryInterface;
+use App\Repositories\Tag\TagRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,13 +20,16 @@ use SebastianBergmann\ObjectEnumerator\Exception;
 class PostController extends Controller {
     protected PostRepositoryInterface $postRepository;
     protected CategoryRepositoryInterface $categoryRepository;
+    protected TagRepositoryInterface $tagRepository;
 
     public function __construct(
         PostRepositoryInterface     $postRepository,
-        CategoryRepositoryInterface $categoryRepository
+        CategoryRepositoryInterface $categoryRepository,
+        TagRepositoryInterface      $tagRepository
     ) {
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->tagRepository = $tagRepository;
     }
 
     /**
@@ -46,17 +50,18 @@ class PostController extends Controller {
      */
     public function create(): View {
         $listCategory = $this->categoryRepository->getListSelect();
+        $listTag = $this->tagRepository->getListSelect();
 
-        return view('admin.post.create', compact('listCategory'));
+        return view('admin.post.create', compact('listCategory', 'listTag'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param PostCreateRequest $request
+     * @param PostStoreRequest $request
      * @return JsonResponse
      */
-    public function store(PostCreateRequest $request): JsonResponse {
+    public function store(PostStoreRequest $request): JsonResponse {
         try {
             $request->request->set('admin_id', Auth::guard('admin')->user()->getAttribute('id'));
             $postId = $this->postRepository->store($request->all());
@@ -84,8 +89,9 @@ class PostController extends Controller {
     public function edit(int $id): View {
         $post = $this->postRepository->getDetail($id);
         $listCategory = $this->categoryRepository->getListSelect();
+        $listTag = $this->tagRepository->getListSelect();
 
-        return view('admin.post.edit', compact('post', 'listCategory'));
+        return view('admin.post.edit', compact('post', 'listCategory', 'listTag'));
     }
 
     /**

@@ -191,29 +191,6 @@ if (!function_exists('getCurrentAdminId')) {
 
 if (!function_exists('makeSlug')) {
     function makeSlug($text): string {
-        // replace non letter or digits by divider
-        $divider = '';
-        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
-
-        // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-
-        // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
-
-        // trim
-        $text = trim($text, $divider);
-
-        // remove duplicate divider
-        $text = preg_replace('~-+~', $divider, $text);
-
-        // lowercase
-        $text = strtolower($text);
-
-        if (empty($text)) {
-            return 'n-a';
-        }
-
-        return $text;
+        return preg_replace('/[^A-Za-z0-9-]+/', '-', $text);
     }
 }

@@ -65,4 +65,10 @@ class Post extends Model
     public function getTagString(): string {
         return implode(',', $this->Tags()->pluck('name')->toArray());
     }
+
+    public function getTagIds(): array {
+        return $this->Tags()->get()->mapWithKeys(function ($item) {
+            return [$item->id => true];
+        })->toArray();
+    }
 }
