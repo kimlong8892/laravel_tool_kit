@@ -39,5 +39,15 @@
     "Item commission": "Hoa hồng",
     "Item qty": "Số lượng",
     "Item image": "Ảnh đại diện",
-    "Get Conversion Report data": "Báo cáo doanh thu"
+    "Get Conversion Report data": "Báo cáo doanh thu",
+    "public": "Công khai",
+    "private": "Không công khai",
+    "Dashboard": "Tổng quan",
+    "Products management": "Quản lí sản phẩm",
+    "Posts management": "Quản lí bài viết",
+    "Categories management": "Quản lí chuyên mục",
+    "List": "Danh sách",
+    "Create": "Tạo mới",
+    "Fields management": "Trường dữ liệu",
+    "List field": "Danh sách trường dữ liệu"
 }

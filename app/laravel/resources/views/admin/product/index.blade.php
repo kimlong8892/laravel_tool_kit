@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'List product')
+
 @section('content')
     <form action="{{ route('admin.products.index') }}" method="GET">
         <div class="row">
@@ -38,5 +40,4 @@
             @endforeach
         @endif
     </table>
-
 @endsection

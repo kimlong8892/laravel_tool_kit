@@ -2,10 +2,18 @@
 
 namespace App\Providers;
 
+use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Field\FieldRepository;
+use App\Repositories\Field\FieldRepositoryInterface;
+use App\Repositories\Post\PostRepository;
+use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\ProductShopeeApi\ProductShopeeApiRepository;
 use App\Repositories\ProductShopeeApi\ProductShopeeApiRepositoryInterface;
 use App\Repositories\SocialAccount\SocialAccountRepository;
 use App\Repositories\SocialAccount\SocialAccountRepositoryInterface;
+use App\Repositories\Tag\TagRepository;
+use App\Repositories\Tag\TagRepositoryInterface;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -25,6 +33,22 @@ class AppServiceProvider extends ServiceProvider {
             ProductShopeeApiRepositoryInterface::class,
             ProductShopeeApiRepository::class
         );
+        $this->app->bind(
+            PostRepositoryInterface::class,
+            PostRepository::class
+        );
+        $this->app->bind(
+            CategoryRepositoryInterface::class,
+            CategoryRepository::class
+        );
+        $this->app->bind(
+            TagRepositoryInterface::class,
+            TagRepository::class
+        );
+        $this->app->bind(
+            FieldRepositoryInterface::class,
+            FieldRepository::class
+        );
     }
 
     /**
@@ -33,8 +57,9 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot(): void {
-        if (strpos(env('APP_URL'), 'https')) {
+        if (env('APP_ENV') != 'local') {
             URL::forceScheme('https');
+            $this->app['request']->server->set('HTTPS', true);
         }
 
         Paginator::useBootstrap();

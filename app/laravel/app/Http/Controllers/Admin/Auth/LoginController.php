@@ -52,7 +52,7 @@ class LoginController extends Controller {
 
         $credentials = $request->only('email', 'password');
 
-        if ($this->guard()->attempt($credentials, $request->get('remember-me') ?? false)) {
+        if ($this->guard()->attempt($credentials, true)) {
             return redirect()->route('admin.home');
         }
 

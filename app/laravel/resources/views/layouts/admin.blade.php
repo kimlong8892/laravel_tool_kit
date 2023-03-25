@@ -32,6 +32,26 @@
     .text-right {
         text-align: right;
     }
+
+    table tr th {
+        text-align: center;
+    }
+
+    table * {
+        word-break: break-all;
+    }
+
+    .font-weight-bold {
+        font-weight: bold;
+    }
+
+    .form-group {
+        margin-top: 15px;
+    }
+
+    .ml-2 {
+        margin-left: 15px;
+    }
 </style>
 
 <!-- Layout wrapper -->
@@ -78,7 +98,7 @@
             <!-- Content wrapper -->
             <div class="content-wrapper">
                 <!-- Content -->
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="container-fluid container-p-y mb-5">
                     @if(session()->has('success'))
                         <h2 class="text-success p-2">
                             {{ session()->get('success') }}
@@ -90,6 +110,9 @@
                             {{ session()->get('error') }}
                         </h2>
                     @endif
+
+                    <h2 class="text-uppercase font-weight-bold">@yield('title')</h2>
+
                     @yield('content')
                 </div>
                 <!-- / Content -->
@@ -114,8 +137,6 @@
 <link rel="stylesheet" href="{{ asset('theme/user/assets/vendor/libs/apex-charts/apex-charts.css') }}"/>
 <script src="{{ asset('theme/user/assets/vendor/js/helpers.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/config.js') }}"></script>
-
-
 <script src="{{ asset('theme/user/assets/vendor/libs/jquery/jquery.js') }}"></script>
 <script src="{{ asset('theme/user/assets/vendor/libs/popper/popper.js') }}"></script>
 <script src="{{ asset('theme/user/assets/vendor/js/bootstrap.js') }}"></script>
@@ -124,11 +145,70 @@
 <script src="{{ asset('theme/user/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/main.js') }}"></script>
 <script src="{{ asset('theme/user/assets/js/dashboards-analytics.js') }}"></script>
-
 <script src="{{ asset('lib/sweetalert2/sweetalert2.min.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}">
 <script src="{{ asset('lib/helper/functions.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+{{--<script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>--}}
+<script src="{{ asset('lib/ckeditor4/ckeditor.js') }}"></script>
+<script src="{{ asset('lib/axios.min.js') }}"></script>
+<script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+<link href="{{ asset('lib/select2/css/select2.min.css') }}" rel="stylesheet" />
+<script src="{{ asset('lib/select2/js/select2.min.js') }}"></script>
+<style>
+    .nowrap {
+        white-space: nowrap;
+    }
+</style>
+<script>
+    function applyCkeditorAndSelect2() {
+        CKEDITOR.replaceAll('ckeditor');
+
+        $('.select2').select2({
+            tags: true,
+            tokenSeparators: [',']
+        });
+    }
+
+    $(document).ready(function () {
+        function convertToSlug(str) {
+            return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, "") //remove diacritics
+                .toLowerCase()
+                .replace(/\s+/g, '-') //spaces to dashes
+                .replace(/&/g, '-and-') //ampersand to and
+                .replace(/[^\w\-]+/g, '') //remove non-words
+                .replace(/\-\-+/g, '-') //collapse multiple dashes
+                .replace(/^-+/, '') //trim starting dash
+                .replace(/-+$/, ''); //trim ending dash
+        }
+
+        applyCkeditorAndSelect2();
+
+        $('input[type="file"]').change(function () {
+            $("#" + $(this).attr('data-id') + "-preview").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+        });
+
+        $('input[data-is-gen-slug="1"]').change(function () {
+            let value = $(this).val();
+            let idElementSlug = $(this).attr('data-input-slug-id');
+            $('#' + idElementSlug).val(convertToSlug(value));
+        });
+
+        $('[data-is-dependency="1"]').change(function () {
+            const myArrayDependencyValue = $(this).attr('data-value-dependency-on').split(',');
+
+            if (myArrayDependencyValue.indexOf($(this).val()) !== -1) {
+                $($(this).attr('data-element-dependency')).show();
+                $($(this).attr('data-element-dependency') + " *").prop('disabled', false);
+            } else {
+                $($(this).attr('data-element-dependency')).hide();
+                $($(this).attr('data-element-dependency') + " *").prop('disabled', true)
+            }
+        });
+
+        $('[data-is-dependency="1"]').change();
+    });
+</script>
 @yield('js')
 
 </body>
