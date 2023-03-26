@@ -4,12 +4,14 @@ namespace App\Repositories\Field;
 
 use App\Models\Field;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\DB;
 
 class FieldRepository extends BaseRepository implements FieldRepositoryInterface {
     public function getListInAdmin(): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
         $perPage = config('custom.field')['per_page'] ?? 10;
 
         return Field::with(['ChildFields'])
+            ->where('parent_id', '=', null)
             ->paginate($perPage);
     }
 
@@ -38,10 +40,32 @@ class FieldRepository extends BaseRepository implements FieldRepositoryInterface
             $data['values'] = implode(',', $data['values']);
         }
 
+        if (empty($data['values'])) {
+            $data['values'] = '';
+        }
+
         return $data;
     }
 
     public function getDetail($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null {
         return Field::with(['ChildFields'])->find($id);
+    }
+
+    public function getListSelect(): \Illuminate\Database\Eloquent\Collection|array {
+        return Field::with(['ChildFields'])
+            ->where('parent_id', '=', null)
+            ->get();
+    }
+
+    public function destroy($id) {
+        DB::table('fields')
+            ->where('id', '=', $id)
+            ->delete();
+
+        return $id;
+    }
+
+    public function getListInPost() {
+        return Field::where('entity', '=', 'post')->get();
     }
 }

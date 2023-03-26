@@ -18,7 +18,8 @@ class Field extends Model {
         'name',
         'type',
         'values',
-        'parent_id'
+        'parent_id',
+        'entity'
     ];
 
     public function ChildFields(): \Illuminate\Database\Eloquent\Relations\HasMany {

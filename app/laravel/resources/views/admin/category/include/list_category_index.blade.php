@@ -1,6 +1,6 @@
 @foreach($listCategory as $item)
     <tr>
-        <td>{{ $item->id }}</td>
+        <td class="text-center">{{ $item->id }}</td>
         <td>
             {{ $item->name }}
             @if(!empty($item->ChildCategories) && count($item->ChildCategories) > 0)

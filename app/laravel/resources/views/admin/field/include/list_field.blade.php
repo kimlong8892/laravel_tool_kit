@@ -5,16 +5,14 @@
     </div>
 @endif
 
-{{--<div class="form-group">--}}
-{{--    <label for="parent_id">{{ __('Parent field') }}</label>--}}
-{{--    <select name="parent_id" class="form-control">--}}
-{{--        <option value="">-</option>--}}
-{{--        @foreach($listFied as $field)--}}
-{{--            <option value="{{ $field->id }}">{{  }}</option>--}}
-{{--        @endforeach--}}
-{{--    </select>--}}
-{{--    @include('admin.include.text_error_field', ['name' => 'parent_id'])--}}
-{{--</div>--}}
+<div class="form-group">
+    <label for="parent_id">{{ __('Parent field') }}</label>
+    <select name="parent_id" class="form-control">
+        <option value="">-</option>
+        @include('admin.field.include.list_field_select', ['listField' => $listField, 'numberChar' => 0])
+    </select>
+    @include('admin.include.text_error_field', ['name' => 'parent_id'])
+</div>
 
 <div class="form-group">
     <label for="name">{{ __('title') }} @include('admin.include.icon_required')</label>
@@ -37,7 +35,26 @@
 </div>
 
 <div class="form-group">
-    <label for="name">{{ __('type') }} @include('admin.include.icon_required')</label>
+    <label for="entity">{{ __('Entity') }} @include('admin.include.icon_required')</label>
+
+    <select name="entity" class="form-control">
+        <option value="">-</option>
+        @foreach(config('custom.field')['entity'] as $key => $value)
+            <option
+                @if(!empty($field) && $field->entity == $key)
+                    selected
+                @endif
+                value="{{ $key }}">
+                {{ $value }}
+            </option>
+        @endforeach
+    </select>
+    @include('admin.include.text_error_field', ['name' => 'entity'])
+</div>
+
+
+<div class="form-group">
+    <label for="type">{{ __('type') }} @include('admin.include.icon_required')</label>
 
     <select name="type" class="form-control" data-is-dependency="1" data-element-dependency="#values" data-value-dependency-on="select">
         <option value="">-</option>
@@ -66,4 +83,3 @@
     </select>
     @include('admin.include.text_error_field', ['name' => 'tags'])
 </div>
-

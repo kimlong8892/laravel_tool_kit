@@ -153,7 +153,7 @@
 <script src="{{ asset('lib/ckeditor4/ckeditor.js') }}"></script>
 <script src="{{ asset('lib/axios.min.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
-<link href="{{ asset('lib/select2/css/select2.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('lib/select2/css/select2.min.css') }}" rel="stylesheet"/>
 <script src="{{ asset('lib/select2/js/select2.min.js') }}"></script>
 <style>
     .nowrap {

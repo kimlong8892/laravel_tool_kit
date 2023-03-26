@@ -7,9 +7,9 @@ use App\Http\Requests\Field\FieldStoreRequest;
 use App\Http\Requests\Field\FieldUpdateRequest;
 use App\Repositories\Field\FieldRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
+use PHPUnit\Exception;
 
 class FieldController extends Controller {
     protected FieldRepositoryInterface $fieldRepository;
@@ -35,7 +35,9 @@ class FieldController extends Controller {
      * @return View
      */
     public function create(): View {
-        return view('admin.field.create');
+        $listField = $this->fieldRepository->getListSelect();
+
+        return view('admin.field.create', compact('listField'));
     }
 
     /**
@@ -64,8 +66,9 @@ class FieldController extends Controller {
      */
     public function edit(int $id): View {
         $field = $this->fieldRepository->getDetail($id);
+        $listField = $this->fieldRepository->getListSelect();
 
-        return view('admin.field.edit', compact('field'));
+        return view('admin.field.edit', compact('field', 'listField'));
     }
 
     /**
@@ -91,9 +94,17 @@ class FieldController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy($id) {
-        //
+    public function destroy(int $id): RedirectResponse {
+        try {
+            $fieldId = $this->fieldRepository->destroy($id);
+
+            return redirect()->route('admin.fields.index')
+                ->with('success', __('Delete success', ['id' => $fieldId]));
+        } catch (Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
 }

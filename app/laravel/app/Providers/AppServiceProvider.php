@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot(): void {
-        if (env('APP_ENV') != 'local') {
+        if (checkUrlIsHttps(env('APP_URL'))) {
             URL::forceScheme('https');
             $this->app['request']->server->set('HTTPS', true);
         }

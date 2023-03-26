@@ -24,6 +24,7 @@
 </div>
 
 <div class="form-group">
+    <label for="tags[]">{{ __('Tags') }}</label>
     <select class="form-control select2" multiple="multiple" name="tags[]">
         @foreach($listTag as $tag)
             <option @if(!empty($post) && !empty($post->getTagIds()[$tag->id])) selected @endif value="{{ $tag->name }}">{{ $tag->name }}</option>

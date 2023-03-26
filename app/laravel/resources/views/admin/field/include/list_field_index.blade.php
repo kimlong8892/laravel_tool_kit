@@ -1,6 +1,6 @@
 @foreach($listField as $item)
     <tr>
-        <td>{{ $item->id }}</td>
+        <td class="text-center">{{ $item->id }}</td>
         <td>
             {{ $item->name }}
             @if(!empty($item->ChildFields) && count($item->ChildFields) > 0)
@@ -12,10 +12,10 @@
                 </table>
             @endif
         </td>
-        <td>
+        <td nowrap>
             {{ $item->title }}
         </td>
-        <td>
+        <td nowrap>
             {{ $item->type }}
         </td>
         <td>
