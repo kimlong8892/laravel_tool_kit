@@ -14,6 +14,4 @@ interface FieldRepositoryInterface {
     public function getListSelect();
 
     public function destroy($id);
-
-    public function getListInPost();
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static find($id)
+ * @method static where(string $string, string $string1, string $string2)
  */
 class Field extends Model {
     use HasFactory;
@@ -14,7 +15,6 @@ class Field extends Model {
     protected $table = 'fields';
 
     protected $fillable = [
-        'title',
         'name',
         'type',
         'values',

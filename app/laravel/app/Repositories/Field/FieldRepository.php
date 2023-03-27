@@ -37,7 +37,7 @@ class FieldRepository extends BaseRepository implements FieldRepositoryInterface
         $data = parent::mapDataRequest($item, $data);
 
         if (!empty($data['values']) && is_array($data['values'])) {
-            $data['values'] = implode(',', $data['values']);
+            $data['values'] = json_encode($data['values']);
         }
 
         if (empty($data['values'])) {
@@ -54,6 +54,7 @@ class FieldRepository extends BaseRepository implements FieldRepositoryInterface
     public function getListSelect(): \Illuminate\Database\Eloquent\Collection|array {
         return Field::with(['ChildFields'])
             ->where('parent_id', '=', null)
+            ->whereIn('type', ['group', 'flexible'])
             ->get();
     }
 
@@ -63,9 +64,5 @@ class FieldRepository extends BaseRepository implements FieldRepositoryInterface
             ->delete();
 
         return $id;
-    }
-
-    public function getListInPost() {
-        return Field::where('entity', '=', 'post')->get();
     }
 }

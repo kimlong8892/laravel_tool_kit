@@ -15,16 +15,6 @@
 </div>
 
 <div class="form-group">
-    <label for="name">{{ __('title') }} @include('admin.include.icon_required')</label>
-    <input type="text"
-           class="form-control"
-           name="title"
-           placeholder="{{ __('title') }}"
-           value="{{ $field->name ?? '' }}">
-    @include('admin.include.text_error_field', ['name' => 'title'])
-</div>
-
-<div class="form-group">
     <label for="name">{{ __('Name') }} @include('admin.include.icon_required')</label>
     <input type="text"
            class="form-control"
@@ -76,9 +66,11 @@
     <label for="values">{{ __('Values') }} @include('admin.include.icon_required')</label>
     <select class="form-control select2" multiple="multiple" name="values[]">
         @if(!empty($field) && !empty($field->values))
-            @foreach(explode(',', $field->values) as $field)
-                <option selected value="{{ $field }}">{{ $field }}</option>
-            @endforeach
+            @if(is_array(json_decode($field->values, true)))
+                @foreach(json_decode($field->values, true) as $field)
+                    <option selected value="{{ $field }}">{{ $field }}</option>
+                @endforeach
+            @endif
         @endif
     </select>
     @include('admin.include.text_error_field', ['name' => 'tags'])

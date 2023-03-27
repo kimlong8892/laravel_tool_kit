@@ -8,7 +8,6 @@
         @method('PUT')
         @csrf
         @include('admin.field.include.list_field')
-        @include('admin.post.include.list_field_custom')
         @include('admin.include.save_btn')
     </form>
 @endsection

@@ -98,9 +98,10 @@ class PostController extends Controller {
         $post = $this->postRepository->getDetail($id);
         $listCategory = $this->categoryRepository->getListSelect();
         $listTag = $this->tagRepository->getListSelect();
-        $listField = $this->fieldRepository->getListInPost();
+        $listField = $this->postRepository->getCustomFields();
+        $listFieldValue = $this->postRepository->getCustomFieldsValue($id);
 
-        return view('admin.post.edit', compact('post', 'listCategory', 'listTag', 'listField'));
+        return view('admin.post.edit', compact('post', 'listCategory', 'listTag', 'listField', 'listFieldValue'));
     }
 
     /**
@@ -156,5 +157,11 @@ class PostController extends Controller {
 
         $listProduct = $this->productShopeeApiRepository->getListProductApi($request->get('term'))['data']['productOfferV2']['nodes'] ?? [];
         return response()->json($listProduct);
+    }
+
+    public function renderChildField(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application {
+        $listField = $this->postRepository->getCustomFields($request->get('id'));
+
+        return view('admin.post.include.list_field_for_group', compact('listField'));
     }
 }

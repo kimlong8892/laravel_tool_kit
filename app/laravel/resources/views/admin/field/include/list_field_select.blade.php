@@ -1,5 +1,5 @@
 @foreach($listField as $fieldItem)
-    @if(empty($field) || $fieldItem->id != $field->id)
+    @if((empty($field) || $fieldItem->id != $field->id) && ($fieldItem->type == 'group' || $fieldItem->type == 'flexible'))
         <option
             @if(!empty($field) && $field->parent_id == $fieldItem->id)
                 selected

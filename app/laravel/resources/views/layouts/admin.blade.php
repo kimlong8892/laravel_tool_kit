@@ -159,14 +159,26 @@
     .nowrap {
         white-space: nowrap;
     }
+
+    img[src=""] {
+        display: none;
+    }
 </style>
 <script>
     function applyCkeditorAndSelect2() {
         CKEDITOR.replaceAll('ckeditor');
 
-        $('.select2').select2({
-            tags: true,
-            tokenSeparators: [',']
+        $('.select2').each(function () {
+            let config = {
+                tags: true,
+                tokenSeparators: [',']
+            };
+
+            if ($(this).attr('data-is-tags') === '0') {
+                config.tags = false;
+            }
+
+            $(this).select2(config);
         });
     }
 
@@ -184,9 +196,9 @@
 
         applyCkeditorAndSelect2();
 
-        $('input[type="file"]').change(function () {
+        $('body').on('change', 'input[type="file"]', function () {
             $("#" + $(this).attr('data-id') + "-preview").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
-        });
+        })
 
         $('input[data-is-gen-slug="1"]').change(function () {
             let value = $(this).val();
