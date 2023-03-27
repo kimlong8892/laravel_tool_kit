@@ -185,9 +185,6 @@ if (!function_exists('baseDir')) {
     }
 }
 
-$path = baseDir() . '/vendor/autoload.php';
-require_once $path;
-
 if (!function_exists('postApiShopee')) {
     function postApiShopee($url, $body = '', $headers = []) {
         try {

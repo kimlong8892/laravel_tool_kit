@@ -54,7 +54,7 @@ class FieldRepository extends BaseRepository implements FieldRepositoryInterface
     public function getListSelect(): \Illuminate\Database\Eloquent\Collection|array {
         return Field::with(['ChildFields'])
             ->where('parent_id', '=', null)
-            ->whereIn('type', ['group', 'flexible'])
+            ->whereIn('type', ['group', 'repeater'])
             ->get();
     }
 

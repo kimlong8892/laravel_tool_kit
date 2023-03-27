@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -172,14 +173,14 @@ if (!function_exists('getConversionReportShopee')) {
 }
 
 if (!function_exists('formatVnd')) {
-    function formatVnd($value): string {
-        return number_format($value, 0, '', ',') . ' (VND)';
-    }
-}
+    function formatVnd($value, $isExt = true): string {
+        $ext = '';
 
-if (!function_exists('formatVnd')) {
-    function formatVnd($value): string {
-        return number_format($value, 0, '', ',');
+        if ($isExt) {
+            $ext = '(VND)';
+        }
+
+        return number_format($value, 0, '', ',') . $ext;
     }
 }
 
@@ -216,5 +217,21 @@ if (!function_exists('getImageCustomField')) {
         }
 
         return '';
+    }
+}
+
+if (!function_exists('renderProductSelectValues')) {
+    function renderProductSelectValues($value): ?Collection {
+        if (!is_array($value)) {
+            $value = json_decode($value, true);
+        }
+
+        if (empty($value)) {
+            return null;
+        }
+
+        return \Illuminate\Support\Facades\DB::table('products')
+            ->whereIn('itemId', $value)
+            ->get();
     }
 }

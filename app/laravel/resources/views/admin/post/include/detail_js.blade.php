@@ -50,6 +50,7 @@
                 success: function (data) {
                      $(divId).append(data).ready(function () {
                          applyCkeditorAndSelect2();
+                         renderSelect2Product();
                      });
                 }
             })

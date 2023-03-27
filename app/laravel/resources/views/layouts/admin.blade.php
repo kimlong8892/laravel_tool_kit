@@ -182,6 +182,33 @@
         });
     }
 
+    function renderSelect2Product() {
+        $('.select2-product').select2({
+            ajax: {
+                url: @json(route('admin.ajax.get_product_select')),
+                dataType: "json",
+                type: "GET",
+                data: function (params) {
+                    return {
+                        term: params.term
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            if (item.hasOwnProperty('productName') && item.hasOwnProperty('price') && item.hasOwnProperty('itemId')) {
+                                return {
+                                    text: item.productName + ' [' + item.price + ']',
+                                    id: JSON.stringify(item)
+                                }
+                            }
+                        })
+                    };
+                }
+            }
+        });
+    }
+
     $(document).ready(function () {
         function convertToSlug(str) {
             return str.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, "") //remove diacritics
@@ -195,6 +222,7 @@
         }
 
         applyCkeditorAndSelect2();
+        renderSelect2Product();
 
         $('body').on('change', 'input[type="file"]', function () {
             $("#" + $(this).attr('data-id') + "-preview").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));

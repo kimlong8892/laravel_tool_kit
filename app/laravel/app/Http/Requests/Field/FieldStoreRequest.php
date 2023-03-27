@@ -22,7 +22,6 @@ class FieldStoreRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'title' => 'required',
             'name' => 'required',
             'type' => 'required',
             'entity' => 'required'

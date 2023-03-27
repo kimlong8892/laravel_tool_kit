@@ -19,7 +19,8 @@ class Field extends Model {
         'type',
         'values',
         'parent_id',
-        'entity'
+        'entity',
+        'is_select_product'
     ];
 
     public function ChildFields(): \Illuminate\Database\Eloquent\Relations\HasMany {

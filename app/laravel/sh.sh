@@ -10,3 +10,5 @@
 #php artisan make:migration add_enity_to_fields_table --table=fields
 #php artisan make:migration delete_title_in_fields_table --table=fields
 #php artisan make:migration add_primary_key_to_post_field_table --table=post_field
+#php artisan make:migration add_is_select_product_to_fields_table --table=fields
+#php artisan make:migration add_type_api_products_table --table=products

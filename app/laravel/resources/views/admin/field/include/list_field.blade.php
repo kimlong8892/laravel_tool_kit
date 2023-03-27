@@ -67,11 +67,22 @@
     <select class="form-control select2" multiple="multiple" name="values[]">
         @if(!empty($field) && !empty($field->values))
             @if(is_array(json_decode($field->values, true)))
-                @foreach(json_decode($field->values, true) as $field)
-                    <option selected value="{{ $field }}">{{ $field }}</option>
+                @foreach(json_decode($field->values, true) as $fieldValue)
+                    <option selected value="{{ $fieldValue }}">{{ $fieldValue }}</option>
                 @endforeach
             @endif
         @endif
     </select>
     @include('admin.include.text_error_field', ['name' => 'tags'])
+</div>
+
+
+<div class="form-group">
+    <label for="values">{{ __('Is select product') }}</label>
+    <input type="checkbox"
+           @if(!empty($field->is_select_product))
+               checked
+           @endif
+           name="is_select_product"
+           value="1">
 </div>

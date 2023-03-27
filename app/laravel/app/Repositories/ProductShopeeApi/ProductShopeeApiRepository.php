@@ -8,7 +8,7 @@ class ProductShopeeApiRepository implements ProductShopeeApiRepositoryInterface 
         $apiKey = env('SHOPEE_API_KEY');
         $date = new \DateTime();
         $timestamp = $date->getTimestamp();
-        $body = '{"query":"{  productOfferV2 (page: ' . (int)$page . ', limit: 50, keyword: \"' . $keyword . '\") {    nodes {shopName itemId price imageUrl productName offerLink productLink}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
+        $body = '{"query":"{  productOfferV2 (page: ' . (int)$page . ', limit: 50, keyword: \"' . $keyword . '\") {    nodes {shopName itemId price imageUrl productName price offerLink productLink}, pageInfo { page limit hasNextPage }  }}","variables":null,"operationName":null}';
         $signature = hash('sha256', $appId . $timestamp . $body . $apiKey);
         $headers = [
             'authorization' => 'SHA256 Credential=' . $appId . ', Timestamp=' . $timestamp . ', Signature=' . $signature,

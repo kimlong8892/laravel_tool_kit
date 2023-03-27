@@ -138,6 +138,11 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
         return $post->getAttribute('id');
     }
 
+    private function uploadImageField($valueValue, $fieldId): string {
+        sleep(0.1);
+        return uploadImage($valueValue, time() . rand (1111111, 9999999), 'images_upload/custom_field_images/' . $fieldId, true);
+    }
+
     private function InsertOrUpdateCustomField($post, $lisField) {
         $arrayPostFieldInsert = [];
 
@@ -147,16 +152,65 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
                 return [$item->field_id => true];
             })->toArray();
 
+        $arrayListFieldDBCheckIsProductSelect = DB::table('fields')
+            ->whereIn('id', array_keys($lisField))
+            ->where('is_select_product', '=', true)
+            ->get()->mapWithKeys(function ($item) {
+                return [$item->id => $item->is_select_product];
+            })->toArray();
+
+        $arrayInsertProduct = [];
+
         DB::beginTransaction();
         foreach ($lisField as $fieldId => $value) {
             if (!empty($value)) {
-                if (is_array($value)) {
-                    $value = json_encode($value);
+                if (!empty($arrayListFieldDBCheckIsProductSelect[$fieldId])) {
+                    $valueArray = $value;
+                    $value = [];
+                    foreach ($valueArray as $productItem) {
+                        $productItem = json_decode($productItem, true);
+
+                        if (!empty($productItem['itemId'])) {
+                            $arrayInsertProduct[$productItem['itemId']] = [
+                                'itemId' => $productItem['itemId'],
+                                'price' => $productItem['price'],
+                                'imageUrl' => $productItem['imageUrl'],
+                                'productName' => $productItem['productName'],
+                                'offerLink' => $productItem['offerLink'],
+                                'productLink' => $productItem['productLink'],
+                                'shopName' => $productItem['shopName'],
+                                'created_at' => Carbon::now()
+                            ];
+                            $value[] = $productItem['itemId'];
+                        } else {
+                            $value[] = $productItem;
+                        }
+
+
+                    }
+                }
+
+                $valueArray = $value;
+                if (is_array($valueArray)) {
+                    $isListImage = array_reduce($valueArray, function ($result, $item) { return $result && $item instanceof \Illuminate\Http\UploadedFile;}, true);
+
+                    if ($isListImage) {
+                        $value = [];
+                        File::deleteDirectory(public_path('images_upload/custom_field_images/' . $fieldId));
+
+                        foreach ($valueArray as $valueValue) {
+                            $value[] = $this->uploadImageField($valueValue, $fieldId);
+                        }
+                    }
                 }
 
                 if ($value instanceof \Illuminate\Http\UploadedFile) {
                     File::deleteDirectory(public_path('images_upload/custom_field_images/' . $fieldId));
-                    $value = uploadImage($value, time() . rand (1, 9999999), 'images_upload/custom_field_images/' . $fieldId, true);
+                    $value = $this->uploadImageField($value, $fieldId);
+                }
+
+                if (is_array($value)) {
+                    $value = json_encode($value);
                 }
 
                 if (empty($arrayListFieldDB[$fieldId])) {
@@ -176,6 +230,23 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
             }
         }
         DB::commit();
+
+        if (!empty($arrayInsertProduct)) {
+            $listProductExist = DB::table('products')
+                ->whereIn('itemId', array_column($arrayInsertProduct, 'itemId'))
+                ->get();
+
+            DB::beginTransaction();
+            foreach ($listProductExist as $productUpdate) {
+                DB::table('products')
+                    ->where('id', $productUpdate->id)
+                    ->update($arrayInsertProduct[$productUpdate->itemId]);
+                unset($arrayInsertProduct[$productUpdate->itemId]);
+            }
+            DB::commit();
+
+            DB::table('products')->insert($arrayInsertProduct);
+        }
 
         DB::table('post_field')->insert($arrayPostFieldInsert);
     }
