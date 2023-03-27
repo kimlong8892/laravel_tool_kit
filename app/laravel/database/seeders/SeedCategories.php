@@ -21,7 +21,7 @@ class SeedCategories extends Seeder
                 'id' => $i,
                 'name' => 'category ' . $i,
                 'description' => 'description ' . $i,
-                'logo' => 'https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png'
+                'image' => 'https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png'
             ];
         }
 

@@ -185,12 +185,36 @@ if (!function_exists('formatVnd')) {
 
 if (!function_exists('getCurrentAdminId')) {
     function getCurrentAdminId() {
-        return \Illuminate\Support\Facades\Auth::guard('admin')->user()->getAttribute('id');
+        return \Illuminate\Support\Facades\Auth::guard('admin')
+            ->user()
+            ->getAttribute('id');
     }
 }
 
 if (!function_exists('makeSlug')) {
     function makeSlug($text): string {
         return preg_replace('/[^A-Za-z0-9-]+/', '-', $text);
+    }
+}
+
+if (!function_exists('renderNameCustomField')) {
+    function renderNameCustomField($field): string {
+        $fieldId = $field->id;
+
+        return "custom_field[$fieldId]";
+    }
+}
+
+if (!function_exists('getImageCustomField')) {
+    function getImageCustomField($imagePath, $fieldId): string {
+        if (empty($imagePath)) {
+            return '';
+        }
+
+        if (is_file(public_path('images_upload/custom_field_images/' . $fieldId . '/' . $imagePath))) {
+            return asset('images_upload/custom_field_images/' . $fieldId . '/' . $imagePath);
+        }
+
+        return '';
     }
 }

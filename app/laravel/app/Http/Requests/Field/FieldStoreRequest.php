@@ -24,7 +24,8 @@ class FieldStoreRequest extends FormRequest
         return [
             'title' => 'required',
             'name' => 'required',
-            'type' => 'required'
+            'type' => 'required',
+            'entity' => 'required'
         ];
     }
 }

@@ -31,14 +31,4 @@
     @include('admin.include.text_error_field', ['name' => 'content'])
 </div>
 
-<div class="form-group">
-    <div class="text-right">
-        <button class="btn btn-primary" type="button" id="btn-add-product-row">
-            <i class="fa fa-plus-circle"></i>
-            {{ __('Add row') }}
-        </button>
-    </div>
-</div>
 
-<div class="form-group" id="form-group-product-rows">
-</div>

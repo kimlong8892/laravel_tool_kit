@@ -22,9 +22,9 @@ class FieldUpdateRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'title' => 'required',
             'name' => 'required',
-            'type' => 'required'
+            'type' => 'required',
+            'entity' => 'required'
         ];
     }
 }

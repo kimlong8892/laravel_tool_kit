@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class PostRepository extends BaseRepository implements PostRepositoryInterface {
     public function getListInAdmin(): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
@@ -104,6 +105,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
         $image = $data['image'] ?? null;
         $listCategory = $data['category_id'] ?? null;
         $tags = $data['tags'] ?? null;
+        $customFields = $data['custom_field'] ?? null;
 
         $data = $this->mapDataRequest($post, $data);
         $post->fill($data);
@@ -127,8 +129,55 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
             $this->insertOrUpdateTags($tags, $post);
         }
 
+        // list field
+        if (!empty($customFields)) {
+            $this->InsertOrUpdateCustomField($post, $customFields);
+        }
+
         $post->save();
         return $post->getAttribute('id');
+    }
+
+    private function InsertOrUpdateCustomField($post, $lisField) {
+        $arrayPostFieldInsert = [];
+
+        $arrayListFieldDB = DB::table('post_field')
+            ->whereIn('field_id', array_keys($lisField))
+            ->get()->mapWithKeys(function ($item) {
+                return [$item->field_id => true];
+            })->toArray();
+
+        DB::beginTransaction();
+        foreach ($lisField as $fieldId => $value) {
+            if (!empty($value)) {
+                if (is_array($value)) {
+                    $value = json_encode($value);
+                }
+
+                if ($value instanceof \Illuminate\Http\UploadedFile) {
+                    File::deleteDirectory(public_path('images_upload/custom_field_images/' . $fieldId));
+                    $value = uploadImage($value, time() . rand (1, 9999999), 'images_upload/custom_field_images/' . $fieldId, true);
+                }
+
+                if (empty($arrayListFieldDB[$fieldId])) {
+                    $arrayPostFieldInsert[] = [
+                        'post_id' => $post->id,
+                        'field_id' => $fieldId,
+                        'value' => $value
+                    ];
+                } else {
+                    DB::table('post_field')
+                        ->where('post_id', '=', $post->id)
+                        ->where('field_id', '=', $fieldId)
+                        ->update([
+                            'value' => $value
+                        ]);
+                }
+            }
+        }
+        DB::commit();
+
+        DB::table('post_field')->insert($arrayPostFieldInsert);
     }
 
     public function getDetail($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null {
@@ -141,5 +190,20 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
             ->delete();
 
         return $id;
+    }
+
+    public function getCustomFields($parentId = null): \Illuminate\Support\Collection {
+        return DB::table('fields')
+            ->where('entity', '=', 'post')
+            ->where('parent_id', '=', $parentId)
+            ->get();
+    }
+
+    public function getCustomFieldsValue($postId) {
+        return DB::table('post_field')
+            ->where('post_id', '=', $postId)
+            ->get()->mapWithKeys(function ($item) {
+                return [$item->field_id => $item->value];
+            })->toArray();
     }
 }

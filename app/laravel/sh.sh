@@ -7,3 +7,6 @@
 #php artisan make:migration create_post_product_table --create=post_product
 #php artisan make:migration create_fields_table --create=fields
 #php artisan make:migration create_post_field_table --create=post_field
+#php artisan make:migration add_enity_to_fields_table --table=fields
+#php artisan make:migration delete_title_in_fields_table --table=fields
+#php artisan make:migration add_primary_key_to_post_field_table --table=post_field
