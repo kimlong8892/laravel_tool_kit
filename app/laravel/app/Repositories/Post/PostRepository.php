@@ -226,6 +226,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
                         ->where('post_id', '=', $post->id)
                         ->update($arrayInsertOrUpdate);
                 } else {
+                    $arrayInsertOrUpdate['images'] = json_encode($arrayInsertOrUpdate['images'] ?? []);
                     $arrayInsertPostProduct[] = $arrayInsertOrUpdate;
                 }
             }

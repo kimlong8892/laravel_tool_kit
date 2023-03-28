@@ -1,6 +1,6 @@
 <?php
     return [
         'post' => [
-            'per_page' => 12
+            'per_page' => 30
         ]
     ];

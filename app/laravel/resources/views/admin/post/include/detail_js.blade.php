@@ -63,10 +63,12 @@
                 let array_item_ids_except = [];
 
                 $('.input-product').each(function () {
-                    let product = JSON.parse($(this).val());
+                    if ($(this).val() !== '') {
+                        let product = JSON.parse($(this).val());
 
-                    if (id !== product.id) {
-                        array_item_ids_except.push(product.itemId);
+                        if (product.hasOwnProperty('itemId') && product.hasOwnProperty('id') && id !== product.id) {
+                            array_item_ids_except.push(product.itemId);
+                        }
                     }
                 });
 
