@@ -172,13 +172,11 @@ if (!function_exists('getConversionReportShopee')) {
 }
 
 if (!function_exists('formatVnd')) {
-    function formatVnd($value): string {
-        return number_format($value, 0, '', ',') . ' (VND)';
-    }
-}
+    function formatVnd($value, $isShowExt = true): string {
+        if ($isShowExt) {
+            return number_format($value, 0, '', ',') . ' (VND)';
+        }
 
-if (!function_exists('formatVnd')) {
-    function formatVnd($value): string {
         return number_format($value, 0, '', ',');
     }
 }

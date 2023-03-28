@@ -31,12 +31,16 @@ Route::name('admin.')->group(function () {
         Route::get('index', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
         Route::get('logout', [\App\Http\Controllers\Admin\Auth\LoginController::class, 'logout'])->name('logout');
 
-        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
 
         Route::name('ajax.')->prefix('ajax')->group(function () {
-            Route::get('get-product-select', [\App\Http\Controllers\Admin\PostController::class, 'getProductSelectAjax'])->name('get_product_select');
+            Route::get('get-product-select', [\App\Http\Controllers\Admin\PostController::class, 'getProductSelectAjax'])
+                ->name('get_product_select');
+
+            Route::get('render-product-row-in-post', [\App\Http\Controllers\Admin\PostController::class, 'renderProductRow'])
+                ->name('render_product_row_in_post');
         });
     });
     // end need auth

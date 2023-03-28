@@ -37,5 +37,65 @@
                 });
             });
         });
+
+        $('#btn-add-product-row').click(function () {
+            $.LoadingOverlay('show');
+
+            $.ajax({
+                url: @json(route('admin.ajax.render_product_row_in_post')),
+                method: 'GET',
+                data: {
+                    post_id: @json($post->id ?? null)
+                },
+                success: function (data) {
+                    let divContainerSector = '#div-product-row';
+                    $(divContainerSector).show();
+                    $(divContainerSector).append(data);
+                    CKEDITOR.replaceAll('ckeditor');
+                    renderSelect2Product();
+                    $.LoadingOverlay('hide');
+                }
+            });
+        });
+
+        function renderProductSelectAjax(id, value, page) {
+            if (value !== '') {
+                $.LoadingOverlay('show');
+                $.ajax({
+                    url: @json(route('admin.ajax.get_product_select')),
+                    type: 'GET',
+                    data: {
+                        search: value,
+                        id: id,
+                        page
+                    },
+                    success: function (data) {
+                        $(`.div-search-product-ajax[data-id=${id}]`).html(data);
+                        $.LoadingOverlay('hide');
+                    }
+                })
+            }
+        }
+
+        $('.btn-search-product-ajax').click(function () {
+            let id = $(this).attr('data-id');
+            let value = $(`.input-search-product-ajax[data-id=${id}]`).val();
+            renderProductSelectAjax(id, value, 1);
+        });
+
+        $('.input-search-product-ajax').keydown(function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                let id = $(this).attr('data-id');
+                let value = $(this).val();
+                renderProductSelectAjax(id, value, 1);
+            }
+        });
+
+        $('body').on('click', '.btn-change-page-product-select-ajax', function () {
+            let id = $(this).attr('data-id');
+            let value = $(`.input-search-product-ajax[data-id=${id}]`).val();
+            renderProductSelectAjax(id, value, $(this).attr('data-page'));
+        });
     });
 </script>

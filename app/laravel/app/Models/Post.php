@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Tbruckmaier\Corcelacf\AcfTrait;
 
 /**
  * @method static find($id)
@@ -71,5 +70,14 @@ class Post extends Model
         return $this->Tags()->get()->mapWithKeys(function ($item) {
             return [$item->id => true];
         })->toArray();
+    }
+
+    public function Products(): BelongsToMany {
+        return $this->belongsToMany(
+            Product::class,
+            'post_product',
+            'post_id',
+            'product_id'
+        )->withPivot(['content', 'images']);
     }
 }

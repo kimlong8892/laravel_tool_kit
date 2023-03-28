@@ -106,6 +106,8 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
         $listCategory = $data['category_id'] ?? null;
         $tags = $data['tags'] ?? null;
         $customFields = $data['custom_field'] ?? null;
+        $productRowInsert = $data['product_row_insert'] ?? null;
+        $productRowUpdate = $data['product_row_update'] ?? null;
 
         $data = $this->mapDataRequest($post, $data);
         $post->fill($data);
@@ -132,6 +134,65 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
         // list field
         if (!empty($customFields)) {
             $this->InsertOrUpdateCustomField($post, $customFields);
+        }
+
+        // product_row_insert
+        if (!empty($productRowInsert)) {
+            $arrayInsertPostProduct = [];
+
+            DB::beginTransaction();
+            foreach ($productRowInsert as $item) {
+                $product = json_decode($item['product'] ?? '', true);
+                $content = $item['content'] ?? null;
+                $listImage = $item['image'] ?? null;
+
+                if (!empty($product) && is_array($product) && !empty($content) && !empty($listImage)) {
+                    $listImageArray = [];
+                    foreach ($listImage as $imageProduct) {
+                        sleep(0.1);
+                        $imageName = rand(11111, 999999) . time();
+                        $imagePath = 'images_upload/post_images/' . $post->id . '/products';
+                        $listImageArray[] = uploadImage($imageProduct, $imageName, $imagePath, true);
+                    }
+
+                    $productId = DB::table('products')
+                        ->insertGetId([
+                            'itemId' => $product['itemId'],
+                            'price' => $product['price'],
+                            'imageUrl' => $product['imageUrl'],
+                            'productName' => $product['productName'],
+                            'offerLink' => $product['offerLink'],
+                            'productLink' => $product['productLink'],
+                            'shopName' => $product['shopName']
+                        ]);
+
+                    $arrayInsertPostProduct[] = [
+                        'post_id' => $post->id,
+                        'product_id' => $productId,
+                        'content' => $content,
+                        'images' => json_encode($listImageArray)
+                    ];
+                }
+            }
+            DB::commit();
+
+            if (!empty($arrayInsertPostProduct)) {
+                DB::table('post_product')
+                    ->insert($arrayInsertPostProduct);
+            }
+        }
+
+        // product_row_update
+        if (!empty($productRowUpdate)) {
+            foreach ($productRowUpdate as $item) {
+                $product = json_decode($item['product'] ?? '', true);
+                $content = $item['content'] ?? null;
+                $listImage = $item['image'] ?? null;
+
+                if (!empty($product) && is_array($product) && !empty($content) && !empty($listImage)) {
+
+                }
+            }
         }
 
         $post->save();

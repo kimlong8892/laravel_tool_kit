@@ -4,5 +4,5 @@
         'status' => [
             'public',
             'private'
-        ]
+        ],
     ];

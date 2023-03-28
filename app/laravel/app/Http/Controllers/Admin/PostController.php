@@ -140,22 +140,16 @@ class PostController extends Controller {
         }
     }
 
-    public function fieldManagement(Request $request): View {
-        return view('admin.post.field_management');
+    public function renderProductRow(Request $request): View {
+        return view('admin.post.include.product_row');
     }
 
-    public function getProductSelectAjax(Request $request): JsonResponse {
-        if (empty($request->get('term'))) {
-            return response()->json([]);
-        }
+    public function getProductSelectAjax(Request $request): String {
+        $listProductBase = $this->productShopeeApiRepository
+            ->getListProductApi($request->get('search'), $request->get('page') ?? 1)['data']['productOfferV2'] ?? [];
+        $listProduct = $listProductBase['nodes'] ?? null;
+        $listProductPagination = $listProductBase['pageInfo'] ?? null;
 
-        $listProduct = $this->productShopeeApiRepository->getListProductApi($request->get('term'))['data']['productOfferV2']['nodes'] ?? [];
-        return response()->json($listProduct);
-    }
-
-    public function renderChildField(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application {
-        $listField = $this->postRepository->getCustomFields($request->get('id'));
-
-        return view('admin.post.include.list_field_for_group', compact('listField'));
+        return view('admin.post.include.render_product_select', compact('listProduct', 'listProductPagination'))->render();
     }
 }

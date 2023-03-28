@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
-use App\Repositories\Field\FieldRepository;
-use App\Repositories\Field\FieldRepositoryInterface;
 use App\Repositories\Post\PostRepository;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\ProductShopeeApi\ProductShopeeApiRepository;
@@ -44,10 +42,6 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind(
             TagRepositoryInterface::class,
             TagRepository::class
-        );
-        $this->app->bind(
-            FieldRepositoryInterface::class,
-            FieldRepository::class
         );
     }
 

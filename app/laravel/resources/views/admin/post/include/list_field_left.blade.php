@@ -30,5 +30,17 @@
     <textarea name="content" id="content" class="ckeditor">{{ $post->content ?? '' }}</textarea>
     @include('admin.include.text_error_field', ['name' => 'content'])
 </div>
+<div class="form-group">
+    <button class="btn btn-primary w-100" id="btn-add-product-row" type="button">
+        <i class="fa fa-plus-circle"></i>
+        {{ __('Add row product') }}
+    </button>
 
-
+    <div id="div-product-row">
+        @if(!empty($post) && !empty($post->Products) && count($post->Products))
+            @foreach($post->Products as $key => $productRow)
+                @include('admin.post.include.product_row', ['productRow' => $productRow, 'post' => $post, 'rowIndex' => $key])
+            @endforeach
+        @endif
+    </div>
+</div>

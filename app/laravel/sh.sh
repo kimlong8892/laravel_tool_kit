@@ -4,9 +4,7 @@
 #php artisan make:migration create_post_category_table --create=post_category
 #php artisan make:migration create_post_tag_table --create=post_tag
 #php artisan make:migration create_product_table --create=product
+#php artisan make:migration create_product_history_table --create=product_history
+#php artisan make:migration create_product_info_table --create=product_info
+#php artisan make:migration create_product_image_table --create=product_image
 #php artisan make:migration create_post_product_table --create=post_product
-#php artisan make:migration create_fields_table --create=fields
-#php artisan make:migration create_post_field_table --create=post_field
-#php artisan make:migration add_enity_to_fields_table --table=fields
-#php artisan make:migration delete_title_in_fields_table --table=fields
-#php artisan make:migration add_primary_key_to_post_field_table --table=post_field

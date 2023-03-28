@@ -163,6 +163,25 @@
     img[src=""] {
         display: none;
     }
+
+    .fixed-table-div {
+        overflow-y: auto !important;
+    }
+
+    .fixed-table-div .table-fixed {
+        width: 100%;
+
+        border-spacing: 1px;
+    }
+
+    .fixed-table-div .table-fixed th {
+        text-align: left;
+        top:0;
+        position: sticky;
+        background: black;
+        color: white !important;
+        font-weight: bold;
+    }
 </style>
 <script>
     function applyCkeditorAndSelect2() {
@@ -179,6 +198,37 @@
             }
 
             $(this).select2(config);
+        });
+
+        $('.select2-one').select2({
+            tags: true
+        });
+    }
+
+    function renderSelect2Product() {
+        $('.select2-product').select2({
+            ajax: {
+                url: @json(route('admin.ajax.get_product_select')),
+                dataType: "json",
+                type: "GET",
+                data: function (params) {
+                    return {
+                        term: params.term
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            if (item.hasOwnProperty('productName') && item.hasOwnProperty('price') && item.hasOwnProperty('itemId')) {
+                                return {
+                                    text: item.productName + ' [' + item.price + ']',
+                                    id: JSON.stringify(item)
+                                }
+                            }
+                        })
+                    };
+                }
+            }
         });
     }
 
