@@ -34,6 +34,13 @@
     @include('admin.include.text_error_field', ['name' => 'tags'])
 </div>
 
+@if(!empty($post) && isset($post->view))
+    <div class="form-group">
+        <label for="view">{{ __('View') }}</label>
+        <input type="text" class="form-control" readonly value="{{ $post->view }}">
+    </div>
+@endif
+
 <div class="form-group">
     <label for="image">{{ __('Image') }} @include('admin.include.icon_required')</label>
     <input type="file" class="form-control" name="image" data-id="image">

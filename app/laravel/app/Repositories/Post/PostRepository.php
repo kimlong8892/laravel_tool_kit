@@ -105,9 +105,21 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
         $image = $data['image'] ?? null;
         $listCategory = $data['category_id'] ?? null;
         $tags = $data['tags'] ?? null;
-        $customFields = $data['custom_field'] ?? null;
-        $productRowInsert = $data['product_row_insert'] ?? null;
-        $productRowUpdate = $data['product_row_update'] ?? null;
+        $productRow = $data['product_row'] ?? null;
+        $arrayItemId = [];
+
+        foreach ($productRow as $productRowTemp) {
+            $productRowTemp = json_decode($productRowTemp['product'] ?? '', true);
+            if (!empty($productRowTemp) && !empty($productRowTemp['itemId'])) {
+                $arrayItemId[] = $productRowTemp['itemId'];
+            }
+        }
+
+        $productDB = DB::table('products')
+            ->whereIn('itemId', $arrayItemId)
+            ->get()->mapWithKeys(function ($item) {
+                return [$item->itemId => $item->id];
+            })->toArray();
 
         $data = $this->mapDataRequest($post, $data);
         $post->fill($data);
@@ -131,47 +143,90 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
             $this->insertOrUpdateTags($tags, $post);
         }
 
-        // list field
-        if (!empty($customFields)) {
-            $this->InsertOrUpdateCustomField($post, $customFields);
-        }
-
         // product_row_insert
-        if (!empty($productRowInsert)) {
+        if (!empty($productRow)) {
             $arrayInsertPostProduct = [];
 
-            DB::beginTransaction();
-            foreach ($productRowInsert as $item) {
-                $product = json_decode($item['product'] ?? '', true);
-                $content = $item['content'] ?? null;
-                $listImage = $item['image'] ?? null;
+            $postProductDB = DB::table('post_product')
+                ->where('post_id', '=', $post->id)
+                ->get()->mapWithKeys(function ($item) {
+                    return [$item->post_id . '_' . $item->product_id => json_decode($item->images, true)];
+                })->toArray();
 
-                if (!empty($product) && is_array($product) && !empty($content) && !empty($listImage)) {
+            DB::beginTransaction();
+            foreach ($productRow as $item) {
+                $product = json_decode($item['product'] ?? '', true);
+                $content = $item['content'] ?? '';
+                $listImageUpload = $item['image'] ?? [];
+                $listImageRemove = array_filter($item['list_image_remove'] ?? []);
+
+                if (!empty($listImageRemove)) {
+                    $listImageRemove = array_keys($listImageRemove);
+                }
+
+                $productId = null;
+                $arrayInsertOrUpdate = [
+                    'post_id' => $post->id
+                ];
+
+                if (!empty($product)) {
+                    $productId = $productDB[$product['itemId']] ?? null;
+
+                    if (empty($productId)) {
+                        $productId = DB::table('products')
+                            ->insertGetId([
+                                'itemId' => $product['itemId'],
+                                'price' => $product['price'],
+                                'imageUrl' => $product['imageUrl'],
+                                'productName' => $product['productName'],
+                                'offerLink' => $product['offerLink'],
+                                'productLink' => $product['productLink'],
+                                'shopName' => $product['shopName']
+                            ]);
+                    }
+
+                    $arrayInsertOrUpdate['product_id'] = $productId;
+                }
+
+                $arrayInsertOrUpdate['content'] = $content ?? '';
+
+                if (!empty($listImageUpload)) {
                     $listImageArray = [];
-                    foreach ($listImage as $imageProduct) {
-                        sleep(0.1);
+
+                    foreach ($listImageUpload as $imageProduct) {
                         $imageName = rand(11111, 999999) . time();
                         $imagePath = 'images_upload/post_images/' . $post->id . '/products';
                         $listImageArray[] = uploadImage($imageProduct, $imageName, $imagePath, true);
                     }
 
-                    $productId = DB::table('products')
-                        ->insertGetId([
-                            'itemId' => $product['itemId'],
-                            'price' => $product['price'],
-                            'imageUrl' => $product['imageUrl'],
-                            'productName' => $product['productName'],
-                            'offerLink' => $product['offerLink'],
-                            'productLink' => $product['productLink'],
-                            'shopName' => $product['shopName']
-                        ]);
+                    $arrayInsertOrUpdate['images'] = $listImageArray;
+                }
 
-                    $arrayInsertPostProduct[] = [
-                        'post_id' => $post->id,
-                        'product_id' => $productId,
-                        'content' => $content,
-                        'images' => json_encode($listImageArray)
-                    ];
+                if (!empty($item['is_update']) && !empty($item['product_id_old'])) {
+                    $listImageExist = $postProductDB[$post->id . '_' . $item['product_id_old']] ?? null;
+
+                    if (!empty($listImageRemove) && !empty($listImageExist)) {
+                        foreach ($listImageExist as $imageKey => $imageValue) {
+                            if (in_array($imageValue, $listImageRemove)) {
+                                unset($listImageExist[$imageKey]);
+                                $imagePathRemove = public_path('images_upload/post_images/' . $post->id . '/products/' . $imageValue);
+
+                                if (File::exists($imagePathRemove)) {
+                                    File::delete($imagePathRemove);
+                                }
+                            }
+                        }
+                    }
+
+                    $arrayInsertOrUpdate['images'] = array_merge($arrayInsertOrUpdate['images'] ?? [], $listImageExist);
+                    $arrayInsertOrUpdate['images'] = json_encode($arrayInsertOrUpdate['images'] ?? []);
+
+                    DB::table('post_product')
+                        ->where('product_id', '=', $item['product_id_old'])
+                        ->where('post_id', '=', $post->id)
+                        ->update($arrayInsertOrUpdate);
+                } else {
+                    $arrayInsertPostProduct[] = $arrayInsertOrUpdate;
                 }
             }
             DB::commit();
@@ -182,64 +237,10 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
             }
         }
 
-        // product_row_update
-        if (!empty($productRowUpdate)) {
-            foreach ($productRowUpdate as $item) {
-                $product = json_decode($item['product'] ?? '', true);
-                $content = $item['content'] ?? null;
-                $listImage = $item['image'] ?? null;
-
-                if (!empty($product) && is_array($product) && !empty($content) && !empty($listImage)) {
-
-                }
-            }
-        }
-
         $post->save();
         return $post->getAttribute('id');
     }
 
-    private function InsertOrUpdateCustomField($post, $lisField) {
-        $arrayPostFieldInsert = [];
-
-        $arrayListFieldDB = DB::table('post_field')
-            ->whereIn('field_id', array_keys($lisField))
-            ->get()->mapWithKeys(function ($item) {
-                return [$item->field_id => true];
-            })->toArray();
-
-        DB::beginTransaction();
-        foreach ($lisField as $fieldId => $value) {
-            if (!empty($value)) {
-                if (is_array($value)) {
-                    $value = json_encode($value);
-                }
-
-                if ($value instanceof \Illuminate\Http\UploadedFile) {
-                    File::deleteDirectory(public_path('images_upload/custom_field_images/' . $fieldId));
-                    $value = uploadImage($value, time() . rand (1, 9999999), 'images_upload/custom_field_images/' . $fieldId, true);
-                }
-
-                if (empty($arrayListFieldDB[$fieldId])) {
-                    $arrayPostFieldInsert[] = [
-                        'post_id' => $post->id,
-                        'field_id' => $fieldId,
-                        'value' => $value
-                    ];
-                } else {
-                    DB::table('post_field')
-                        ->where('post_id', '=', $post->id)
-                        ->where('field_id', '=', $fieldId)
-                        ->update([
-                            'value' => $value
-                        ]);
-                }
-            }
-        }
-        DB::commit();
-
-        DB::table('post_field')->insert($arrayPostFieldInsert);
-    }
 
     public function getDetail($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null {
         return Post::with(['Categories'])->find($id);

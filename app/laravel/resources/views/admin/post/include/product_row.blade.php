@@ -3,14 +3,15 @@
          $rowIndex = time() . rand(1111, 99999) * rand(1111, 888888);
     }
 
-    $nameField = 'product_row_insert';
-
-    if (!empty($productRow)) {
-        $nameField = 'product_row_update';
-    }
+    $nameField = 'product_row';
 @endphp
 
 <div class="mt-4 card p-2">
+    @if(!empty($productRow))
+        <input type="hidden" name="{{ $nameField }}[{{ $rowIndex }}][is_update]" value="1">
+        <input type="hidden" name="{{ $nameField }}[{{ $rowIndex }}][product_id_old]" value="{{ $productRow->id }}">
+    @endif
+
     <div class="form-group">
         <label for="{{ $nameField }}[{{ $rowIndex }}][product]">{{ __('Product') }}</label>
         <div class="row">
@@ -31,18 +32,31 @@
         </div>
     </div>
 
-{{--    <div class="form-group">--}}
-{{--        <label for="{{ $nameField }}[{{ $rowIndex }}][product]">{{ __('Product') }}</label>--}}
-{{--        <select class="form-control select2-one select2-product" name="{{ $nameField }}[{{ $rowIndex }}][product]">--}}
-{{--            @if(!empty($productRow) && !empty($productRow->productName) && !empty($productRow->itemId))--}}
-{{--                <option selected value="{{ $productRow->itemId }}">{{ $productRow->productName }}</option>--}}
-{{--            @endif--}}
-{{--        </select>--}}
-{{--    </div>--}}
+    <div class="form-group">
+        <div class="font-weight-bold text-uppercase">
+            @if(!empty($productRow) && !empty($productRow->productName) && !empty($productRow->itemId))
+                <input type="hidden" data-id={{ $rowIndex }} value="{{ json_encode($productRow->toArray()) }}"
+                       name="{{ $nameField }}[{{ $rowIndex }}][product]" class="input-product">
+                <a target="_blank"
+                   href="{{ route('admin.products.edit', $productRow->id) }}">{{ $productRow->productName }}</a>
+                <div>
+                    <img src="{{ $productRow->imageUrl }}" alt="" width="128px">
+                </div>
+            @else
+                <input type="hidden" data-id={{ $rowIndex }} value=""
+                       name="{{ $nameField }}[{{ $rowIndex }}][product]" class="input-product">
+                <a target="_blank" href="#"></a>
+                <div>
+                    <img src="" alt="" width="128px">
+                </div>
+            @endif
+        </div>
+    </div>
 
     <div class="form-group">
         <label for="{{ $nameField }}[{{ $rowIndex }}][content]">{{ __('Product content review') }}</label>
-        <textarea name="{{ $nameField }}[{{ $rowIndex }}][content]" class="ckeditor">{{ $productRow->pivot->content ?? '' }}</textarea>
+        <textarea name="{{ $nameField }}[{{ $rowIndex }}][content]"
+                  class="ckeditor">{{ $productRow->pivot->content ?? '' }}</textarea>
     </div>
 
     <div class="form-group">
@@ -54,11 +68,22 @@
             }
         @endphp
 
-        <div class="row align-items-center">
+        <div class="row align-items-center mt-2">
             @if(!empty($listImage) && count($listImage) > 0 && !empty($post) && !empty($post->id))
                 @foreach($listImage as $image)
                     <div class="col">
-                        <img src="{{ asset('images_upload/post_images/' . $post->id . '/products/' . $image) }}" width="100%">
+                        <div class="text-center mb-1">
+                            <button class="btn btn-danger btn-remove-image"
+                                    data-is-remove="1"
+                                    type="button">
+                                <i class="fa fa-close"></i>
+                            </button>
+                            <input type="hidden"
+                                   name="{{ $nameField }}[{{ $rowIndex }}][list_image_remove][{{ $image }}]"
+                                   value="">
+                        </div>
+                        <img src="{{ asset('images_upload/post_images/' . $post->id . '/products/' . $image) }}"
+                             width="100%">
                     </div>
                 @endforeach
             @endif

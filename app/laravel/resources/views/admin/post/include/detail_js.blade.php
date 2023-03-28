@@ -60,6 +60,16 @@
 
         function renderProductSelectAjax(id, value, page) {
             if (value !== '') {
+                let array_item_ids_except = [];
+
+                $('.input-product').each(function () {
+                    let product = JSON.parse($(this).val());
+
+                    if (id !== product.id) {
+                        array_item_ids_except.push(product.itemId);
+                    }
+                });
+
                 $.LoadingOverlay('show');
                 $.ajax({
                     url: @json(route('admin.ajax.get_product_select')),
@@ -67,7 +77,8 @@
                     data: {
                         search: value,
                         id: id,
-                        page
+                        page: page,
+                        array_item_ids_except: array_item_ids_except
                     },
                     success: function (data) {
                         $(`.div-search-product-ajax[data-id=${id}]`).html(data);
@@ -77,13 +88,13 @@
             }
         }
 
-        $('.btn-search-product-ajax').click(function () {
+        $('body').on('click', '.btn-search-product-ajax', function () {
             let id = $(this).attr('data-id');
             let value = $(`.input-search-product-ajax[data-id=${id}]`).val();
             renderProductSelectAjax(id, value, 1);
         });
 
-        $('.input-search-product-ajax').keydown(function (event) {
+        $('body').on('keydown', '.input-search-product-ajax', function (event) {
             if (event.keyCode === 13) {
                 event.preventDefault();
                 let id = $(this).attr('data-id');
@@ -96,6 +107,29 @@
             let id = $(this).attr('data-id');
             let value = $(`.input-search-product-ajax[data-id=${id}]`).val();
             renderProductSelectAjax(id, value, $(this).attr('data-page'));
+        });
+
+        $('body').on('click', '.btn-chose-product-ajax', function () {
+            let id = $(this).attr('data-id');
+            $(`.input-product[data-id=${id}]`).val($(this).attr('data-value'));
+            $(`.input-product[data-id=${id}]`).closest('div').find('a').text($(this).attr('data-name'));
+            $(`.input-product[data-id=${id}]`).closest('div').find('div img').attr('src', $(this).attr('data-image'));
+        });
+
+        $('.btn-remove-image').click(function () {
+            let is_remove = $(this).attr('data-is-remove');
+
+            if (is_remove === '1') {
+                $(this).closest('.col').find('img').fadeOut();
+                $(this).closest('.col').find('input').val(1);
+                $(this).html('<i class="fa fa-arrow-left"></i>');
+                $(this).attr('data-is-remove', '0');
+            } else {
+                $(this).closest('.col').find('img').fadeIn();
+                $(this).closest('.col').find('input').val(0);
+                $(this).html('<i class="fa fa-close"></i>');
+                $(this).attr('data-is-remove', '1');
+            }
         });
     });
 </script>

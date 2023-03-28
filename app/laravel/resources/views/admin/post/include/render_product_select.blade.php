@@ -40,7 +40,12 @@
                     </td>
                     <td>{{ formatVnd($product['price'] ?? '', false) }}</td>
                     <td>
-                        <button class="btn btn-primary" type="button">
+                        <button class="btn btn-primary btn-chose-product-ajax"
+                                data-id="{{ request()->get('id') }}"
+                                data-value="{{ json_encode($product) }}"
+                                data-name="{{ $product['productName'] }}"
+                                data-image="{{ $product['imageUrl'] }}"
+                                type="button">
                             <i class="fa fa-plus"></i>
                             {{ __('Chose') }}
                         </button>

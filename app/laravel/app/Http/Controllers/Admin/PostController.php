@@ -150,6 +150,14 @@ class PostController extends Controller {
         $listProduct = $listProductBase['nodes'] ?? null;
         $listProductPagination = $listProductBase['pageInfo'] ?? null;
 
+        if (!empty($request->get('array_item_ids_except'))) {
+            foreach ($listProduct as $key => $value) {
+                if (in_array($value['itemId'], $request->get('array_item_ids_except'))) {
+                    unset($listProduct[$key]);
+                }
+            }
+        }
+
         return view('admin.post.include.render_product_select', compact('listProduct', 'listProductPagination'))->render();
     }
 }
