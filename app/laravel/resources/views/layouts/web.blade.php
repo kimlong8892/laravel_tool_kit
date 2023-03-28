@@ -47,8 +47,8 @@
                 </a>
             </div>
 
-            <div class="menu-inner-shadow"></div>
-
+            <div class="menu-inner-shadow">
+            </div>
             <ul class="menu-inner py-1">
                 @include('layouts._list_menu', ['listMenu' => config('custom.web_menu')])
             </ul>

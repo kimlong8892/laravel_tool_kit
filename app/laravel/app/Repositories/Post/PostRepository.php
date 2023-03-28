@@ -243,7 +243,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
 
 
     public function getDetail($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null {
-        return Post::with(['Categories'])->find($id);
+        return Post::with(['Categories', 'Tags'])->find($id);
     }
 
     public function destroy($id): int {
@@ -252,5 +252,11 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
             ->delete();
 
         return $id;
+    }
+
+    public function getListPostInHomeWeb(): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
+        return Post::with(['Categories', 'Tags'])
+            ->where('status', '=', 'public')
+            ->paginate(config('custom.home')['post']['per_page'] ?? 10);
     }
 }

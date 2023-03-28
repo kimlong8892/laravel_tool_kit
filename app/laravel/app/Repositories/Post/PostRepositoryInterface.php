@@ -12,4 +12,6 @@ interface PostRepositoryInterface {
     public function getDetail($id);
 
     public function destroy($id);
+
+    public function getListPostInHomeWeb();
 }

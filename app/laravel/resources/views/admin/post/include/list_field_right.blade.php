@@ -26,8 +26,16 @@
 <div class="form-group">
     <label for="tags[]">{{ __('Tags') }}</label>
     <select class="form-control select2" multiple="multiple" name="tags[]">
+        @php
+            if (!empty($post) && !empty($post->Tags)) {
+                $tagIds = $post->Tags->mapWithKeys(function ($item) {
+                    return [$item->id => true];
+                })->toArray();
+            }
+        @endphp
+
         @foreach($listTag as $tag)
-            <option @if(!empty($post) && !empty($post->getTagIds()[$tag->id])) selected @endif value="{{ $tag->name }}">{{ $tag->name }}</option>
+            <option @if(!empty($post) && !empty($tagIds[$tag->id])) selected @endif value="{{ $tag->name }}">{{ $tag->name }}</option>
         @endforeach
     </select>
 
