@@ -191,19 +191,4 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
 
         return $id;
     }
-
-    public function getCustomFields($parentId = null): \Illuminate\Support\Collection {
-        return DB::table('fields')
-            ->where('entity', '=', 'post')
-            ->where('parent_id', '=', $parentId)
-            ->get();
-    }
-
-    public function getCustomFieldsValue($postId) {
-        return DB::table('post_field')
-            ->where('post_id', '=', $postId)
-            ->get()->mapWithKeys(function ($item) {
-                return [$item->field_id => $item->value];
-            })->toArray();
-    }
 }

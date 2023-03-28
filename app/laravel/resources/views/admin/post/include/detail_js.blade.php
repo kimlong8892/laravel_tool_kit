@@ -37,22 +37,5 @@
                 });
             });
         });
-
-        $('body').on('click', '.btn-repeater', function () {
-            let divId = $(this).attr('data-div-id');
-
-            $.ajax({
-                url: @json(route('admin.ajax.render_child_fields')),
-                method: 'GET',
-                data: {
-                    id: $(this).attr('data-id')
-                },
-                success: function (data) {
-                     $(divId).append(data).ready(function () {
-                         applyCkeditorAndSelect2();
-                     });
-                }
-            })
-        });
     });
 </script>

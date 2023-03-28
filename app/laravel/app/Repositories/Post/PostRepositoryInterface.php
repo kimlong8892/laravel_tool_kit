@@ -12,8 +12,4 @@ interface PostRepositoryInterface {
     public function getDetail($id);
 
     public function destroy($id);
-
-    public function getCustomFields($parentId = null);
-
-    public function getCustomFieldsValue($postId);
 }

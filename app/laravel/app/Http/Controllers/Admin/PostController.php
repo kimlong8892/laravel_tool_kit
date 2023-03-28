@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Requests\Post\PostUpdateRequest;
 use App\Repositories\Category\CategoryRepositoryInterface;
-use App\Repositories\Field\FieldRepositoryInterface;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\ProductShopeeApi\ProductShopeeApiRepositoryInterface;
 use App\Repositories\Tag\TagRepositoryInterface;
@@ -24,20 +23,17 @@ class PostController extends Controller {
     protected CategoryRepositoryInterface $categoryRepository;
     protected TagRepositoryInterface $tagRepository;
     protected ProductShopeeApiRepositoryInterface $productShopeeApiRepository;
-    protected FieldRepositoryInterface $fieldRepository;
 
     public function __construct(
         PostRepositoryInterface             $postRepository,
         CategoryRepositoryInterface         $categoryRepository,
         TagRepositoryInterface              $tagRepository,
         ProductShopeeApiRepositoryInterface $productShopeeApiRepository,
-        FieldRepositoryInterface            $fieldRepository
     ) {
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
         $this->tagRepository = $tagRepository;
         $this->productShopeeApiRepository = $productShopeeApiRepository;
-        $this->fieldRepository = $fieldRepository;
     }
 
     /**
@@ -98,10 +94,8 @@ class PostController extends Controller {
         $post = $this->postRepository->getDetail($id);
         $listCategory = $this->categoryRepository->getListSelect();
         $listTag = $this->tagRepository->getListSelect();
-        $listField = $this->postRepository->getCustomFields();
-        $listFieldValue = $this->postRepository->getCustomFieldsValue($id);
 
-        return view('admin.post.edit', compact('post', 'listCategory', 'listTag', 'listField', 'listFieldValue'));
+        return view('admin.post.edit', compact('post', 'listCategory', 'listTag'));
     }
 
     /**

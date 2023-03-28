@@ -33,16 +33,11 @@ Route::name('admin.')->group(function () {
 
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
-        Route::get('posts-fields', [\App\Http\Controllers\Admin\PostController::class, 'fieldManagement'])->name('posts.field_management');
-
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
 
         Route::name('ajax.')->prefix('ajax')->group(function () {
             Route::get('get-product-select', [\App\Http\Controllers\Admin\PostController::class, 'getProductSelectAjax'])->name('get_product_select');
-            Route::get('render-child-fields', [\App\Http\Controllers\Admin\PostController::class, 'renderChildField'])->name('render_child_fields');
         });
-
-        Route::resource('fields', \App\Http\Controllers\Admin\FieldController::class);
     });
     // end need auth
 });

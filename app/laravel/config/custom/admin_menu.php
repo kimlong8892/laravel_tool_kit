@@ -42,9 +42,4 @@ return [
             ],
         ]
     ],
-    [
-        'title' => 'Fields management',
-        'icon' => '<i class="menu-icon tf-icons bx bx-file"></i>',
-        'route' => 'admin.fields.index'
-    ]
 ];
