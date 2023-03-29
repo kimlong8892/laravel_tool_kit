@@ -35,6 +35,10 @@ Route::middleware('guest:web')->group(function () {
 });
 // end login, reg, forgot
 
+Route::name('post.')->prefix('post')->group(function () {
+    Route::get('{slug}', [\App\Http\Controllers\Web\PostController::class, 'postDetail'])->name('detail');
+});
+
 
 Route::middleware('auth:web')->group(function () {
     Route::get('logout', [\App\Http\Controllers\Web\Auth\LoginController::class, 'logout'])->name('logout');

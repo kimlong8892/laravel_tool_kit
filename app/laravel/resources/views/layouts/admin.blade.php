@@ -149,7 +149,7 @@
 <link rel="stylesheet" href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}">
 <script src="{{ asset('lib/helper/functions.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
-{{--<script src="{{ asset('lib/ckeditor5/ckeditor.js') }}"></script>--}}
+<script src="{{ asset('lib/ckfinder/ckfinder.js') }}"></script>
 <script src="{{ asset('lib/ckeditor4/ckeditor.js') }}"></script>
 <script src="{{ asset('lib/axios.min.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
@@ -185,7 +185,16 @@
 </style>
 <script>
     function applyCkeditorAndSelect2() {
-        CKEDITOR.replaceAll('ckeditor');
+        const editor = CKEDITOR.replace('ckeditor', {
+            filebrowserBrowseUrl: '{{ asset('lib/ckfinder/ckfinder.html') }}',
+            filebrowserImageBrowseUrl: '{{ asset('lib/ckfinder/ckfinder.html?type=Images') }}',
+            filebrowserFlashBrowseUrl: '{{ asset('lib/ckfinder/ckfinder.html?type=Flash') }}',
+            filebrowserUploadUrl: '{{ asset('lib/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files') }}',
+            filebrowserImageUploadUrl: '{{ asset('lib/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images') }}',
+            filebrowserFlashUploadUrl: '{{ asset('lib/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
+        });
+
+        CKFinder.setupCKEditor(editor, '../');
 
         $('.select2').each(function () {
             let config = {

@@ -260,4 +260,10 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
             ->where('status', '=', 'public')
             ->paginate(config('custom.home')['post']['per_page'] ?? 10);
     }
+
+    public function getDetailInWeb($slug) {
+        return Post::with(['Categories', 'Tags'])
+            ->where('slug', '=', $slug)
+            ->get()->first();
+    }
 }
