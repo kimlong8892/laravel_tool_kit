@@ -42,9 +42,6 @@ Route::name('admin.')->group(function () {
             Route::get('render-product-row-in-post', [\App\Http\Controllers\Admin\PostController::class, 'renderProductRow'])
                 ->name('render_product_row_in_post');
         });
-
-        Route::post('/upload_image_ckeditor', [\App\Http\Controllers\Admin\CkeditorUploadImageController::class, 'uploadImageCkeditor'])
-            ->name('upload_image_ckeditor');
     });
     // end need auth
 });
