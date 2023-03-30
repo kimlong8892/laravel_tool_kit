@@ -262,7 +262,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface {
     }
 
     public function getDetailInWeb($slug) {
-        return Post::with(['Categories', 'Tags'])
+        return Post::with(['Categories', 'Tags', 'Products'])
             ->where('slug', '=', $slug)
             ->get()->first();
     }

@@ -7,9 +7,6 @@
     </div>
 
     <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        @hasSection('title')
-            @yield('title')
-        @endif
         <ul class="navbar-nav flex-row align-items-center ms-auto">
             <!-- User -->
             @if(\Illuminate\Support\Facades\Auth::guard('web')->check())

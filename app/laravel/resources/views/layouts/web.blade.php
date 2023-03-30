@@ -123,6 +123,21 @@
 <link rel="stylesheet" href="{{ asset('lib/sweetalert2/sweetalert2.min.css') }}">
 <script src="{{ asset('lib/helper/functions.js') }}"></script>
 <script src="{{ asset('lib/loadingoverlay.min.js') }}"></script>
+
+
+{{--<script src="{{ asset('lib/owl-carousel/owl.carousel.js') }}"></script>--}}
+{{--<link rel="stylesheet" href="{{ asset('lib/owl-carousel/owl.carousel.css') }}">--}}
+{{--<link rel="stylesheet" href="{{ asset('lib/owl-carousel/owl.theme.css') }}">--}}
+
+<script src="{{ asset('lib/venobox/venobox.esm.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}">
+
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+</style>
+
 @yield('js')
 
 </body>

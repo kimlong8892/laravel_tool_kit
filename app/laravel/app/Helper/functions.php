@@ -216,3 +216,17 @@ if (!function_exists('getImageCustomField')) {
         return '';
     }
 }
+
+if (!function_exists('getImageInProductPost')) {
+    function getImageInProductPost($imageUrl, $postId): String {
+        if (empty($imageUrl)) {
+            return '';
+        }
+
+        if (filter_var($imageUrl, FILTER_VALIDATE_URL)) {
+            return $imageUrl;
+        }
+
+        return asset('images_upload/post_images/' . $postId . '/products/' . $imageUrl);
+    }
+}
