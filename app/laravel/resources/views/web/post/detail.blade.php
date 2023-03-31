@@ -24,8 +24,6 @@
                      class="border-radius-10"
                      width="100%">
             </div>
-
-
         </div>
     </div>
 
@@ -64,7 +62,11 @@
 
         <div class="row m-0 mt-4 card p-3">
             <div class="col-12" id="product-div-{{ $product->id }}">
-                <h5>{{ $keyProduct + 1 }}. {{ $product->productName }} - {{ formatVnd($product->price, false) }}</h5>
+                <h5>
+                    <a href="{{ route('web.product.detail', $product->id) }}">
+                        {{ $keyProduct + 1 }}. {{ $product->productName }} - {{ formatVnd($product->price, false) }}
+                    </a>
+                </h5>
                 <div class="row align-items-center">
                     @foreach($listImage as $imageUrl)
                         <div class="p-1 col-2">

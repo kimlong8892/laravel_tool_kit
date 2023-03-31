@@ -6,6 +6,8 @@ use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepository;
 use App\Repositories\Post\PostRepositoryInterface;
+use App\Repositories\Product\ProductRepository;
+use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\ProductShopeeApi\ProductShopeeApiRepository;
 use App\Repositories\ProductShopeeApi\ProductShopeeApiRepositoryInterface;
 use App\Repositories\SocialAccount\SocialAccountRepository;
@@ -42,6 +44,10 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind(
             TagRepositoryInterface::class,
             TagRepository::class
+        );
+        $this->app->bind(
+            ProductRepositoryInterface::class,
+            ProductRepository::class
         );
     }
 

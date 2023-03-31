@@ -39,6 +39,9 @@ Route::name('post.')->prefix('post')->group(function () {
     Route::get('{slug}', [\App\Http\Controllers\Web\PostController::class, 'postDetail'])->name('detail');
 });
 
+Route::name('product.')->prefix('product')->group(function () {
+    Route::get('{id}', [\App\Http\Controllers\Web\ProductController::class, 'Detail'])->name('detail');
+});
 
 Route::middleware('auth:web')->group(function () {
     Route::get('logout', [\App\Http\Controllers\Web\Auth\LoginController::class, 'logout'])->name('logout');
