@@ -2,6 +2,13 @@
 
 @section('title', $post->name ?? '')
 
+@section('head')
+    <meta property="og:title" content="{{ $post->name ?? '' }}"/>
+    <meta property="og:image" content="{{ $post->getImage() }}"/>
+    <meta property="og:description"
+          content="{{ $post->name ?? '' }}"/>
+@endsection
+
 @section('content')
     <style>
         #post-content img {
@@ -16,7 +23,7 @@
     <div class="mt-2 mb-2 card p-3">
         <div class="mb-4 row align-items-center">
             <div class="col-6">
-                <h1 class="font-weight-bold text-uppercase text-bold mb-0 pb-0 text-center">{{ $post->name }}</h1>
+                <h1 class="font-weight-bold text-uppercase text-bold mb-0 pb-0 text-center">{{ $post->name ?? '' }}</h1>
             </div>
 
             <div class="col-6">

@@ -25,6 +25,9 @@
     @else
         <title>{{ env('APP_NAME') }}</title>
     @endif
+    @yield('head')
+    <meta property="og:site_name" content="{{ env('APP_NAME') }}"/>
+    <meta property="og:type" content="post"/>
 </head>
 
 <body>

@@ -1,5 +1,12 @@
 @extends('layouts.web')
 
+@section('head')
+    <meta property="og:title" content="{{ $product->productName }}"/>
+    <meta property="og:image" content="{{ $product->imageUrl }}"/>
+    <meta property="og:description"
+          content="{{ $product->productName }}"/>
+@endsection
+
 @section('content')
     <div class="card p-3">
         <div class="text-center row align-items-center">
