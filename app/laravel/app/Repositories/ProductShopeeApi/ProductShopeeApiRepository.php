@@ -2,6 +2,9 @@
 
 namespace App\Repositories\ProductShopeeApi;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+
 class ProductShopeeApiRepository implements ProductShopeeApiRepositoryInterface {
     public function getListProductApi($keyword = '', $page = 1, $limit = 10) {
         $appId = env('SHOPEE_APP_ID');
@@ -17,5 +20,40 @@ class ProductShopeeApiRepository implements ProductShopeeApiRepositoryInterface 
             'content-type' => 'application/json',
         ];
         return postApiShopee('https://open-api.affiliate.shopee.vn/graphql', $body, $headers);
+    }
+
+    public function updateProductPriceHistory() {
+        $listProduct = DB::table('products')->get();
+        $arrayInsertProductHistory = [];
+
+        DB::beginTransaction();
+        foreach ($listProduct as $product) {
+            $productName = $product->productName;
+
+            $productInShopee = $this->getListProductApi($productName, 1, 1);
+            $productInShopee = $productInShopee['data']['productOfferV2']['nodes'][0] ?? null;
+
+            if (!empty($productInShopee) && !empty($productInShopee['price'])) {
+                if ($productInShopee['price'] != $product->price) {
+                    $arrayInsertProductHistory[] = [
+                        'product_id' => $product->id,
+                        'price' => $productInShopee['price'],
+                        'created_at' => Carbon::now()
+                    ];
+
+                    DB::table('products')->where('id', '=', $product->id)
+                        ->update([
+                            'price' => $productInShopee['price']
+                        ]);
+                }
+            }
+        }
+
+        if (!empty($arrayInsertProductHistory)) {
+            DB::table('product_history')
+                ->insert($arrayInsertProductHistory);
+        }
+
+        DB::commit();
     }
 }
