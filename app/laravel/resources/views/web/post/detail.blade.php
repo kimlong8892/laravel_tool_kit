@@ -22,14 +22,11 @@
 
     <div class="mt-2 mb-2 card p-3">
         <div class="mb-4 row align-items-center">
-            <div class="col-6">
-                <h1 class="font-weight-bold text-uppercase text-bold mb-0 pb-0 text-center">{{ $post->name ?? '' }}</h1>
-            </div>
-
-            <div class="col-6">
+            <div class="col-12 text-center">
                 <img src="{{ $post->getImage() }}" alt="{{ $post->name ?? '' }}"
-                     class="border-radius-10"
-                     width="100%">
+                     class="border-radius-10 mb-5"
+                     width="50%">
+                <h1 class="font-weight-bold text-uppercase text-bold mb-0 pb-0 text-center">{{ $post->name ?? '' }}</h1>
             </div>
         </div>
     </div>
@@ -70,7 +67,7 @@
         <div class="row m-0 mt-4 card p-3">
             <div class="col-12" id="product-div-{{ $product->id }}">
                 <h5>
-                    <a href="{{ route('web.product.detail', $product->id) }}">
+                    <a href="{{ route('web.product.detail', $product->id) }}" target="_blank">
                         {{ $keyProduct + 1 }}. {{ $product->productName }} - {{ formatVnd($product->price, false) }}
                     </a>
                 </h5>
