@@ -16,13 +16,13 @@ class SeedAdmins extends Seeder
     public function run(): void {
         DB::table('admins')->insertOrIgnore([
             'name' => 'Admin1',
-            'email' => 'admin1@gmail.com',
-            'password' => Hash::make('123')
+            'email' => 'longshare9201@gmail.com',
+            'password' => Hash::make('kimlong@Admin123')
         ]);
         DB::table('admins')->insertOrIgnore([
             'name' => 'Admin2',
-            'email' => 'admin2@gmail.com',
-            'password' => Hash::make('123')
+            'email' => 'trankimhoang11052000@gmail.com',
+            'password' => Hash::make('kimhoang@Admin123')
         ]);
     }
 }
