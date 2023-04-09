@@ -50,26 +50,19 @@
                         <a href="{{ route('admin.posts.edit', $item->id) }}"
                            class="btn btn-primary"
                         >
-                            @if(!empty($item->Admin->id) && $item->Admin->id == getCurrentAdminId())
-                                <i class="fa fa-edit"></i>
-                                {{ __('Edit') }}
-                            @else
-                                <i class="fa fa-eye"></i>
-                                {{ __('View') }}
-                            @endif
+                            <i class="fa fa-edit"></i>
+                            {{ __('Edit') }}
                         </a>
                     </div>
 
-                    @if(!empty($item->Admin->id) && $item->Admin->id == getCurrentAdminId())
-                        <form action="{{ route('admin.posts.destroy', $item->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger">
-                                <i class="fa fa-trash"></i>
-                                {{ __('Delete') }}
-                            </button>
-                        </form>
-                    @endif
+                    <form action="{{ route('admin.posts.destroy', $item->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                            {{ __('Delete') }}
+                        </button>
+                    </form>
                 </td>
             </tr>
         @endforeach

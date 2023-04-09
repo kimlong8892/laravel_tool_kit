@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\AdminPasswordReset;
 
+/**
+ * @method static find($adminId)
+ */
 class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;

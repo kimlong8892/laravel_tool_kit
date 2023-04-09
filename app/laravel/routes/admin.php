@@ -35,6 +35,9 @@ Route::name('admin.')->group(function () {
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
 
+        Route::get('edit-profile', [\App\Http\Controllers\Admin\AdminController::class, 'editProfile'])->name('edit_profile');
+        Route::post('edit-profile', [\App\Http\Controllers\Admin\AdminController::class, 'updateProfile'])->name('update_profile');
+
         Route::name('ajax.')->prefix('ajax')->group(function () {
             Route::get('get-product-select', [\App\Http\Controllers\Admin\PostController::class, 'getProductSelectAjax'])
                 ->name('get_product_select');

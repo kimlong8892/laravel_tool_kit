@@ -19,7 +19,6 @@ async function autoScroll(page) {
     });
 }
 
-
 CrawlShopeeController.getListCoupon = async function (req, res) {
     const url = req.query.url;
     const puppeteer = require('puppeteer');

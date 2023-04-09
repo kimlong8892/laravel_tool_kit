@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Admin\AdminRepository;
+use App\Repositories\Admin\AdminRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepository;
@@ -48,6 +50,10 @@ class AppServiceProvider extends ServiceProvider {
         $this->app->bind(
             ProductRepositoryInterface::class,
             ProductRepository::class
+        );
+        $this->app->bind(
+            AdminRepositoryInterface::class,
+            AdminRepository::class
         );
     }
 
