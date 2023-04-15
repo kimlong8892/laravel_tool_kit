@@ -35,6 +35,9 @@ Route::middleware('guest:web')->group(function () {
 });
 // end login, reg, forgot
 
+
+Route::get('search-product', [\App\Http\Controllers\Web\HomeController::class, 'searchProduct'])->name('search_product');
+
 Route::name('post.')->prefix('post')->group(function () {
     Route::get('{slug}', [\App\Http\Controllers\Web\PostController::class, 'postDetail'])->name('detail');
 });

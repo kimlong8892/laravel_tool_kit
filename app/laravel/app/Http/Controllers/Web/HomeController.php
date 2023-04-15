@@ -20,4 +20,8 @@ class HomeController extends Controller {
         Artisan::call('command:update-product-price-history');
         return view('web.home.index', compact('listPost'));
     }
+
+    public function searchProduct(Request $request) {
+        
+    }
 }
