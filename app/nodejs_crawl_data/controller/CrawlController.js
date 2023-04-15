@@ -1,4 +1,4 @@
-const CrawlTikiController = require('express');
+const CrawlController = require('express');
 
 async function autoScroll(page) {
     await page.evaluate(async () => {
@@ -19,7 +19,7 @@ async function autoScroll(page) {
     });
 }
 
-CrawlTikiController.getListProductTiki = async function (req, res) {
+CrawlController.getListProductTiki = async function (req, res) {
     const puppeteer = require('puppeteer');
     const browser = await puppeteer.launch({
         headless: true, args: ['--no-sandbox']
@@ -67,4 +67,55 @@ CrawlTikiController.getListProductTiki = async function (req, res) {
     });
 }
 
-module.exports = CrawlTikiController;
+CrawlController.getListProductLazada = async function (req, res) {
+    try {
+        const puppeteer = require('puppeteer');
+        const browser = await puppeteer.launch({
+            headless: true, args: ['--no-sandbox']
+        });
+        const page = await browser.newPage();
+        const search = req.query.search ?? '';
+
+        console.log('https://www.lazada.vn/catalog/?q=' + search);
+
+        await page.goto('https://www.lazada.vn/catalog/?q=' + search, {waitUntil: 'networkidle2', timeout: 0});
+        await autoScroll(page);
+        await page.screenshot({ path: 'fullpage.png', fullPage: true });
+
+        await page.waitForSelector('.Bm3ON');
+        const listProduct = await page.evaluate(() => {
+            let productTags = document.querySelectorAll('.Bm3ON');
+            let productArray = [];
+        
+            productTags.forEach(item => {
+                const name = item.querySelector('.RfADt a').textContent;
+                let price = item.querySelector('.aBrP0 .ooOxS').textContent;
+                price = price.replace('₫', '');
+                price = price.trim();
+                const image = item.querySelector('.picture-wrapper img').getAttribute('src');
+
+                productArray.push({
+                    name: name,
+                    price: price,
+                    image: image
+                });
+            });
+        
+            return productArray;
+        });
+
+        res.send({
+            success: true,
+            data: {
+                listProduct: listProduct
+            }
+        });
+    } catch (e) {
+        console.log(e);
+        res.send({
+            success: false
+        });
+    }
+}
+
+module.exports = CrawlController;

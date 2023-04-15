@@ -17,11 +17,11 @@ class HomeController extends Controller {
 
     public function Index(Request $request): View {
         $listPost = $this->postRepository->getListPostInHomeWeb();
-        Artisan::call('command:update-product-price-history');
+        //Artisan::call('command:update-product-price-history');
         return view('web.home.index', compact('listPost'));
     }
 
     public function searchProduct(Request $request) {
-        
+
     }
 }
