@@ -10,11 +10,9 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up(): void {
-        Schema::create('history_search', function (Blueprint $table) {
-            $table->id();
-            $table->string('search');
-            $table->timestamps();
+    public function up() {
+        Schema::table('products', function (Blueprint $table) {
+            $table->longText('imageUrl')->change();
         });
     }
 
@@ -23,7 +21,9 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down(): void {
-        Schema::dropIfExists('history_search');
+    public function down() {
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('imageUrl')->change();
+        });
     }
 };
