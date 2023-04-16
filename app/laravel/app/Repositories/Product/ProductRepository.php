@@ -68,23 +68,24 @@ class ProductRepository implements ProductRepositoryInterface {
 
             foreach ($listProductCrawl as $item) {
                 $listProductInsert[] = [
-                    'itemId' => 'test',
-                    'price' => $item['price'] ?? -1,
+                    'itemId' => $item['itemId'] ?? '',
+                    'price' => $item['price'] ?? 0,
                     'imageUrl' => $item['image'] ?? '',
                     'productName' => $item['name'] ?? '',
                     'offerLink' => 'test',
-                    'productLink' => 'test',
-                    'shopName' => 'test',
+                    'productLink' => $item['link'] ?? '',
+                    'shopName' => '',
+                    'ec_site' => $item['ec_site'] ?? null,
                     'created_at' => Carbon::now()
                 ];
             }
 
             if (!empty($listProductShopee['data']['productOfferV2']['nodes'])) {
                 $this->addEcSiteToArray($listProductShopee['data']['productOfferV2']['nodes'], 1);
-                $listProductInsert = array_merge($listProductInsert, $listProductShopee['data']['productOfferV2']['nodes']);
 
-                foreach ($listProductInsert as $key => $value) {
-                    $listProductInsert[$key]['created_at'] = Carbon::now();
+                foreach ($listProductShopee['data']['productOfferV2']['nodes'] as $item) {
+                    $item['created_at'] = Carbon::now();
+                    $listProductInsert[] = $item;
                 }
             }
 

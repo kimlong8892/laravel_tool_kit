@@ -10,10 +10,9 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up() {
-        Schema::table('products', function (Blueprint $table) {
-            $table->longText('imageUrl')->change();
-            $table->longText('productLink')->change();
+    public function up(): void {
+        Schema::table('history_search', function (Blueprint $table) {
+            $table->string('ec_sites')->default('');
         });
     }
 
@@ -22,9 +21,9 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down() {
-        Schema::table('products', function (Blueprint $table) {
-            $table->string('imageUrl')->change();
+    public function down(): void {
+        Schema::table('history_search', function (Blueprint $table) {
+            $table->dropColumn('ec_sites');
         });
     }
 };

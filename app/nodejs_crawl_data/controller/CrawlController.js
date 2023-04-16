@@ -45,6 +45,7 @@ CrawlController.getListProductTiki = async function (req, res) {
                 let image = item.querySelector('.image-wrapper').innerHTML;
                 let myRegex = /<img[^>]+src="https:\/\/([^">]+)/g;
                 image = myRegex.exec(image);
+                const link = item.getAttribute('href');
 
                 if (image !== null) {
                     image = Object.values(image);
@@ -55,7 +56,8 @@ CrawlController.getListProductTiki = async function (req, res) {
                 productArray.push({
                     name: name,
                     price: price,
-                    image: image
+                    image: image,
+                    link: link
                 });
             });
         
@@ -99,13 +101,18 @@ CrawlController.getListProductLazada = async function (req, res) {
                 const name = item.querySelector('.RfADt a').textContent;
                 let price = item.querySelector('.aBrP0 .ooOxS').textContent;
                 price = price.replace('₫', '');
+                price = price.replace('.', '');
                 price = price.trim();
                 const image = item.querySelector('.picture-wrapper img').getAttribute('src');
+                const itemId = item.getAttribute('data-item-id');
+                const link = item.querySelector('._95X4G a').getAttribute('href');
 
                 productArray.push({
+                    itemId: itemId,
                     name: name,
                     price: price,
-                    image: image
+                    image: image,
+                    link: link
                 });
             });
         
