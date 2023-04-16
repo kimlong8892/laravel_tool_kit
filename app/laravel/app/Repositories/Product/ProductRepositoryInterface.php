@@ -5,5 +5,7 @@ namespace App\Repositories\Product;
 interface ProductRepositoryInterface {
     public function getDetailWeb($id);
 
-    public function searchProductTiki($search);
+    public function insertListProductWithSearch($search);
+
+    public function searchListProduct($search);
 }

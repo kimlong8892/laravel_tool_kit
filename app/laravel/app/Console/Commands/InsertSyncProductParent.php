@@ -46,12 +46,8 @@ class InsertSyncProductParent extends Command
 
         foreach ($listProduct as $product) {
             $productName = $product->productName;
-
             $this->productRepository->searchProductTiki($productName);
-
         }
-
-
 
         return true;
     }
