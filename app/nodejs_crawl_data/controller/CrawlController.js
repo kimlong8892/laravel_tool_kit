@@ -103,6 +103,7 @@ CrawlController.getListProductLazada = async function (req, res) {
                 price = price.replace('₫', '');
                 price = price.replace('.', '');
                 price = price.trim();
+                price = parseInt(price);
                 const image = item.querySelector('.picture-wrapper img').getAttribute('src');
                 const itemId = item.getAttribute('data-item-id');
                 const link = item.querySelector('._95X4G a').getAttribute('href');
