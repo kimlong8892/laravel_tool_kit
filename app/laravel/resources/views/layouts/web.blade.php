@@ -90,14 +90,16 @@
 
                     <form action="{{ route('web.search_product') }}" method="GET" class="row">
                         <div class="form-group col-10">
-                            <input type="text" class="form-control" name="search" placeholder="{{ __('Search product') }}">
+                            <input type="text" class="form-control" name="search" value="{{ request()->get('search') }}" placeholder="{{ __('Search product') }}">
                         </div>
                         <div class="form-group col-2">
                             <button class="btn btn-primary w-100">{{ __('Search') }}</button>
                         </div>
                     </form>
 
-                    @yield('content')
+                    <div class="mt-3">
+                        @yield('content')
+                    </div>
                 </div>
                 <!-- / Content -->
             </div>

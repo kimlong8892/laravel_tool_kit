@@ -25,10 +25,11 @@ class ProductRepository implements ProductRepositoryInterface {
         }
     }
 
-    public function searchListProduct($search): \Illuminate\Support\Collection {
-        return DB::table('products')
+    public function searchListProduct($search): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
+        return Product::with(['EcSite'])
             ->where('productName', 'like', '%' . $search . '%')
-            ->get();
+            ->orderBy('price', 'ASC')
+            ->paginate(12);
     }
 
     /**
