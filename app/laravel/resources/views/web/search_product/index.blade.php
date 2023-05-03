@@ -10,7 +10,7 @@
 
         <div class="row mt-2">
             @foreach($listProduct as $product)
-                <div class="col-2">
+                <div class="col-md-2 col-6">
                     <img src="{{ $product->imageUrl }}" alt="{{ $product->productName }}" width="100%">
                     <div class="p-1">
                         <h5 class="text-bold mt-2 mb-0 text-center">

@@ -27,6 +27,9 @@ class ProductRepository implements ProductRepositoryInterface {
 
     public function searchListProduct($search): \Illuminate\Contracts\Pagination\LengthAwarePaginator {
         return Product::with(['EcSite'])
+            ->whereHas('EcSite', function ($query) {
+                $query->where('ec_sites.is_active', '=', 1);
+            })
             ->where('productName', 'like', '%' . $search . '%')
             ->orderBy('price', 'ASC')
             ->paginate(12);
@@ -60,6 +63,18 @@ class ProductRepository implements ProductRepositoryInterface {
             if (!empty($listProductTiki['success']) && !empty($listProductTiki['data']['listProduct'])) {
                 $this->addEcSiteToArray($listProductTiki['data']['listProduct'], 2);
                 $listProductCrawl = $listProductTiki['data']['listProduct'];
+                $baseUrlTiki = 'https://tiki.vn';
+
+                foreach ($listProductCrawl as $key => $value) {
+                    if (!empty($value['link']) && filter_var($value['link'], FILTER_VALIDATE_URL) === false) {
+
+                        if (!empty($value['link'][0]) && $value['link'][0] === '/') {
+                            $listProductCrawl[$key]['link'] = $baseUrlTiki . $value['link'];
+                        } else {
+                            $listProductCrawl[$key]['link'] = $baseUrlTiki . '/' . $value['link'];
+                        }
+                    }
+                }
             }
 
             if (!empty($listProductLazada['success']) && !empty($listProductLazada['data']['listProduct'])) {
@@ -73,7 +88,7 @@ class ProductRepository implements ProductRepositoryInterface {
                     'price' => $item['price'] ?? 0,
                     'imageUrl' => $item['image'] ?? '',
                     'productName' => $item['name'] ?? '',
-                    'offerLink' => 'test',
+                    'offerLink' => $item['link'] ?? '',
                     'productLink' => $item['link'] ?? '',
                     'shopName' => '',
                     'ec_site' => $item['ec_site'] ?? null,

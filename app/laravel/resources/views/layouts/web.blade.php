@@ -89,10 +89,10 @@
                     @endif
 
                     <form action="{{ route('web.search_product') }}" method="GET" class="row">
-                        <div class="form-group col-10">
+                        <div class="form-group col-md-10 col-7">
                             <input type="text" class="form-control" name="search" value="{{ request()->get('search') }}" placeholder="{{ __('Search product') }}">
                         </div>
-                        <div class="form-group col-2">
+                        <div class="form-group col-md-2 col-5">
                             <button class="btn btn-primary w-100">{{ __('Search') }}</button>
                         </div>
                     </form>

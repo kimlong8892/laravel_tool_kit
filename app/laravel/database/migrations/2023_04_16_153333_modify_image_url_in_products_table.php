@@ -14,6 +14,7 @@ return new class extends Migration {
         Schema::table('products', function (Blueprint $table) {
             $table->longText('imageUrl')->change();
             $table->longText('productLink')->change();
+            $table->longText('offerLink')->change();
         });
     }
 
