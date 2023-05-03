@@ -90,7 +90,6 @@ CrawlController.getListProductLazada = async function (req, res) {
 
         await page.goto('https://www.lazada.vn/catalog/?q=' + search, {waitUntil: 'networkidle2', timeout: 0});
         await autoScroll(page);
-        await page.screenshot({ path: 'fullpage.png', fullPage: true });
 
         await page.waitForSelector('.Bm3ON');
         const listProduct = await page.evaluate(() => {
@@ -146,7 +145,6 @@ CrawlController.getListProductCellphones = async function (req, res) {
 
         await page.goto('https://cellphones.com.vn/catalogsearch/result?q=' + search, {waitUntil: 'networkidle2', timeout: 0});
         await autoScroll(page);
-        await page.screenshot({ path: 'fullpage.png', fullPage: true });
 
         await page.waitForSelector('.Bm3ON');
         const listProduct = await page.evaluate(() => {
